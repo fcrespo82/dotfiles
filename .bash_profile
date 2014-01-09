@@ -2,7 +2,7 @@ function test_os() {
     if [[ $(uname -o) == *"inux"* ]]; then
         is_linux=true
         is_mac=false
-    else;
+    else
         is_mac=true
         is_linux=false
     fi
@@ -149,9 +149,8 @@ export PROMPT_COMMAND='echo -ne "\033]0; ${PWD##*/}\007"'
 # Local Python installation with virtualenv
 PATH=~/.local/python/bin:$PATH
 export PATH
-
 # Instalacao das Funcoes ZZ (www.funcoeszz.net)
 export ZZOFF=""  # desligue funcoes indesejadas
-export ZZPATH="/home/fernando/git/funcoeszz/funcoeszz"  # script
-export ZZDIR="/home/fernando/git/funcoeszz/zz"  # script
-source "$ZZPATH"
+export ZZPATH="/home/fernando/git/dotfiles/funcoeszz/funcoeszz"  # script
+export ZZDIR="/home/fernando/git/dotfiles/funcoeszz/zz"  # script
+#source "$ZZPATH"

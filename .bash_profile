@@ -1,27 +1,27 @@
-function test_os() {
-    if [[ $(uname -o) == *"inux"* ]]; then
+function set_os() {
+    if [[ $(uname -a) == *"inux"* ]]; then
         is_linux=true
         is_mac=false
-    else
+    elif [[ $(uname -a) == *"arwin"* ]]; then
         is_mac=true
         is_linux=false
     fi
 }
-test_os
+set_os
 
 ### Aliases
 # Open specified files in Sublime Text
 # "s ." will open the current directory in Sublime
-if [[ is_linux ]]; then
+if $is_linux; then
     alias s='subl -a '
-elif [[ is_mac ]]; then
-    alias s='open -a "Sublime\ Text"'
+elif $is_mac; then
+    alias s='open -a "Sublime Text"'
 fi
 
 # Color LS
-if [[ is_linux ]]; then
+if $is_linux; then
     colorflag="--color"
-elif [[ is_mac ]]; then
+elif $is_mac; then
     colorflag="-G"
 fi
 myflags="-Fh"
@@ -52,12 +52,10 @@ alias ga='git add .'
 alias gc='git commit -m' # requires you to type a commit message
 alias gp='git push'
 
-if [[ is_linux ]]; then
+if $is_linux; then
     alias restart_unity='setsid unity'
     alias restart_lightdm='sudo service lightdm restart'
     alias o='gnome-open'
-elif [[ is_mac ]]; then
-    alias grep='grep' #only space filler, replace with something usefull
 fi
 
 alias update_bash='source ~/.bash_profile'
@@ -72,38 +70,17 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
     export TERM=xterm-256color
 fi
 
-if tput setaf 1 &> /dev/null; then
-    tput sgr0
-    if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
-        BLACK=$(tput setaf 0)
-        MAGENTA=$(tput setaf 9)
-        ORANGE=$(tput setaf 172)
-        GREEN=$(tput setaf 10)
-        PURPLE=$(tput setaf 141)
-        WHITE=$(tput setaf 15)
-        RED=$(tput setaf 9)
-        BLUE=$(tput setaf 4)
-        YELLOW=$(tput setaf 11)
-    else
-        BLACK=$(tput setaf 190)
-        MAGENTA=$(tput setaf 5)
-        ORANGE=$(tput setaf 4)
-        GREEN=$(tput setaf 2)
-        PURPLE=$(tput setaf 1)
-        WHITE=$(tput setaf 7)
-    fi
-    BOLD=$(tput bold)
-    RESET=$(tput sgr0)
-else
-    BLACK="\033[01;30m"
-    MAGENTA="\033[1;31m"
-    ORANGE="\033[1;33m"
-    GREEN="\033[1;32m"
-    PURPLE="\033[1;35m"
-    WHITE="\033[1;37m"
-    BOLD=""
-    RESET="\033[m"
-fi
+BLACK=$(tput setaf 0)
+MAGENTA=$(tput setaf 9)
+ORANGE=$(tput setaf 172)
+GREEN=$(tput setaf 10)
+PURPLE=$(tput setaf 141)
+WHITE=$(tput setaf 15)
+RED=$(tput setaf 9)
+BLUE=$(tput setaf 4)
+YELLOW=$(tput setaf 11)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
 
 export BLACK
 export MAGENTA
@@ -117,7 +94,6 @@ export BOLD
 export RESET
 
 ## Functions
-
 function print_colors() {
     for i in {0..256}; do echo $(tput setaf $i) COLOR $i; done;
 }

@@ -1,5 +1,17 @@
 #! /usr/bin/env bash
 
+function set_os() {
+    if [[ $(uname -a) == *"inux"* ]]; then
+        is_linux=true
+        is_mac=false
+    elif [[ $(uname -a) == *"arwin"* ]]; then
+        is_mac=true
+        is_linux=false
+    fi
+}
+set_os
+
+# Set used colors in bash
 GREEN=$(tput setaf 10)
 RED=$(tput setaf 9)
 BLUE=$(tput setaf 4)
@@ -9,35 +21,31 @@ RESET=$(tput sgr0)
 
 function usage() {
     echo "
-usage ${GREEN} `basename $0` ${RESET}-d|--dir [folder_with_dofiles]"
+usage ${GREEN} `basename $0` ${RESET}-d [folder_with_dofiles]"
     echo -e "
 Options:
--d|--dir\tInstall dotfiles in this dir (acctually creates symlinks)
--r|--remove\tRemoves the symlinks restoring your backups (if they exist)
--h|--help\tThis help
+-d\tInstall dotfiles in this dir (acctually creates symlinks)
+-r\tRemoves the symlinks restoring your backups (if they exist)
+-h\tThis help
 "
 
 }
 
 function install() {
     if [ -h .bash_profile ] && [ -h .bashrc ]; then
-        echo "${RED}Symlinks ALREADY installed, exiting"
+        echo "${RED}Symlinks ALREADY installed, aborting"
         exit 1
     fi
     cd
     if [ -f .bash_profile ]; then
-        #echo "mv .bash_profile .bash_profile_backup"
         echo ${GREEN}"Backing up your .bash_profile"
         mv .bash_profile .bash_profile_backup
     fi
     if [ -f .bashrc ]; then
-        #echo "mv .bashrc .bashrc_backup"
         echo ${GREEN}"Backing up your .bashrc"
         mv .bashrc .bashrc_backup
     fi
 
-    #echo "$1.bash_profile" .bash_profile
-    #echo "$1.bashrc" .bashrc
     echo ${YELLOW}"Creating symlinks${RESET}
 `pwd`/.bash_profile -> $1/.bash_profile
 `pwd`/.bashrc -> $1/.bashrc"
@@ -65,6 +73,7 @@ function remove() {
     echo "${GREEN}Removal completed.${RESET}
 run 'exec bash' or open another terminal to see the changes"
 }
+
 function rollback() {
     cd
     if [ ! -f .bash_profile_backup ] && [  ! -f .bashrc_backup ]; then
@@ -74,15 +83,9 @@ function rollback() {
         select opt in "${options[@]}"
         do
             case $opt in
-                "Yes")
-                    remove
-                    exit 1
-                    ;;
-                "No")
-                    echo "${GREEN}Not touching anything${RESET}"
-                    exit 1
-                    ;;
-                *) echo invalid option;;
+                ("Yes") remove; exit 1 ;;
+                ("No") echo "${GREEN}Not touching anything${RESET}"; exit 1 ;;
+                (*) echo invalid option;;
             esac
         done
     else
@@ -90,24 +93,39 @@ function rollback() {
     fi
 }
 
-TEMP=`getopt -o hrd: --long help,remove,dir: -- "$@"`
+if $is_mac; then
+    function realpath() {
+        [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}" | sed -e "s/\/\/$//" -e "s/\/$//"
+    }
+fi
 
-if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+if $is_linux; then
+    TEMP=`getopt -o hrd: --long help,remove,dir: -- "$@"`
+elif $is_mac; then
+    getopts hrd: TEMP "$@"
+fi
+
+if [ $? != 0 ] || [ $# == 0 ]; then usage; exit 2; fi
 
 eval set -- "$TEMP"
 
-while true; do
-    case "$1" in
-        -d|--dir)
+for i
+do
+    case "$i"
+    in
+        (-d|d)
             if [ -d $2 ]; then
-                path=`realpath $2`
+                if $is_mac; then
+                    path=`realpath $OPTARG`
+                else
+                    path=`realpath $2`
+                fi
                 install $path
-                shift 2
+                shift; shift
             fi
             ;;
-        -h|--help) usage; exit 1 ;;
-        -r|--remove) rollback; exit 1 ;;
-        --) shift; break ;;
-        *) usage; exit 1 ;;
+        (-h|h) usage; exit 1 ;;
+        (-r|r) rollback; exit 1 ;;
+        (--) echo "shift"; shift; break ;;
     esac
 done

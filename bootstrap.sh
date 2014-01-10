@@ -9,7 +9,7 @@ else
 fi
 REALPATH_DIR=$SCRIPT_DIR/lib/realpath/realpath-lib
 source $REALPATH_DIR 
-FILES=('.bashrc' '.bash_profile' '.gitconfig' 'z.sh')
+FILES=('.bashrc' '.bash_profile' '.gitconfig' 'z.sh' '.hushlogin')
 FULL_SCRIPT_PATH=`$GET_DIR_TOOL $SCRIPT_DIR`
 
 function set_os() {
@@ -70,11 +70,10 @@ function install() {
         fi
     done
 
-    echo ${YELLOW}"Creating symlinks${RESET}
-`pwd`/.bash_profile -> $FULL_SCRIPT_PATH/.bash_profile
-`pwd`/.bashrc -> $FULL_SCRIPT_PATH/.bashrc
-`pwd`/.gitconfig -> $FULL_SCRIPT_PATH/.gitconfig
-`pwd`/z.sh -> $FULL_SCRIPT_PATH/z.sh"
+    echo ${YELLOW}"Creating symlinks${RESET}"
+    for FILE in ${FILES[@]}; do
+        echo "$HOME/$FILE -> "$FULL_SCRIPT_PATH/$FILE""
+    done
 
     for FILE in ${FILES[@]}; do
         ln -s "$FULL_SCRIPT_PATH/$FILE" $FILE

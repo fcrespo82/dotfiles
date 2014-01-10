@@ -1,11 +1,8 @@
 [user]
-	email = fernando@crespo.in
-	name = Fernando Crespo
-[credential]
-	username = fcrespo82
-	helper = cache --timeout=0
+    name = Fernando Crespo
+    email = fernando@crespo.in
 [push]
-	default = simple
+    default = simple
 [alias]
 	# TBC
 [core]
@@ -29,3 +26,5 @@
 	added = yellow
 	changed = green
 	untracked = cyan
+[alias]
+	up-sub = "!f() { cd $1 && git checkout master && git pull && git submodule update --init --recursive; }; f"

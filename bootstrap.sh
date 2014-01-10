@@ -32,7 +32,7 @@ Options:
 }
 
 function install() {
-    if [ -h .bash_profile ] && [ -h .bashrc ]; then
+    if [ -h .bash_profile ] && [ -h .bashrc ] && [ -h .gitconfig ]; then
         echo "${RED}Symlinks ALREADY installed, aborting"
         exit 1
     fi
@@ -45,12 +45,17 @@ function install() {
         echo ${GREEN}"Backing up your .bashrc"
         mv .bashrc .bashrc_backup
     fi
+    if [ -f .gitconfig ]; then
+        echo ${GREEN}"Backing up your .gitconfig"
+        mv .gitconfig .gitconfig_backup
+    fi
 
     echo ${YELLOW}"Creating symlinks${RESET}
 `pwd`/.bash_profile -> $1/.bash_profile
 `pwd`/.bashrc -> $1/.bashrc"
     ln -s "$1/.bash_profile" .bash_profile
     ln -s "$1/.bashrc" .bashrc
+    ln -s "$1/.gitconfig" .gitconfig
 
     echo "${GREEN}Installation finished.${RESET}
 run 'source .bash_profile' or open another terminal to see the changes"
@@ -58,12 +63,13 @@ run 'source .bash_profile' or open another terminal to see the changes"
 
 function remove() {
     if [ -h .bash_profile ] && [ -h .bashrc ]; then
-        echo "${RED}Removing symlinks .bash_profile and .bashrc${RESET}"
-        rm -f .bash_profile .bashrc
-        if [ -f .bash_profile_backup ] && [ -f .bashrc_backup ]; then
+        echo "${RED}Removing symlinks${RESET}"
+        rm -f .bash_profile .bashrc .gitconfig
+        if [ -f .bash_profile_backup ] && [ -f .bashrc_backup ] && [ -f .gitconfig_backup ]; then
             echo "${GREEN}Restoring your backups"
             mv .bash_profile_backup .bash_profile
             mv .bashrc_backup .bashrc
+            mv .gitconfig_backup .gitconfig
         else
             echo "Your backups where ${RED}NOT${RESET} restored"
         fi
@@ -76,7 +82,7 @@ run 'exec bash' or open another terminal to see the changes"
 
 function rollback() {
     cd
-    if [ ! -f .bash_profile_backup ] && [  ! -f .bashrc_backup ]; then
+    if [ ! -f .bash_profile_backup ] && [ ! -f .bashrc_backup ] && [ ! -f .gitconfig_backup ]; then
         echo "${RED}COULD NOT${RESET} find your backups"
         PS3="Restore anyway? "
         options=("Yes" "No")

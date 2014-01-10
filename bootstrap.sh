@@ -1,18 +1,18 @@
 #! /usr/bin/env bash
 
+# Set all variables that will be used
+
 SCRIPT_DIR=`dirname $BASH_SOURCE`
 REALPATH_DIR=$SCRIPT_DIR/lib/realpath/realpath-lib
 source $REALPATH_DIR
 
 FILES=('.bashrc' '.bash_profile' '.gitconfig' 'z.sh')
 
-
-
 function set_os() {
     if [[ $(uname -a) == *"inux"* ]]; then
         IS_LINUX=true
         IS_MAC=false
-    elif [[ $(uname -a) == *"arwin"* ]]; then
+    else #if [[ $(uname -a) == *"arwin"* ]]; then
         IS_MAC=true
         IS_LINUX=false
     fi
@@ -20,11 +20,13 @@ function set_os() {
 set_os
 
 function debug() {
-    echo -e "SCRIPT_DIR      $SCRIPT_DIR"
-    echo -e "REALPATH_DIR    $REALPATH_DIR"
-    echo -e "IS_LINUX        $IS_LINUX"
-    echo -e "IS_MAC          $IS_MAC"
-    echo -e "Files that will be linked:\n`for FILE in ${FILES[@]}; do echo -e "  $FILE"; done`"
+    echo -e "SCRIPT_DIR         $SCRIPT_DIR"
+    echo -e "REALPATH_DIR       $REALPATH_DIR"
+    echo -e "IS_LINUX           $IS_LINUX"
+    echo -e "IS_MAC             $IS_MAC"
+    echo -e "Files that will be linked:\n`for FILE in ${FILES[@]}; do echo -e "  $HOME/$FILE -> $1/$FILE"; done`"
+    echo -e "Source files       $1"
+    echo -e "Home dir           $HOME"
 }
 
 # Set used colors in bash
@@ -40,50 +42,42 @@ function usage() {
 usage ${GREEN} `basename $0` ${RESET}-d [folder_with_dofiles]"
     echo -e "
 Options:
--d\tInstall dotfiles in this dir (acctually creates symlinks)
--r\tRemoves the symlinks restoring your backups (if they exist)
--z\tDebug the info passed to make sure is correct use with -d [folder]
-\tEx.: ${GREEN} `basename $0` ${RESET}-zd [folder_with_dofiles]
--h\tThis help
+-d     Install dotfiles in this dir (acctually creates symlinks)
+-r     Removes the symlinks restoring your backups (if they exist)
+-t     Test/Debug the info passed to make sure is correct
+            Ex.: ${GREEN} `basename $0` ${RESET}-t [folder_with_dofiles]
+-h     This help
 "
-
 }
 
 function install() {
-    if [ -h .bash_profile ] && [ -h .bashrc ] && [ -h .gitconfig ]; then
-        echo "${RED}Symlinks ALREADY installed, aborting"
-        exit 1
-    fi
+    for $FILE in ${FILES[@]}; do
+        if [ -h $FILE ]; then
+            echo "${RED}Symlinks ALREADY installed, aborting"
+            exit 1
+        fi
+    done
+
     cd
-    if [ -f .bash_profile ]; then
-        echo ${GREEN}"Backing up your .bash_profile"
-        mv .bash_profile .bash_profile_backup
-    fi
-    if [ -f .bashrc ]; then
-        echo ${GREEN}"Backing up your .bashrc"
-        mv .bashrc .bashrc_backup
-    fi
-    if [ -f .gitconfig ]; then
-        echo ${GREEN}"Backing up your .gitconfig"
-        mv .gitconfig .gitconfig_backup
-    fi
-    if [ -f z.sh ]; then
-        echo ${GREEN}"Backing up your z.sh"
-        mv z.sh z.sh_backup
-    fi
+    for $FILE in ${FILES[@]}; do
+        if [ -f $FILE ]; then
+            echo ${GREEN}"Backing up $FILE"
+            mv $FILE $FILE_backup
+        fi
+    done
 
     echo ${YELLOW}"Creating symlinks${RESET}
 `pwd`/.bash_profile -> $1/.bash_profile
 `pwd`/.bashrc -> $1/.bashrc
 `pwd`/.gitconfig -> $1/.gitconfig
 `pwd`/z.sh -> $1/z.sh"
-    ln -s "$1/.bash_profile" .bash_profile
-    ln -s "$1/.bashrc" .bashrc
-    ln -s "$1/.gitconfig" .gitconfig
-    ln -s "$1/z.sh" z.sh
+
+    for $FILE in ${FILES[@]}; do
+        ln -s "$1/$FILE" $FILE
+    done
 
     echo "${GREEN}Installation finished.${RESET}
-run 'source .bash_profile' or open another terminal to see the changes"
+run 'source ~/.bash_profile' or open another terminal to see the changes"
 }
 
 function remove() {
@@ -103,7 +97,7 @@ function remove() {
         echo "The files in home ${RED}ARE NOT${RESET} symlinks, aborting"
     fi
     echo "${GREEN}Removal completed.${RESET}
-run 'exec bash' or open another terminal to see the changes"
+Open another terminal to see the changes"
 }
 
 function rollback() {
@@ -128,18 +122,18 @@ function rollback() {
 #if $IS_LINUX; then
 #    TEMP=`getopt -o hrzd: --long help,remove,dir: -- "$@"`
 #elif $IS_MAC; then
-    getopts hrzd: TEMP "$@"
+getopts hrt:i: TEMP "$@"
 #fi
 
 if [ $? != 0 ] || [ $# == 0 ]; then usage; exit 2; fi
 
 eval set -- "$TEMP"
 
-for i
+for opt
 do
-    case "$i"
+    case "$opt"
     in
-        (-d|d)
+        (-i|i)
             if [ -d $2 ]; then
                 path=`get_dirname $OPTARG`
                 install $path
@@ -148,7 +142,7 @@ do
             ;;
         (-h|h) usage; exit 1 ;;
         (-r|r) rollback; exit 1 ;;
-        (-z|z) debug; exit 1 ;;
+        (-t|t) debug `get_dirname $OPTARG`; exit 1 ;;
         (--) echo "shift"; shift; break ;;
     esac
 done

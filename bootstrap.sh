@@ -1,12 +1,16 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
 # Set all variables that will be used
-
 SCRIPT_DIR=`dirname $BASH_SOURCE`
+if [ $SCRIPT_DIR == "." ]; then
+    GET_DIR_TOOL="get_dirname"
+else
+    GET_DIR_TOOL="get_realpath"
+fi
 REALPATH_DIR=$SCRIPT_DIR/lib/realpath/realpath-lib
-source $REALPATH_DIR
-
+source $REALPATH_DIR 
 FILES=('.bashrc' '.bash_profile' '.gitconfig' 'z.sh')
+FULL_SCRIPT_PATH=`$GET_DIR_TOOL $SCRIPT_DIR`
 
 function set_os() {
     if [[ $(uname -a) == *"inux"* ]]; then
@@ -24,8 +28,8 @@ function debug() {
     echo -e "REALPATH_DIR       $REALPATH_DIR"
     echo -e "IS_LINUX           $IS_LINUX"
     echo -e "IS_MAC             $IS_MAC"
-    echo -e "Files that will be linked:\n`for FILE in ${FILES[@]}; do echo -e "  $HOME/$FILE -> $1/$FILE"; done`"
-    echo -e "Source files       $1"
+    echo -e "Files that will be linked:\n`for FILE in ${FILES[@]}; do echo -e "  $HOME/$FILE -> $FULL_SCRIPT_PATH/$FILE"; done`"
+    echo -e "Source files       $FULL_SCRIPT_PATH"
     echo -e "Home dir           $HOME"
 }
 
@@ -39,13 +43,12 @@ RESET=$(tput sgr0)
 
 function usage() {
     echo "
-usage ${GREEN} `basename $0` ${RESET}-d [folder_with_dofiles]"
+usage ${GREEN} `basename $0` ${RESET}-irth"
     echo -e "
 Options:
--d     Install dotfiles in this dir (acctually creates symlinks)
--r     Removes the symlinks restoring your backups (if they exist)
+-i     Install dotfiles
+-r     Removes dotfiles restoring your backups (if they exist)
 -t     Test/Debug the info passed to make sure is correct
-            Ex.: ${GREEN} `basename $0` ${RESET}-t [folder_with_dofiles]
 -h     This help
 "
 }
@@ -68,20 +71,23 @@ function install() {
     done
 
     echo ${YELLOW}"Creating symlinks${RESET}
-`pwd`/.bash_profile -> $1/.bash_profile
-`pwd`/.bashrc -> $1/.bashrc
-`pwd`/.gitconfig -> $1/.gitconfig
-`pwd`/z.sh -> $1/z.sh"
+`pwd`/.bash_profile -> $FULL_SCRIPT_PATH/.bash_profile
+`pwd`/.bashrc -> $FULL_SCRIPT_PATH/.bashrc
+`pwd`/.gitconfig -> $FULL_SCRIPT_PATH/.gitconfig
+`pwd`/z.sh -> $FULL_SCRIPT_PATH/z.sh"
 
     for FILE in ${FILES[@]}; do
-        ln -s "$1/$FILE" $FILE
+        ln -s "$FULL_SCRIPT_PATH/$FILE" $FILE
     done
+
+    echo "DOTFILES_PATH=\"$FULL_SCRIPT_PATH\"" > .dotfiles_config
 
     echo "${GREEN}Installation finished.${RESET}
 run 'source ~/.bash_profile' or open another terminal to see the changes"
 }
 
 function remove() {
+    cd
     for FILE in ${FILES[@]}; do
         if [ -h "$FILE" ]; then
             echo "${RED}Removing symlink to $FILE${RESET}"
@@ -93,6 +99,7 @@ function remove() {
                 mv "$FILE"_backup "$FILE"
             fi
         done
+        rm -f ~/.dotfiles_config
     done
     echo "${GREEN}Removal completed.${RESET}
 Open another terminal to see the changes"
@@ -100,8 +107,14 @@ Open another terminal to see the changes"
 
 function rollback() {
     cd
-    if [ ! -f .bash_profile_backup ] || [ ! -f .bashrc_backup ] || [ ! -f .gitconfig_backup ] || [ ! -f z.sh ]; then
-        echo "${RED}COULD NOT${RESET} find your backups"
+        for FILE in ${FILES[@]}; do
+            if [ -f "$FILE"_backup ]; then
+                echo "${RED}COULD NOT${RESET} find your backups"
+                BACKUP_NOT_FOUND=true
+                break
+            fi
+        done
+    if $BACKUP_NOT_FOUND; then
         PS3="Restore anyway? "
         options=("Yes" "No")
         select opt in "${options[@]}"
@@ -117,12 +130,7 @@ function rollback() {
     fi
 }
 
-#if $IS_LINUX; then
-#    TEMP=`getopt -o hrzd: --long help,remove,dir: -- "$@"`
-#elif $IS_MAC; then
-##### TEST THIS ON LINUX
-getopts hrt:i: TEMP "$@"
-#fi
+getopts hrti TEMP "$@"
 
 if [ $? != 0 ] || [ $# == 0 ]; then usage; exit 2; fi
 
@@ -134,14 +142,13 @@ do
     in
         (-i|i)
             if [ -d $2 ]; then
-                path=`get_dirname $OPTARG`
-                install $path
+                install
                 shift; shift
             fi
             ;;
         (-h|h) usage; exit 1 ;;
         (-r|r) rollback; exit 1 ;;
-        (-t|t) debug `get_dirname $OPTARG`; exit 1 ;;
+        (-t|t) debug; exit 1 ;;
         (--) echo "shift"; shift; break ;;
     esac
 done

@@ -122,17 +122,14 @@ export PROMPT_COMMAND='echo -ne "\033]0; ${PWD##*/}\007"'
 # init z! (https://github.com/rupa/z)
 . ~/z.sh
 
-if $is_mac; then
-    function realpath() {
-        [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}" | sed -e "s/\/\/$//" -e "s/\/$//"
-    }
-fi
-
 # Local Python installation with virtualenv
 PATH=~/.local/python/bin:$PATH
 export PATH
+
+source .dotfiles_config
+
 # Instalacao das Funcoes ZZ (www.funcoeszz.net)
 export ZZOFF=""  # desligue funcoes indesejadas
-export ZZPATH="`realpath ~`/git/dotfiles/funcoeszz/funcoeszz"  # script
-export ZZDIR="`realpath ~`/git/dotfiles/funcoeszz/zz"  # script
+export ZZPATH="$DOTFILES_PATH/funcoeszz/funcoeszz"  # script
+export ZZDIR="$DOTFILES_PATH/funcoeszz/zz"  # script
 source "$ZZPATH"

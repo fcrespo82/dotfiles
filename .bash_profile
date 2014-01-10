@@ -28,9 +28,9 @@ myflags="-Fh"
 alias ls="command ls ${colorflag} ${myflags}"
 alias lsa="ls -a ${colorflag} ${myflags}"
 alias ll="ls -l ${colorflag} ${myflags}" # all files, in long format
-alias la="ll -a ${colorflag} ${myflags}" # all files inc dotfiles, in long format
+alias lla="ll -a ${colorflag} ${myflags}" # all files inc dotfiles, in long format
 alias lld='ll ${colorflag} ${myflags} | grep "^d"' # only directories
-alias lsl='la | grep ^l | cut -c -11,51-'
+alias lls='la | grep ^l | cut -c -11,51-'
 alias grep='grep --color'
 
 # Quicker navigation

@@ -51,7 +51,7 @@ Options:
 }
 
 function install() {
-    for $FILE in ${FILES[@]}; do
+    for FILE in ${FILES[@]}; do
         if [ -h $FILE ]; then
             echo "${RED}Symlinks ALREADY installed, aborting"
             exit 1
@@ -59,10 +59,11 @@ function install() {
     done
 
     cd
-    for $FILE in ${FILES[@]}; do
+    for FILE in ${FILES[@]}; do
         if [ -f $FILE ]; then
             echo ${GREEN}"Backing up $FILE"
-            mv $FILE $FILE_backup
+            BACKUP_NAME="$FILE"_backup
+            mv "$FILE" "$BACKUP_NAME"
         fi
     done
 
@@ -72,7 +73,7 @@ function install() {
 `pwd`/.gitconfig -> $1/.gitconfig
 `pwd`/z.sh -> $1/z.sh"
 
-    for $FILE in ${FILES[@]}; do
+    for FILE in ${FILES[@]}; do
         ln -s "$1/$FILE" $FILE
     done
 
@@ -81,28 +82,25 @@ run 'source ~/.bash_profile' or open another terminal to see the changes"
 }
 
 function remove() {
-    if [ -h .bash_profile ] && [ -h .bashrc ] && [ -h .gitconfig ] && [ -h z.sh ]; then
-        echo "${RED}Removing symlinks${RESET}"
-        rm -f .bash_profile .bashrc .gitconfig z.sh
-        if [ -f .bash_profile_backup ] && [ -f .bashrc_backup ] && [ -f .gitconfig_backup ] && [ -f z.sh ]; then
-            echo "${GREEN}Restoring your backups"
-            mv .bash_profile_backup .bash_profile
-            mv .bashrc_backup .bashrc
-            mv .gitconfig_backup .gitconfig
-            mv z.sh_backup z.sh
-        else
-            echo "Your backups where ${RED}NOT${RESET} restored"
+    for FILE in ${FILES[@]}; do
+        if [ -h "$FILE" ]; then
+            echo "${RED}Removing symlink to $FILE${RESET}"
+            rm -f "$FILE"
         fi
-    else
-        echo "The files in home ${RED}ARE NOT${RESET} symlinks, aborting"
-    fi
+        for FILE in ${FILES[@]}; do
+            if [ -h "$FILE"_backup ]; then
+                echo "${GREEN}Restoring backup of $FILE"
+                mv "$FILE"_backup "$FILE"
+            fi
+        done
+    done
     echo "${GREEN}Removal completed.${RESET}
 Open another terminal to see the changes"
 }
 
 function rollback() {
     cd
-    if [ ! -f .bash_profile_backup ] && [ ! -f .bashrc_backup ] && [ ! -f .gitconfig_backup ] && [ ! -f z.sh ]; then
+    if [ ! -f .bash_profile_backup ] || [ ! -f .bashrc_backup ] || [ ! -f .gitconfig_backup ] || [ ! -f z.sh ]; then
         echo "${RED}COULD NOT${RESET} find your backups"
         PS3="Restore anyway? "
         options=("Yes" "No")
@@ -122,6 +120,7 @@ function rollback() {
 #if $IS_LINUX; then
 #    TEMP=`getopt -o hrzd: --long help,remove,dir: -- "$@"`
 #elif $IS_MAC; then
+##### TEST THIS ON LINUX
 getopts hrt:i: TEMP "$@"
 #fi
 

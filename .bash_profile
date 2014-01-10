@@ -126,7 +126,7 @@ export PROMPT_COMMAND='echo -ne "\033]0; ${PWD##*/}\007"'
 PATH=~/.local/python/bin:$PATH
 export PATH
 
-source .dotfiles_config
+source ~/.dotfiles_config
 
 # Instalacao das Funcoes ZZ (www.funcoeszz.net)
 export ZZOFF=""  # desligue funcoes indesejadas

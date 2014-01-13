@@ -23,6 +23,14 @@ function set_os() {
 }
 set_os
 
+# Set used colors in bash
+GREEN=$(tput setaf 10)
+RED=$(tput setaf 9)
+BLUE=$(tput setaf 4)
+YELLOW=$(tput setaf 11)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
 function debug() {
     echo -e "SCRIPT_DIR         $SCRIPT_DIR"
     echo -e "REALPATH_DIR       $REALPATH_DIR"
@@ -33,20 +41,13 @@ function debug() {
     echo -e "Home dir           $HOME"
 }
 
-# Set used colors in bash
-GREEN=$(tput setaf 10)
-RED=$(tput setaf 9)
-BLUE=$(tput setaf 4)
-YELLOW=$(tput setaf 11)
-BOLD=$(tput bold)
-RESET=$(tput sgr0)
-
 function usage() {
     echo "
 usage ${GREEN} `basename $0` ${RESET}-irth"
     echo -e "
 Options:
 -i     Install dotfiles
+-u     Update dotfiles
 -r     Removes dotfiles restoring your backups (if they exist)
 -t     Test/Debug the info passed to make sure is correct
 -h     This help
@@ -54,29 +55,29 @@ Options:
 }
 
 function install() {
-    for FILE in ${FILES[@]}; do
-        if [ -h $FILE ]; then
-            echo "${RED}Symlinks ALREADY installed, aborting"
-            exit 1
-        fi
-    done
+    if [ ! "$1" == "update" ]; then
+        for FILE in ${FILES[@]}; do
+            if [ -h "$FILE" ]; then
+                echo "${RED}Symlinks ALREADY installed, aborting.${RESET}
+If you want to update your installation run with -u flag"
+                exit 1
+            fi
+        done
 
-    cd
-    for FILE in ${FILES[@]}; do
-        if [ -f $FILE ]; then
-            echo ${GREEN}"Backing up $FILE"
-            BACKUP_NAME="$FILE"_backup
-            mv "$FILE" "$BACKUP_NAME"
-        fi
-    done
+        cd
+        for FILE in ${FILES[@]}; do
+            if [ -f "$FILE" ]; then
+                echo ${GREEN}"Backing up $FILE"
+                BACKUP_NAME="$FILE"_backup
+                mv "$FILE" "$BACKUP_NAME"
+            fi
+        done
+    fi
 
     echo ${YELLOW}"Creating symlinks${RESET}"
     for FILE in ${FILES[@]}; do
-        echo "$HOME/$FILE -> "$FULL_SCRIPT_PATH/$FILE""
-    done
-
-    for FILE in ${FILES[@]}; do
-        ln -s "$FULL_SCRIPT_PATH/$FILE" $FILE
+        echo "$HOME/$FILE -> $FULL_SCRIPT_PATH/$FILE"
+        ln -fs "$FULL_SCRIPT_PATH/$FILE" $FILE
     done
 
     echo "DOTFILES_PATH=\"$FULL_SCRIPT_PATH\"" > .dotfiles_config
@@ -104,7 +105,7 @@ function remove() {
 Open another terminal to see the changes"
 }
 
-function rollback() {
+function remove() {
     cd
         for FILE in ${FILES[@]}; do
             if [ -f "$FILE"_backup ]; then
@@ -129,7 +130,7 @@ function rollback() {
     fi
 }
 
-getopts hrti TEMP "$@"
+getopts hrtiu TEMP "$@"
 
 if [ $? != 0 ] || [ $# == 0 ]; then usage; exit 2; fi
 
@@ -139,15 +140,11 @@ for opt
 do
     case "$opt"
     in
-        (-i|i)
-            if [ -d $2 ]; then
-                install
-                shift; shift
-            fi
-            ;;
-        (-h|h) usage; exit 1 ;;
-        (-r|r) rollback; exit 1 ;;
-        (-t|t) debug; exit 1 ;;
-        (--) echo "shift"; shift; break ;;
+        (-i|i) install; exit 0 ;;
+        (-u|u) install "update"; exit 0 ;;
+        (-r|r) remove; exit 0 ;;
+        (-t|t) debug; exit 0 ;;
+        (-h|h) usage; exit 0 ;;
+        (--) shift; break ;;
     esac
 done

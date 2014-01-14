@@ -29,7 +29,7 @@ alias ls="command ls ${colorflag} ${myflags}"
 alias lsa="ls -a ${colorflag} ${myflags}"
 alias ll="ls -l ${colorflag} ${myflags}" # all files, in long format
 alias lla="ll -a ${colorflag} ${myflags}" # all files inc dotfiles, in long format
-alias lld='ll ${colorflag} ${myflags} | grep "^d"' # only directories
+alias lld='ll ${colorflag} ${myflags} | grep "/$"' # only directories
 alias lls='lla | cut -c -10,51- | grep "\->"'
 alias grep='grep --color'
 
@@ -59,7 +59,7 @@ if $is_linux; then
     alias o='gnome-open'
 fi
 
-alias update_bash='source ~/.bash_profile'
+alias dotfiles_update='source ~/.bash_profile'
 alias pgrep='pgrep -fl'
 
 ### Prompt Colors 

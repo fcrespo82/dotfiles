@@ -74,13 +74,14 @@ If you want to update your installation run with -u flag"
         done
     fi
 
-    echo ${YELLOW}"Creating symlinks${RESET}"
+    echo "${YELLOW}Creating symlinks${RESET}"
     for FILE in ${FILES[@]}; do
         echo "$HOME/$FILE -> $FULL_SCRIPT_PATH/$FILE"
-        ln -fs "$FULL_SCRIPT_PATH/$FILE" $FILE
+        ln -fs "$FULL_SCRIPT_PATH/$FILE" "$HOME/$FILE"
     done
 
-    echo "DOTFILES_PATH=\"$FULL_SCRIPT_PATH\"" > .dotfiles_config
+    echo "${YELLOW}Installing .dotfiles_config"
+    echo "DOTFILES_PATH=\"$FULL_SCRIPT_PATH\"" > "$HOME"/.dotfiles_config
 
     echo "${GREEN}Installation finished.${RESET}
 run 'source ~/.bash_profile' or open another terminal to see the changes"

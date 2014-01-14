@@ -131,11 +131,11 @@ function remove() {
     fi
 }
 
-getopts hrtiu TEMP "$@"
+getopts hrtiu OPT "$@"
 
 if [ $? != 0 ] || [ $# == 0 ]; then usage; exit 2; fi
 
-eval set -- "$TEMP"
+eval set -- "$OPT"
 
 for opt
 do

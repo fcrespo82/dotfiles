@@ -30,7 +30,7 @@ alias lsa="ls -a ${colorflag} ${myflags}"
 alias ll="ls -l ${colorflag} ${myflags}" # all files, in long format
 alias lla="ll -a ${colorflag} ${myflags}" # all files inc dotfiles, in long format
 alias lld='ll ${colorflag} ${myflags} | grep "/$"' # only directories
-alias lls='lla | cut -c -10,51- | grep "\->"'
+alias lls='lla | cut -c -11,50- | grep "\->"'
 alias grep='grep --color'
 
 # Quicker navigation

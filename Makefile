@@ -47,6 +47,7 @@ install: backup
 		echo "Linking '$$HOME/$$FILE' to '$(FULL_SCRIPT_PATH)/$$FILE'"; \
 		ln -sf "$(FULL_SCRIPT_PATH)/$$FILE" "$$HOME/$$FILE"; \
 	done
+	@echo "DOTFILES_PATH=\"$(FULL_SCRIPT_PATH)\"" > "$(HOME)"/.dotfiles_config
 
 uninstall:
 	@for FILE in $(FILES); do \

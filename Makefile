@@ -39,7 +39,7 @@ backup:
 			mv $$HOME/$$FILE $(BACKUP_DIR)/$$FILE; \
 		fi; \
 	done;
-	@rmdir --ignore-fail-on-non-empty $(BACKUP_DIR)
+	#@rmdir --ignore-fail-on-non-empty $(BACKUP_DIR)
 
 install: backup
 	@echo "Installing dotfiles to '$(HOME)'"

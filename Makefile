@@ -1,4 +1,4 @@
-FILES=.bashrc .bash_profile .gitconfig z.sh .hushlogin
+FILES=.bashrc .bash_profile .gitconfig z.sh .hushlogin .vimrc
 FULL_SCRIPT_PATH=$(PWD)
 UNAME=$(shell uname -a)
 

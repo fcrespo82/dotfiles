@@ -9,7 +9,7 @@ else
 fi
 REALPATH_DIR=$SCRIPT_DIR/lib/realpath/realpath-lib
 source $REALPATH_DIR 
-FILES=('.bashrc' '.bash_profile' '.gitconfig' 'z.sh' '.hushlogin')
+FILES=('.bashrc' '.bash_profile' '.gitconfig' 'z.sh' '.hushlogin' '.vimrc')
 FULL_SCRIPT_PATH=`$GET_DIR_TOOL $SCRIPT_DIR`
 
 function set_os() {

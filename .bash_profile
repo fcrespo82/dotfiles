@@ -109,7 +109,7 @@ function parse_git_branch() {
 
 SSH=""
 if [ "$SSH_CONNECTION" ]; then
-    SSH="(ssh)"
+    SSH="(ssh - \h)"
 fi
 
 # Change this symbol to something sweet. 

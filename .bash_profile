@@ -52,6 +52,8 @@ alias gs='git status'
 alias ga='git add .'
 alias gc='git commit -m' # requires you to type a commit message
 alias gp='git push'
+alias grmall='gs | grep deleted | cut -c 15- | xargs -i* git rm "*"'
+
 
 if $is_linux; then
     alias restart_unity='setsid unity'

@@ -118,7 +118,7 @@ fi
 # (http://en.wikipedia.org/wiki/Unicode_symbols)
 symbol="\$ "
 #⚡
-export PS1="$SSH\[$YELLOW\]\u \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$GREEN\]\$(parse_git_branch)\[$WHITE\]\n$symbol\[$RESET\]"
+export PS1="$SSH\[$YELLOW\]\u \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"[\")\[$GREEN\]\$(parse_git_branch)]\[$WHITE\]\n$symbol\[$RESET\]"
 export PS2="\[$ORANGE\]➜ \[$RESET\]"
 #→➜
 

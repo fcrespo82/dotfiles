@@ -114,14 +114,14 @@ function parse_git_branch() {
 
 SSH=""
 if [ "$SSH_CONNECTION" ]; then
-    SSH="(ssh - \h)"
+    SSH="@\h"
 fi
 
 # Change this symbol to something sweet. 
 # (http://en.wikipedia.org/wiki/Unicode_symbols)
 symbol="\$ "
 #⚡
-export PS1="$SSH\[$YELLOW\]\u \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"[\")\[$GREEN\]\$(parse_git_branch)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"]\")\n$symbol\[$RESET\]"
+export PS1="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"[\")\[$GREEN\]\$(parse_git_branch)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"]\")\n$symbol\[$RESET\]"
 export PS2="\[$ORANGE\]➜ \[$RESET\]"
 #→➜
 

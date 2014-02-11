@@ -59,6 +59,9 @@ if $is_linux; then
     alias restart_unity='setsid unity'
     alias restart_lightdm='sudo service lightdm restart'
     alias o='gnome-open'
+    export LS_COLORS="di=01;34:ln=01;36:so=01;35:pi=01;33:ex=01;32:bd=01;33:cd=01;33:su=01;00:sg=01;00;41:tw=01;00;46:ow=01;00;42:"
+else
+    export LSCOLORS="ExGxFxDxCxDxDxxxxbxgxc";
 fi
 
 alias dotfiles_update='source ~/.bash_profile'

@@ -134,8 +134,9 @@ export PROMPT_COMMAND='echo -ne "\033]0; ${PWD##*/}\007"'
 . ~/z.sh
 
 # Local Python installation with virtualenv
-PATH=~/.local/python/bin:$PATH
-export PATH
+# Disabled because the OS X libraries stayed out of the path
+#PATH=~/.local/python/bin:$PATH
+#export PATH
 
 source ~/.dotfiles_config
 

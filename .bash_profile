@@ -37,7 +37,7 @@ alias grep='grep --color'
 alias ..="cd .."
 
 # Shortcuts to my Code folder in my home directory
-alias scripts="cd ~/git/scripts"
+alias scripts="cd ~/developer/scripts"
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
@@ -53,7 +53,6 @@ alias ga='git add .'
 alias gc='git commit -m' # requires you to type a commit message
 alias gp='git push'
 alias grmall='gs | grep deleted | cut -c 15- | xargs -i* git rm "*"'
-
 
 if $is_linux; then
     alias restart_unity='setsid unity'
@@ -120,10 +119,9 @@ fi
 # Change this symbol to something sweet. 
 # (http://en.wikipedia.org/wiki/Unicode_symbols)
 symbol="\$ "
-#⚡
+#⚡→➜
 export PS1="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"[\")\[$GREEN\]\$(parse_git_branch)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"]\")\n$symbol\[$RESET\]"
 export PS2="\[$ORANGE\]➜ \[$RESET\]"
-#→➜
 
 ### Misc
 

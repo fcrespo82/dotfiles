@@ -64,7 +64,7 @@ else
 fi
 
 alias dotfiles_update='source ~/.bash_profile'
-alias pgrep='pgrep -fl'
+alias pgrep='pgrep -f'
 
 ### Prompt Colors 
 # Modified version of @gf3’s Sexy Bash Prompt 
@@ -98,11 +98,19 @@ export BLUE
 export BOLD
 export RESET
 
+
 ## Functions
 function print_colors() {
     for i in {0..256}; do echo $(tput setaf $i) COLOR $i; done;
 }
 
+function enable_git() {
+    export PS1=$PS1_GIT
+}
+
+function disable_git() {
+    export PS1=$PS1_NO_GIT
+}
 # Git branch details
 function parse_git_dirty() {
     [[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "$BOLD$RED"
@@ -120,7 +128,11 @@ fi
 # (http://en.wikipedia.org/wiki/Unicode_symbols)
 symbol="\$ "
 #⚡→➜
-export PS1="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"[\")\[$GREEN\]\$(parse_git_branch)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"]\")\n$symbol\[$RESET\]"
+
+PS1_GIT="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"[\")\[$GREEN\]\$(parse_git_branch)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"]\")\n$symbol\[$RESET\]"
+PS1_NO_GIT="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\n$symbol\[$RESET\]"
+
+export PS1=$PS1_NO_GIT
 export PS2="\[$ORANGE\]➜ \[$RESET\]"
 
 ### Misc

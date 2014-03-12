@@ -1,14 +1,14 @@
 
 " An example for a vimrc file.
 "
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" Last change:	2008 Dec 17
+" Maintainer: Bram Moolenaar <Bram@vim.org>
+" Last change:  2008 Dec 17
 "
 " To use it, copy it to
 "     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
+"       for Amiga:  s:.vimrc
 "  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
+"     for OpenVMS:  sys$login:.vimrc
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
@@ -23,16 +23,16 @@ set nocompatible
 set backspace=indent,eol,start
 
 if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
+  set nobackup    " do not keep a backup file, use versions instead
 else
-  set backup		" keep a backup file
+  set backup    " keep a backup file
 endif
 set nobackup
 
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+set history=50    " keep 50 lines of command line history
+set ruler   " show the cursor position all the time
+set showcmd   " display incomplete commands
+set incsearch   " do incremental searching
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -86,7 +86,7 @@ if has("autocmd")
 
 else
 
-  set autoindent		" always set autoindenting on
+  set autoindent    " always set autoindenting on
 
 endif " has("autocmd")
 
@@ -95,6 +95,6 @@ endif " has("autocmd")
 " Only define it when not defined already.
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+      \ | wincmd p | diffthis
 endif
 

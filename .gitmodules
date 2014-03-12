@@ -1,6 +1,6 @@
 [submodule "funcoeszz"]
-	path = funcoeszz
-	url = https://github.com/fcrespo82/funcoeszz.git
+    path = funcoeszz
+    url = https://github.com/fcrespo82/funcoeszz.git
 [submodule "lib/realpath"]
-	path = lib/realpath
-	url = https://github.com/AsymLabs/realpath-lib.git
+    path = lib/realpath
+    url = https://github.com/AsymLabs/realpath-lib.git

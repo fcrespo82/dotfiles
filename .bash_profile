@@ -33,11 +33,11 @@ function mac_specific() {
 
 function common() {
 
-    alias realpath='python -c "import os,sys; print os.path.realpath(sys.argv[1])"'
-    alias realdirname='python -c "import os,sys; print os.path.realpath(os.path.dirname(sys.argv[1])"'
+    alias realpath='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.realpath(path)"'
+    alias realdirname='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.realpath(os.path.dirname(path))"'
 
     # Load external configuration
-    source ~/.dotfiles_config
+    . ~/.dotfiles_config
 
     my_flags="-Fh"
 
@@ -68,9 +68,13 @@ function common() {
     alias gp='git push'
     alias grmall='gs | grep deleted | cut -c 15- | xargs -i* git rm "*"'
 
-    alias dotfiles_update='source ~/.bash_profile'
+    alias dotfiles_update='. ~/.bash_profile'
     alias pgrep='pgrep -f'
 
+    # Aliases to quick connect to NAS and PC
+
+    alias nasconnect='ssh -p 3456 root@nas.crespo.in'
+    alias macconnect='ssh -p 6080 fernando@nas.crespo.in'
     ### Prompt Colors 
     # Modified version of @gf3’s Sexy Bash Prompt 
     # (https://github.com/gf3/dotfiles)
@@ -137,7 +141,7 @@ function common() {
     #export ZZOFF=""  # desligue funcoes indesejadas
     #export ZZPATH="$DOTFILES_PATH/funcoeszz/funcoeszz"  # script
     #export ZZDIR="$DOTFILES_PATH/funcoeszz/zz"  # script
-    #source "$ZZPATH"
+    #. "$ZZPATH"
 }
 
 common

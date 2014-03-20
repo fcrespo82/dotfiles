@@ -17,10 +17,7 @@ function mac_specific() {
 }
 
 function common() {
-
     # Set all variables that will be used
-    #SCRIPT_DIR=`dirname $BASH_SOURCE`
-    #FULL_SCRIPT_DIR=$(python -c 'import os,sys; print os.path.realpath(sys.argv[1])' $SCRIPT_DIR)
     FULL_SCRIPT_DIR=$(python -c 'import os,sys; print os.path.realpath(os.path.dirname(sys.argv[1]))' $BASH_SOURCE)
 
     FILES=('.bashrc' '.bash_profile' '.gitconfig' 'z.sh' '.hushlogin' '.vimrc')
@@ -43,7 +40,7 @@ BOLD=$(tput bold)
 RESET=$(tput sgr0)
 
 function debug() {
-    echo -e "FULL_SCRIPT_DIR       $FULL_SCRIPT_DIR"
+    echo -e "FULL_SCRIPT_DIR    $FULL_SCRIPT_DIR"
     echo -e "IS_LINUX           $_is_linux"
     echo -e "IS_MAC             $_is_mac"
     echo -e "Files that will be linked:\n`for FILE in ${FILES[@]}; do echo -e "  $HOME/$FILE -> $FULL_SCRIPT_DIR/$FILE"; done`"
@@ -86,7 +83,7 @@ If you want to update your installation run with -u flag"
 
     echo "${YELLOW}Creating symlinks${RESET}"
     for FILE in ${FILES[@]}; do
-        echo "$HOME/$FILE -> $FULL_SCRIPT_DIR/$FILE"
+        echo "$HOME/$FILE ${BLUE}->${RESET} $FULL_SCRIPT_DIR/$FILE"
         ln -fs "$FULL_SCRIPT_DIR/$FILE" "$HOME/$FILE"
     done
 
@@ -94,7 +91,8 @@ If you want to update your installation run with -u flag"
     echo "DOTFILES_PATH=\"$FULL_SCRIPT_DIR\"" > "$HOME"/.dotfiles_config
 
     echo "${GREEN}Installation finished.${RESET}
-run 'source ~/.bash_profile' or open another terminal to see the changes"
+run ${BLUE}'source ~/.bash_profile'${RESET} or open another terminal to see the changes
+if you are updating an existing installation you can run ${BLUE}'dotfiles_update'${RESET}"
 }
 
 function remove() {

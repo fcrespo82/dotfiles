@@ -1,27 +1,38 @@
 #!/usr/bin/env bash
 
-# Set all variables that will be used
-SCRIPT_DIR=`dirname $BASH_SOURCE`
-if [ $SCRIPT_DIR == "." ]; then
-    GET_DIR_TOOL="get_dirname"
-else
-    GET_DIR_TOOL="get_realpath"
+if [[ $(uname -a) == *"inux"* ]]; then
+    _is_linux=true
+    _is_mac=false
+else #if [[ $(uname -a) == *"arwin"* ]]; then
+    _is_mac=true
+    _is_linux=false
 fi
-REALPATH_DIR=$SCRIPT_DIR/lib/realpath/realpath-lib
-source $REALPATH_DIR 
-FILES=('.bashrc' '.bash_profile' '.gitconfig' 'z.sh' '.hushlogin' '.vimrc')
-FULL_SCRIPT_PATH=`$GET_DIR_TOOL $SCRIPT_DIR`
 
-function set_os() {
-    if [[ $(uname -a) == *"inux"* ]]; then
-        IS_LINUX=true
-        IS_MAC=false
-    else #if [[ $(uname -a) == *"arwin"* ]]; then
-        IS_MAC=true
-        IS_LINUX=false
+function linux_specific() {
+    echo "linux_specific"
+}
+
+function mac_specific() {
+    echo "mac_specific"
+}
+
+function common() {
+
+    # Set all variables that will be used
+    #SCRIPT_DIR=`dirname $BASH_SOURCE`
+    #FULL_SCRIPT_DIR=$(python -c 'import os,sys; print os.path.realpath(sys.argv[1])' $SCRIPT_DIR)
+    FULL_SCRIPT_DIR=$(python -c 'import os,sys; print os.path.realpath(os.path.dirname(sys.argv[1]))' $BASH_SOURCE)
+
+    FILES=('.bashrc' '.bash_profile' '.gitconfig' 'z.sh' '.hushlogin' '.vimrc')
+
+    if $_is_linux; then
+        linux_specific
+    elif $_is_mac; then
+        mac_specific
     fi
 }
-set_os
+
+common
 
 # Set used colors in bash
 GREEN=$(tput setaf 10)
@@ -32,12 +43,11 @@ BOLD=$(tput bold)
 RESET=$(tput sgr0)
 
 function debug() {
-    echo -e "SCRIPT_DIR         $SCRIPT_DIR"
-    echo -e "REALPATH_DIR       $REALPATH_DIR"
-    echo -e "IS_LINUX           $IS_LINUX"
-    echo -e "IS_MAC             $IS_MAC"
-    echo -e "Files that will be linked:\n`for FILE in ${FILES[@]}; do echo -e "  $HOME/$FILE -> $FULL_SCRIPT_PATH/$FILE"; done`"
-    echo -e "Source files       $FULL_SCRIPT_PATH"
+    echo -e "FULL_SCRIPT_DIR       $FULL_SCRIPT_DIR"
+    echo -e "IS_LINUX           $_is_linux"
+    echo -e "IS_MAC             $_is_mac"
+    echo -e "Files that will be linked:\n`for FILE in ${FILES[@]}; do echo -e "  $HOME/$FILE -> $FULL_SCRIPT_DIR/$FILE"; done`"
+    echo -e "Source files       $FULL_SCRIPT_DIR"
     echo -e "Home dir           $HOME"
 }
 
@@ -76,12 +86,12 @@ If you want to update your installation run with -u flag"
 
     echo "${YELLOW}Creating symlinks${RESET}"
     for FILE in ${FILES[@]}; do
-        echo "$HOME/$FILE -> $FULL_SCRIPT_PATH/$FILE"
-        ln -fs "$FULL_SCRIPT_PATH/$FILE" "$HOME/$FILE"
+        echo "$HOME/$FILE -> $FULL_SCRIPT_DIR/$FILE"
+        ln -fs "$FULL_SCRIPT_DIR/$FILE" "$HOME/$FILE"
     done
 
     echo "${YELLOW}Installing .dotfiles_config"
-    echo "DOTFILES_PATH=\"$FULL_SCRIPT_PATH\"" > "$HOME"/.dotfiles_config
+    echo "DOTFILES_PATH=\"$FULL_SCRIPT_DIR\"" > "$HOME"/.dotfiles_config
 
     echo "${GREEN}Installation finished.${RESET}
 run 'source ~/.bash_profile' or open another terminal to see the changes"

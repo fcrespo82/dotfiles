@@ -1,0 +1,14 @@
+alias s='subl -a '
+alias restart_unity_1='setsid unity'
+alias restart_lightdm_2='sudo service lightdm restart'
+alias o='gnome-open'
+
+DOTFILES_COLOR_FLAG="--color"
+export LS_COLORS="di=01;34:ln=01;36:so=01;35:pi=01;33:ex=01;32:bd=01;33:cd=01;33:su=01;00:sg=01;00;41:tw=01;00;46:ow=01;00;42:"
+
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
+alias nasconnect='ssh -p 3456 root@nas.crespo.in'
+alias macconnect='ssh -p 6080 fernando@nas.crespo.in'

@@ -1,0 +1,10 @@
+alias s='open -a "Sublime Text"'
+
+DOTFILES_COLOR_FLAG="-G"
+export LSCOLORS="ExGxFxDxCxDxDxxxxbxgxc"
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
+fi
+
+alias nasconnect='ssh -p 3456 root@diskstation.local'

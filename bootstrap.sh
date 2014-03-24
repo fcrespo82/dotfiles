@@ -10,26 +10,34 @@ fi
 
 function linux_specific() {
     echo "linux_specific"
+    FILES=('.bashrc' '.bash_profile' '.bash_profile_linux' '.gitconfig' 'z.sh' '.hushlogin' '.vimrc')
 }
 
 function mac_specific() {
     echo "mac_specific"
+    FILES=('.bashrc' '.bash_profile' '.bash_profile_mac' '.gitconfig' 'z.sh' '.hushlogin' '.vimrc')
 }
 
-function common() {
-    # Set all variables that will be used
-    FULL_SCRIPT_DIR=$(python -c 'import os,sys; print os.path.realpath(os.path.dirname(sys.argv[1]))' $BASH_SOURCE)
+BLACK=$(tput setaf 0)
+MAGENTA=$(tput setaf 9)
+ORANGE=$(tput setaf 172)
+GREEN=$(tput setaf 10)
+PURPLE=$(tput setaf 141)
+WHITE=$(tput setaf 15)
+RED=$(tput setaf 9)
+BLUE=$(tput setaf 4)
+YELLOW=$(tput setaf 11)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
 
-    FILES=('.bashrc' '.bash_profile' '.gitconfig' 'z.sh' '.hushlogin' '.vimrc')
+# Set all variables that will be used
+FULL_SCRIPT_DIR=$(python -c 'import os,sys; print os.path.realpath(os.path.dirname(sys.argv[1]))' $BASH_SOURCE)
 
-    if $_is_linux; then
-        linux_specific
-    elif $_is_mac; then
-        mac_specific
-    fi
-}
-
-common
+if $_is_linux; then
+    linux_specific
+elif $_is_mac; then
+    mac_specific
+fi
 
 # Set used colors in bash
 GREEN=$(tput setaf 10)

@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
 
-if [[ $(uname -a) == *"inux"* ]]; then
+if [[ $(uname -a) =~ [Ll]inux ]]; then
     _is_linux=true
     _is_mac=false
-else #if [[ $(uname -a) == *"arwin"* ]]; then
+elif [[ $(uname -a) =~ [Dd]arwin ]]; then
     _is_mac=true
     _is_linux=false
+else
+    echo "Cannot determine what SO you are running"
 fi
 
 function linux_specific() {
-    echo "linux_specific"
+    #echo "linux_specific"
     FILES=('.bashrc' '.bash_profile' '.bash_profile_linux' '.gitconfig' 'z.sh' '.hushlogin' '.vimrc')
 }
 
 function mac_specific() {
-    echo "mac_specific"
+    #echo "mac_specific"
     FILES=('.bashrc' '.bash_profile' '.bash_profile_mac' '.gitconfig' 'z.sh' '.hushlogin' '.vimrc')
 }
 
@@ -39,14 +41,6 @@ elif $_is_mac; then
     mac_specific
 fi
 
-# Set used colors in bash
-GREEN=$(tput setaf 10)
-RED=$(tput setaf 9)
-BLUE=$(tput setaf 4)
-YELLOW=$(tput setaf 11)
-BOLD=$(tput bold)
-RESET=$(tput sgr0)
-
 function debug() {
     echo -e "FULL_SCRIPT_DIR    $FULL_SCRIPT_DIR"
     echo -e "IS_LINUX           $_is_linux"
@@ -58,7 +52,7 @@ function debug() {
 
 function usage() {
     echo "
-usage ${GREEN} `basename $0` ${RESET}-irth"
+usage ${GREEN} `basename $0` ${RESET}-iurth"
     echo -e "
 Options:
 -i     Install dotfiles
@@ -71,20 +65,22 @@ Options:
 
 function install() {
     if [ ! "$1" == "update" ]; then
+        # Verify if is installed and exit if it is
         for FILE in ${FILES[@]}; do
-            if [ -h "$FILE" ]; then
-                echo "${RED}Symlinks ALREADY installed, aborting.${RESET}
+            if [ -h ~/"${FILE}" ]; then
+                echo "${RED}Symlinks (${FILE}) ALREADY installed, aborting.${RESET}
 If you want to update your installation run with -u flag"
                 exit 1
             fi
         done
 
+        # Back up files
         cd
         for FILE in ${FILES[@]}; do
-            if [ -f "$FILE" ]; then
+            if [ -f ~/"${FILE}" ]; then
                 echo ${GREEN}"Backing up $FILE"
-                BACKUP_NAME="$FILE"_backup
-                mv "$FILE" "$BACKUP_NAME"
+                BACKUP_NAME="${FILE}_backup"
+                mv "${FILE}" "${BACKUP_NAME}"
             fi
         done
     fi
@@ -95,8 +91,10 @@ If you want to update your installation run with -u flag"
         ln -fs "$FULL_SCRIPT_DIR/$FILE" "$HOME/$FILE"
     done
 
-    echo "${YELLOW}Installing .dotfiles_config"
-    echo "DOTFILES_PATH=\"$FULL_SCRIPT_DIR\"" > "$HOME"/.dotfiles_config
+    if [ -f "$HOME"/.dotfiles_config ]; then
+        echo "${YELLOW}Installing .dotfiles_config"
+        echo "DOTFILES_PATH=\"$FULL_SCRIPT_DIR\"" > "$HOME"/.dotfiles_config
+    fi
 
     echo "${GREEN}Installation finished.${RESET}
 run ${BLUE}'source ~/.bash_profile'${RESET} or open another terminal to see the changes
@@ -106,31 +104,40 @@ if you are updating an existing installation you can run ${BLUE}'dotfiles_update
 function remove() {
     cd
     for FILE in ${FILES[@]}; do
-        if [ -h "$FILE" ]; then
+        if [ -h ~/"${FILE}" ]; then
             echo "${RED}Removing symlink to $FILE${RESET}"
-            rm -f "$FILE"
+            rm -f ~/"${FILE}"
         fi
         for FILE in ${FILES[@]}; do
-            if [ -h "$FILE"_backup ]; then
+            if [ -h ~/"${FILE}"_backup ]; then
                 echo "${GREEN}Restoring backup of $FILE"
-                mv "$FILE"_backup "$FILE"
+                mv "${FILE}"_backup "${FILE}"
             fi
         done
-        rm -f ~/.dotfiles_config
+        PS3="Do you want to delete your config file? "
+        options=("Yes" "No")
+        select opt in "${options[@]}"
+        do
+            case $opt in
+                ("Yes") rm -f "${HOME}"/.dotfiles_config; break ;;
+                ("No") echo "${GREEN}Your config is under ${HOME}/.dotfiles_config${RESET}"; break ;;
+                (*) echo invalid option ;;
+            esac
+        done
     done
     echo "${GREEN}Removal completed.${RESET}
 Open another terminal to see the changes"
 }
 
-function remove() {
+function ask_remove() {
     cd
-        for FILE in ${FILES[@]}; do
-            if [ -f "$FILE"_backup ]; then
-                echo "${RED}COULD NOT${RESET} find your backups"
-                BACKUP_NOT_FOUND=true
-                break
-            fi
-        done
+    for FILE in ${FILES[@]}; do
+        if [ -f ~/"${FILE}"_backup ]; then
+            echo "${RED}COULD NOT${RESET} find your backups"
+            BACKUP_NOT_FOUND=true
+            break
+        fi
+    done
     if $BACKUP_NOT_FOUND; then
         PS3="Restore anyway? "
         options=("Yes" "No")
@@ -159,7 +166,7 @@ do
     in
         (-i|i) install; exit 0 ;;
         (-u|u) install "update"; exit 0 ;;
-        (-r|r) remove; exit 0 ;;
+        (-r|r) ask_remove; exit 0 ;;
         (-t|t) debug; exit 0 ;;
         (-h|h) usage; exit 0 ;;
         (--) shift; break ;;

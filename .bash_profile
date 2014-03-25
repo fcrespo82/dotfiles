@@ -25,10 +25,14 @@ if [ -x /usr/local/bin/virtualenvwrapper.sh ]; then
     export PROJECT_HOME=$HOME/developer
     . /usr/local/bin/virtualenvwrapper.sh
 fi
+
 # pyenv
-if [ -x "`which pyenv`" -a -d ~/.pyenv/shims ]; then
-    PATH=~/.pyenv/shims:$PATH
+export PYENV_ROOT="${HOME}/.pyenv"
+if [ -d "${PYENV_ROOT}" ]; then
+    export PATH="${PYENV_ROOT}/bin:${PATH}"
+    eval "$(pyenv init -)"
 fi
+
 # ----- END PYTHON -----
 
 # ---- BEGIN ALIASES ----

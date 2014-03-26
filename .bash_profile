@@ -116,6 +116,11 @@ function parse_git_dirty() {
 function parse_git_branch() {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/$(parse_git_dirty)\1$RESET/"
 }
+# Change this symbol to something sweet. 
+# (http://en.wikipedia.org/wiki/Unicode_symbols)
+# Need to stay before PS1_GIT
+symbol="\$ "
+#⚡→➜
 PS1_GIT="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"[\")\[$GREEN\]\$(parse_git_branch)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"]\")\n$symbol\[$RESET\]"
 
 # ----- END GIT -----
@@ -127,14 +132,13 @@ if [ "$SSH_CONNECTION" ]; then
     SSH="@\h"
 fi
 
-# Change this symbol to something sweet. 
-# (http://en.wikipedia.org/wiki/Unicode_symbols)
-symbol="\$ "
-#⚡→➜
-
 PS1_NO_GIT="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\n$symbol\[$RESET\]"
 
-export PS1=$PS1_NO_GIT
+if [ ${GIT_PS1_ENABLED_BY_DEFAULT:=1} -eq 0 ]; then
+    export PS1=$PS1_NO_GIT
+else
+    export PS1=$PS1_GIT
+fi
 export PS2="\[$ORANGE\]➜ \[$RESET\]"
 
 # Only show the current directory's name in the tab 

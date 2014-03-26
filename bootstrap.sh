@@ -93,7 +93,12 @@ If you want to update your installation run with -u flag"
 
     if [ -f "$HOME"/.dotfiles_config ]; then
         echo "${YELLOW}Installing .dotfiles_config"
-        echo "DOTFILES_PATH=\"$FULL_SCRIPT_DIR\"" > "$HOME"/.dotfiles_config
+        FILE="DOTFILES_PATH=\"$FULL_SCRIPT_DIR\"\n
+\n
+# Enable git information on command line by default\n
+# to disable set it to 0\n
+# GIT_PS1_ENABLED_BY_DEFAULT=0\n"
+        echo -e $FILE > "$HOME"/.dotfiles_config
     fi
 
     echo "${GREEN}Installation finished.${RESET}

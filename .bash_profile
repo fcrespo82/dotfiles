@@ -74,6 +74,13 @@ alias dotfiles_update='. ~/.bash_profile'
 alias pgrep='pgrep -f'
 # ----- END ALIASES -----
 
+# ---- BEGIN VARIABLES ----
+export EDITOR="subl -w"
+export GIT_EDITOR="subl -w"
+export CVSEDITOR="subl -w"
+export VISUAL="subl -w"
+# ----- END VARIABLES -----
+
 # ---- BEGIN COLORS ----
 ### Prompt Colors 
 # Modified version of @gf3’s Sexy Bash Prompt 

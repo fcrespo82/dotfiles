@@ -51,7 +51,7 @@ alias grep='grep --color'
 alias scripts="cd ~/developer/scripts"
 alias dotfiles="cd ~/developer/dotfiles"
 alias sudo='sudo ' # Allow sudo other aliases
-alias s='subl -w'
+alias s='subl -a'
 
 # You must install Pygments first - "sudo pip install Pygments"
 if [ -x "`which pygmentize`" ]; then

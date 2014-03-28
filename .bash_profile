@@ -6,6 +6,7 @@ elif [[ $(uname -a) =~ [Dd]arwin ]]; then
     _is_linux=false
 else
     echo "Cannot determine what SO you are running"
+    exit 404
 fi
 
 . ~/.dotfiles_config
@@ -48,7 +49,9 @@ alias lls='lla | cut -c -11,50- | grep "\->"'
 alias grep='grep --color'
 
 alias scripts="cd ~/developer/scripts"
+alias dotfiles="cd ~/developer/dotfiles"
 alias sudo='sudo ' # Allow sudo other aliases
+alias s='subl -w'
 
 # You must install Pygments first - "sudo pip install Pygments"
 if [ -x "`which pygmentize`" ]; then
@@ -64,6 +67,7 @@ if [ -x "`which git`" ]; then
     alias ga='git add .'
     alias gc='git commit -m' # requires you to type a commit message
     alias gp='git push'
+    alias gd="git diff"
     alias grmall='gs | grep deleted | cut -c 15- | xargs -i* git rm "*"'
 else
     echo "${RED}ERROR: ${RESET}Git is not installed, aliases will not work"

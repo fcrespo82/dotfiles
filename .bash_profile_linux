@@ -1,4 +1,3 @@
-alias s='subl -a '
 alias restart_unity_1='setsid unity'
 alias restart_lightdm_2='sudo service lightdm restart'
 alias o='gnome-open'

@@ -11,3 +11,4 @@ fi
 
 alias nasconnect='ssh -p 3456 root@nas.crespo.in'
 alias macconnect='ssh -p 6080 fernando@nas.crespo.in'
+alias nassftp='o sftp://fernando@fcrespo82.myds.me:3050'

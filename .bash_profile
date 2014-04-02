@@ -28,12 +28,13 @@ if [ -x /usr/local/bin/virtualenvwrapper.sh ]; then
 fi
 
 # pyenv
-export PYENV_ROOT="${HOME}/.pyenv"
-if [ -d "${PYENV_ROOT}" ]; then
-    export PATH="${PYENV_ROOT}/bin:${PATH}"
-    eval "$(pyenv init -)"
+if [ -x "which pyenv" ]; then
+    export PYENV_ROOT="${HOME}/.pyenv"
+    if [ -d "${PYENV_ROOT}" ]; then
+        export PATH="${PYENV_ROOT}/bin:${PATH}"
+        eval "$(pyenv init -)"
+    fi
 fi
-
 # ----- END PYTHON -----
 
 # ---- BEGIN ALIASES ----

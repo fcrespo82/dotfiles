@@ -1,8 +1,10 @@
 DOTFILES_COLOR_FLAG="-G"
 export LSCOLORS="ExGxFxDxCxDxDxxxxbxgxc"
 
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
+if [ -x "`which brew`" ]; then
+    if [ -f $(brew --prefix)/etc/bash_completion ]; then
+      . $(brew --prefix)/etc/bash_completion
+    fi
 fi
 
 alias nasconnect='ssh -p 3456 root@diskstation.local'

@@ -6,7 +6,7 @@ elif [[ $(uname -a) =~ [Dd]arwin ]]; then
     _is_linux=false
 else
     echo "Cannot determine what SO you are running"
-    exit 404
+    exit 1
 fi
 
 . ~/.dotfiles_config
@@ -127,12 +127,7 @@ function parse_git_dirty() {
 function parse_git_branch() {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/$(parse_git_dirty)\1$RESET/"
 }
-# Change this symbol to something sweet. 
-# (http://en.wikipedia.org/wiki/Unicode_symbols)
-# Need to stay before PS1_GIT
-symbol="\$ "
-#⚡→➜
-PS1_GIT="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"[\")\[$GREEN\]\$(parse_git_branch)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"]\")\n$symbol\[$RESET\]"
+
 
 # ----- END GIT -----
 
@@ -143,6 +138,13 @@ if [ "$SSH_CONNECTION" ]; then
     SSH="@\h"
 fi
 
+# Change this symbol to something sweet. 
+# (http://en.wikipedia.org/wiki/Unicode_symbols)
+# Need to stay before PS1_GIT
+symbol="\$ "
+#⚡→➜
+
+PS1_GIT="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"[\")\[$GREEN\]\$(parse_git_branch)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"]\")\n$symbol\[$RESET\]"
 PS1_NO_GIT="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\n$symbol\[$RESET\]"
 
 if [ ${GIT_PS1_ENABLED_BY_DEFAULT:=1} -eq 0 ]; then

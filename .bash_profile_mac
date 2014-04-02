@@ -6,3 +6,4 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
 fi
 
 alias nasconnect='ssh -p 3456 root@diskstation.local'
+alias alespconnect='ssh -p 1234 fernando@localhost'

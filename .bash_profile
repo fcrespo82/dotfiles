@@ -28,7 +28,7 @@ if [ -x /usr/local/bin/virtualenvwrapper.sh ]; then
 fi
 
 # pyenv
-if [ -x "which pyenv" ]; then
+if [ -x "${HOME}/.pyenv/bin/pyenv" ]; then
     export PYENV_ROOT="${HOME}/.pyenv"
     if [ -d "${PYENV_ROOT}" ]; then
         export PATH="${PYENV_ROOT}/bin:${PATH}"
@@ -36,6 +36,16 @@ if [ -x "which pyenv" ]; then
     fi
 fi
 # ----- END PYTHON -----
+
+# ----- BEGIN RUBY -----
+if [ -x "${HOME}/.rbenv/bin/rbenv" ]; then
+    export RBENV_ROOT="${HOME}/.rbenv"
+    if [ -d "${RBENV_ROOT}" ]; then
+        export PATH="${RBENV_ROOT}/bin:${PATH}"
+        eval "$(rbenv init -)"
+    fi
+fi
+# ------ END RUBY ------
 
 # ---- BEGIN ALIASES ----
 

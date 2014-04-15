@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#version:1.1
 
 if [[ $(uname -a) =~ [Ll]inux ]]; then
     _is_linux=true

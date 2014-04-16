@@ -12,3 +12,10 @@ fi
 alias nasconnect='ssh -p 3456 root@nas.crespo.in'
 alias macconnect='ssh -p 6080 fernando@nas.crespo.in'
 alias nassftp='o sftp://fernando@fcrespo82.myds.me:3050'
+
+if [ -x "`which xclip`" ]; then
+    alias pbcopy='xclip -i -selection clipboard'
+    alias pbpaste='xclip -o -selection clipboard'
+else
+    echo "${RED}ERROR: ${RESET}xclip bindinds to mac equivalents are not going to work"
+fi

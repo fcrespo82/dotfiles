@@ -89,21 +89,7 @@ alias dotfiles_update='. ~/.bash_profile'
 alias pgrep='pgrep -f'
 # ----- END ALIASES -----
 
-# ---- BEGIN FUNCTIONS ----
-function count() {
-    TEMP=`getopt -o ah -- "$@"`
-    eval set -- "$TEMP"
-    while true; do
-        case "$1" in
-            -a) ls -A1 | wc -l | sed "s/ //g"; shift; break ;;
-            -h) echo -e "Usage:\n\tcount   \tCount files in a folder (except hidden)\n\tcount -a\tCount files in a folder including hidden"; shift; break ;;
-            --) ls -1 | wc -l | sed "s/ //g"; shift; break ;; # Got to the end without findind any flag
-            *) echo "Internal error!" ; exit 1 ;;
-        esac
-    done
-}
 
-# ----- END FUNCTIONS -----
 
 # ---- BEGIN VARIABLES ----
 export EDITOR="subl -w"

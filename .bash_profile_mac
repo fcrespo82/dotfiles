@@ -12,3 +12,25 @@ alias alespconnect='ssh -p 1234 fernando@localhost'
 # Quick way to rebuild the Launch Services database and get rid
 # of duplicates in the Open With submenu.
 alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
+
+# ---- BEGIN FUNCTIONS ----
+function count() {
+    # gnugetopt installed by homebrew
+    if [[ -x `which gnugetopt` ]]; then
+        TEMP=`gnugetopt -o ah -- "$@"`
+    else
+        TEMP=`getopt ah $*`
+    fi
+    
+    eval set -- "$TEMP"
+    while true; do
+        case "$1" in
+            -a) ls -A1 | wc -l | sed "s/ //g"; shift; break ;;
+            -h) echo -e "Usage:\n\tcount   \tCount files in a folder (except hidden)\n\tcount -a\tCount files in a folder including hidden"; shift; break ;;
+            --) ls -1 | wc -l | sed "s/ //g"; shift; break ;; # Got to the end without findind any flag
+            *) echo "Internal error!" ; exit 1 ;;
+        esac
+    done
+}
+
+# ----- END FUNCTIONS -----

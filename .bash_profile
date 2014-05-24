@@ -9,7 +9,9 @@ else
     exit 1
 fi
 
-. ~/.dotfiles_config
+if [ -f ~/.dotfiles_config ]; then
+    . ~/.dotfiles_config
+fi
 
 DOTFILES_MY_FLAGS="-Fh"
 
@@ -71,7 +73,7 @@ else
     echo "${RED}ERROR: ${RESET}Pygments is not installed, aliases will not work"
 fi
 
-# Git 
+# Git
 # You must install Git first
 if [ -x "`which git`" ]; then
     alias gs='git status'
@@ -99,8 +101,8 @@ export VISUAL="subl -w"
 # ----- END VARIABLES -----
 
 # ---- BEGIN COLORS ----
-### Prompt Colors 
-# Modified version of @gf3’s Sexy Bash Prompt 
+### Prompt Colors
+# Modified version of @gf3’s Sexy Bash Prompt
 # (https://github.com/gf3/dotfiles)
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
     export TERM=gnome-256color
@@ -151,7 +153,7 @@ if [ "$SSH_CONNECTION" ]; then
     SSH="@\h"
 fi
 
-# Change this symbol to something sweet. 
+# Change this symbol to something sweet.
 # (http://en.wikipedia.org/wiki/Unicode_symbols)
 # Need to stay before PS1_GIT
 symbol="\$ "
@@ -167,7 +169,7 @@ else
 fi
 export PS2="\[$ORANGE\]➜ \[$RESET\]"
 
-# Only show the current directory's name in the tab 
+# Only show the current directory's name in the tab
 export PROMPT_COMMAND='echo -ne "\033]0; ${PWD##*/}\007"'
 # ----- END PROMPT -----
 

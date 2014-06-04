@@ -5,6 +5,8 @@ if [ -x "`which brew`" ]; then
     if [ -f $(brew --prefix)/etc/bash_completion ]; then
       . $(brew --prefix)/etc/bash_completion
     fi
+else
+    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 fi
 
 alias nasconnect='ssh -p 3456 root@diskstation.local'
@@ -21,7 +23,7 @@ function count() {
     else
         TEMP=`getopt ah $*`
     fi
-    
+
     eval set -- "$TEMP"
     while true; do
         case "$1" in

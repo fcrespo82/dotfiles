@@ -36,6 +36,8 @@ if [ -x "${HOME}/.pyenv/bin/pyenv" ]; then
         export PATH="${PYENV_ROOT}/bin:${PATH}"
         eval "$(pyenv init -)"
     fi
+else
+    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 fi
 # ----- END PYTHON -----
 
@@ -46,6 +48,8 @@ if [ -x "${HOME}/.rbenv/bin/rbenv" ]; then
         export PATH="${RBENV_ROOT}/bin:${PATH}"
         eval "$(rbenv init -)"
     fi
+else
+    curl https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
 fi
 # ------ END RUBY ------
 

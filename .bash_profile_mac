@@ -23,7 +23,7 @@ function count() {
     else
         TEMP=`getopt ah $*`
     fi
-    
+
     eval set -- "$TEMP"
     while true; do
         case "$1" in

@@ -96,6 +96,47 @@ If you want to update your installation run with 'update' option'''.format(_src)
 run \'source ~/.bash_profile\' or open another terminal to see the changes.
 If you are updating an existing installation you can run \'dotfiles_update\'''')
 
+def choose(msg=u'Do you want to delete your config file?', choices={ u'y': True, u'n': False }, default=u'n'):
+    _choice = u''
+    while _choice.lower() not in [ u'y', u'n' ]:
+
+        try:
+            _choices = '/'.join(choices.keys())
+            # TODO: Uppercase default
+            _choice = raw_input(u'{} ({} default={}): ', msg, _choices, default)
+            _choice = default if _choice == u'' else _choice
+            _choosen = choices[_choice[0].lower()]
+        except Exception, e:
+            _choice = u''
+    return _choosen
+
+def remove(info):
+    for _file in info[u'files']:
+        if _file in [u'.dotfiles_config']:
+
+
+        if os.path.exists(_file) and os.path.islink(_file):
+            _src = os.path.join(info[u'home'], _file)
+            print(u'Removing symlink to {}'.format(_file))
+            if not info[u'debug']: os.remove(_src)
+
+        restore(info)
+
+        PS3="Do you want to delete your config file? "
+        options=("Yes" "No")
+        select opt in "${options[@]}"
+        do
+            case $opt in
+                ("Yes") rm -f "${HOME}"/.dotfiles_config; break ;;
+                ("No") echo "${GREEN}Your config is under ${HOME}/.dotfiles_config${RESET}"; break ;;
+                (*) echo invalid option ;;
+            esac
+        done
+    done
+    echo "${GREEN}Removal completed.${RESET}
+Open another terminal to see the changes"
+}
+
 def main():
     _info = info()
     args = docopt(__doc__)

@@ -1,1 +1,2 @@
-GIT_PS1_ENABLED_BY_DEFAULT=1
+_is_mac=true
+_is_linux=false

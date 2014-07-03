@@ -1,14 +1,3 @@
-if [[ $(uname -a) =~ [Ll]inux ]]; then
-    _is_linux=true
-    _is_mac=false
-elif [[ $(uname -a) =~ [Dd]arwin ]]; then
-    _is_mac=true
-    _is_linux=false
-else
-    echo "Cannot determine what SO you are running"
-    exit 1
-fi
-
 if [ -f ~/.dotfiles_config ]; then
     . ~/.dotfiles_config
 fi
@@ -23,11 +12,11 @@ fi
 
 # ---- BEGIN PYTHON ----
 # Virtualenvwrapper stuff
-if [ -x /usr/local/bin/virtualenvwrapper.sh ]; then
-    export WORKON_HOME=$HOME/virtualenvs
-    export PROJECT_HOME=$HOME/developer
-    . /usr/local/bin/virtualenvwrapper.sh
-fi
+#if [ -x /usr/local/bin/virtualenvwrapper.sh ]; then
+#    export WORKON_HOME=$HOME/virtualenvs
+#    export PROJECT_HOME=$HOME/developer
+#    . /usr/local/bin/virtualenvwrapper.sh
+#fi
 
 # pyenv
 if [ -x "${HOME}/.pyenv/bin/pyenv" ]; then
@@ -74,7 +63,7 @@ alias s='subl -a'
 if [ -x "`which pygmentize`" ]; then
     alias c='pygmentize -O style=monokai -f console256 -g'
 else
-    echo "${RED}ERROR: ${RESET}Pygments is not installed, aliases will not work"
+    echo "${RED}ERROR: ${RESET}Pygments is not installed, aliases not installed"
 fi
 
 # Git
@@ -87,7 +76,7 @@ if [ -x "`which git`" ]; then
     alias gd="git diff"
     alias grmall='gs | grep deleted | cut -c 15- | xargs -i* git rm "*"'
 else
-    echo "${RED}ERROR: ${RESET}Git is not installed, aliases will not work"
+    echo "${RED}ERROR: ${RESET}Git is not installed, aliases not installed"
 fi
 
 alias dotfiles_update='. ~/.bash_profile'

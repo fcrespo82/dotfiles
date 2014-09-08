@@ -1,13 +1,13 @@
 if [ -f ~/.dotfiles_config ]; then
-    . ~/.dotfiles_config
+    source ~/.dotfiles_config
 fi
 
 DOTFILES_MY_FLAGS="-Fh"
 
 if $_is_linux; then
-    . ~/.bash_profile_linux
+    source ~/.bash_profile_linux
 elif $_is_mac; then
-    . ~/.bash_profile_mac
+    source ~/.bash_profile_mac
 fi
 
 # ---- BEGIN PYTHON ----
@@ -25,8 +25,8 @@ if [ -x "${HOME}/.pyenv/bin/pyenv" ]; then
         export PATH="${PYENV_ROOT}/bin:${PATH}"
         eval "$(pyenv init -)"
     fi
-else
-    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+#else
+#    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 fi
 # ----- END PYTHON -----
 
@@ -37,8 +37,8 @@ if [ -x "${HOME}/.rbenv/bin/rbenv" ]; then
         export PATH="${RBENV_ROOT}/bin:${PATH}"
         eval "$(rbenv init -)"
     fi
-else
-    curl https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
+#else
+#    curl https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
 fi
 # ------ END RUBY ------
 
@@ -79,12 +79,19 @@ else
     echo "${RED}ERROR: ${RESET}Git is not installed, aliases not installed"
 fi
 
-alias dotfiles_update='. ~/.bash_profile'
+alias dotfiles_update='source ~/.bash_profile'
 
 alias pgrep='pgrep -f'
+alias pkill='pkill -f'
+
 # ----- END ALIASES -----
 
+# ---- BEGIN BINDINGS ----
 
+bind '"\e[A":history-search-backward'
+bind '"\e[B":history-search-forward'
+
+# ----- END BINDINGS -----
 
 # ---- BEGIN VARIABLES ----
 export EDITOR="subl -w"
@@ -121,53 +128,12 @@ function print_colors() {
 }
 # ----- END COLORS -----
 
-# ---- BEGIN GIT ----
-function enable_git() {
-    export PS1=$PS1_GIT
-}
-function disable_git() {
-    export PS1=$PS1_NO_GIT
-}
-# Git branch details
-function parse_git_dirty() {
-    [[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "$BOLD$RED"
-}
-function parse_git_branch() {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/$(parse_git_dirty)\1$RESET/"
-}
-
-
-# ----- END GIT -----
-
-# ---- BEGIN PROMPT ----
-# Add host to PS1 if connection by ssh
-SSH=""
-if [ "$SSH_CONNECTION" ]; then
-    SSH="@\h"
-fi
-
-# Change this symbol to something sweet.
-# (http://en.wikipedia.org/wiki/Unicode_symbols)
-# Need to stay before PS1_GIT
-symbol="\$ "
-#⚡→➜
-
-PS1_GIT="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"[\")\[$GREEN\]\$(parse_git_branch)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \"]\")\n$symbol\[$RESET\]"
-PS1_NO_GIT="\[$YELLOW\]\u$SSH \[$WHITE\]in \[$BOLD\]\[$BLUE\]\w\[$RESET\]\[$WHITE\]\n$symbol\[$RESET\]"
-
-if [ ${GIT_PS1_ENABLED_BY_DEFAULT:=1} -eq 0 ]; then
-    export PS1=$PS1_NO_GIT
-else
-    export PS1=$PS1_GIT
-fi
-export PS2="\[$ORANGE\]➜ \[$RESET\]"
-
 # Only show the current directory's name in the tab
 export PROMPT_COMMAND='echo -ne "\033]0; ${PWD##*/}\007"'
 # ----- END PROMPT -----
 
-# init z! (https://github.com/rupa/z)
-# A cd history
-if [ -x ~/z.sh ]; then
-    . ~/z.sh
-fi
+function _update_ps1() {
+    export PS1="$(~/powerline-shell.py $? 2> /dev/null)"
+}
+
+export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"

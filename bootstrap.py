@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 #coding: utf-8
-'''usage:
-bootstrap.py ( -i [ update ]  | -r | -d ) [ -t  -h ]
+'''Usage:
+    bootstrap.py ( install | update | remove ) [ -d ]
+    bootstrap.py -h
 
-options:
--i     Install dotfiles
--u     Update dotfiles
--r     Removes dotfiles restoring your backups (if they exist)
--d     Debug the info passed to make sure is correct
--t     Test with the info passed to make sure is correct makes backup but do not override originals
--h     This help
+Options:
+    install     Install dotfiles
+    update      Update dotfiles
+    remove      Removes dotfiles restoring your backups (if they exist)
+    -d          Test with the info passed to make sure is correct makes backup but do not override originals
+    -h          This help
 '''
 from __future__ import print_function
 from __future__ import unicode_literals
@@ -17,7 +17,13 @@ import os
 import re
 import sys
 import shutil
-from docopt import docopt
+import subprocess
+try:
+    from docopt import docopt
+except:
+    print('Please install docopt - pip install docopt')
+
+__version__ = '0.2'
 
 def info():
     info = {}
@@ -27,13 +33,14 @@ def info():
     elif re.match(r'[Dd]arwin', u' '.join(os.uname())):
         info.update({u'os': u'mac' })
     else:
-        print("Cannot determine what SO you are running")
+        print(u'Cannot determine what SO you are running')
         exit(1000)
 
-    info.update({u'script_dir': os.path.realpath(os.path.dirname(sys.argv[0])) })
-    info.update({u'home': os.environ[u'HOME'] })
+    info.update({u'script_dir': os.path.realpath(os.path.dirname(sys.argv[0]))})
+    info.update({u'home': os.environ[u'HOME']})
 
-    _files = ['.bashrc', '.bash_profile', '.gitconfig', 'z.sh', '.hushlogin', '.vimrc', '.dotfiles_config']
+    _files = ['.bashrc', '.bash_profile', '.gitconfig', '.hushlogin', '.vimrc', '.dotfiles_config']
+
     if re.match(u'linux', info[u'os']):
         _files.extend(['.bash_profile_linux'])
     if re.match(u'mac', info[u'os']):
@@ -48,7 +55,9 @@ def debug(info):
     for _file in info[u'files']:
         _src = os.path.join(info[u'home'], _file)
         _dst = os.path.join(info[u'script_dir'], _file)
-        print(u'{}\n\t-> {}'.format(_src, _dst))
+        isFile = 'file' if os.path.isfile(_src) else 'link destination do not exist'
+        isLink = 'link' if os.path.islink(_src) else 'do not exist'
+        print(u'{0}({2})\n\t-> {1}'.format(_src, _dst, ','.join([isLink, isFile])))
     print(u'{:<20}{:<20}'.format(u'Home dir:', info[u'home']))
 
 def backup(info):
@@ -100,6 +109,9 @@ If you want to update your installation run with 'update' option'''.format(_src)
         if re.match(u'mac', info[u'os']):
             _file.write(u'_is_mac=true\n_is_linux=false\n')
 
+    install_pyenv()
+    install_rbenv()
+
     print(u'''Installation finished.
 run \'source ~/.bash_profile\' or open another terminal to see the changes.
 If you are updating an existing installation you can run \'dotfiles_update\'''')
@@ -136,14 +148,42 @@ def remove(info):
     print(u'''Removal completed.
 Open another terminal to see the changes''')
 
+def install_pyenv():
+    _choice = choose(msg='Do you want to install pyenv?')
+    if _choice:
+        # subprocess.call()
+        # curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+        pass
+
+def install_rbenv():
+    _choice = choose(msg='Do you want to install rbenv?')
+    if _choice:
+        # subprocess.call()
+        # curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+        pass
+
 def main():
     _info = info()
     args = docopt(__doc__)
     print(args)
-    _info.update({u'debug': True}) if args[u'-t'] else _info.update({u'debug': False})
-    if args[u'-i']: install(_info, args[u'update'])
-    elif args[u'-r']: remove(_info)
-    elif args[u'-d']: debug(_info)
+    if args.has_key('-d') and args[u'-d']:
+        _info.update({u'debug': True})
+    else:
+        _info.update({u'debug': False})
+
+    if args.has_key('-d') and args[u'-d']:
+        debug(_info)
+
+    if args.has_key('install') and args[u'install']:
+        install(_info)
+    elif args.has_key('update') and args[u'update']:
+        install(_info, args[u'update'])
+    elif args.has_key('remove') and args[u'remove']:
+        remove(_info)
+    # elif args.has_key('-d') and args[u'-d']:
+    #     debug(_info)
+
+
 
 if __name__ == '__main__':
     main()

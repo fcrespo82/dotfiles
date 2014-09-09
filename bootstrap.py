@@ -57,7 +57,7 @@ def debug(info):
         _dst = os.path.join(info[u'script_dir'], _file)
         isFile = 'file' if os.path.isfile(_src) else 'link destination do not exist'
         isLink = 'link' if os.path.islink(_src) else 'do not exist'
-        print(u'{0}({2})\n\t-> {1}'.format(_src, _dst, ','.join([isLink, isFile])))
+        print(u'{0} ({2})\n\t-> {1}'.format(_src, _dst, ','.join([isLink, isFile])))
     print(u'{:<20}{:<20}'.format(u'Home dir:', info[u'home']))
 
 def backup(info):

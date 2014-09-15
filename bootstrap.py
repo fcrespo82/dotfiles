@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding: utf-8
 '''Usage:
-    bootstrap.py ( install | update | remove ) [ -d ]
+    bootstrap.py ( install | update | remove ) [ -force_ext ] [ -d ]
     bootstrap.py -h
 
 Options:
@@ -10,6 +10,7 @@ Options:
     remove      Removes dotfiles restoring your backups (if they exist)
     -d          Test with the info passed to make sure is correct makes backup but do not override originals
     -h          This help
+    -force_ext  rbenv, pyenv, powerline-shell, all
 '''
 from __future__ import print_function
 from __future__ import unicode_literals
@@ -18,135 +19,157 @@ import re
 import sys
 import shutil
 import subprocess
+import logging
+try:
+    import coloredlogs
+except:
+    pass
+
 try:
     from docopt import docopt
 except:
-    print('Please install docopt - pip install docopt')
+    logging.critical('Please install docopt - pip install docopt')
 
 __version__ = '0.2'
 
 def info():
     info = {}
 
-    if re.match(r'[Ll]inux', u' '.join(os.uname())):
-        info.update({u'os': u'linux' })
-    elif re.match(r'[Dd]arwin', u' '.join(os.uname())):
-        info.update({u'os': u'mac' })
+    if re.match(r'[Ll]inux', ' '.join(os.uname())):
+        info.update({'os': 'linux' })
+    elif re.match(r'[Dd]arwin', ' '.join(os.uname())):
+        info.update({'os': 'mac' })
     else:
-        print(u'Cannot determine what SO you are running')
+        logging.critical('Cannot determine what SO you are running')
         exit(1000)
 
-    info.update({u'script_dir': os.path.realpath(os.path.dirname(sys.argv[0]))})
-    info.update({u'home': os.environ[u'HOME']})
+    info.update({'script_dir': os.path.realpath(os.path.dirname(sys.argv[0]))})
+    info.update({'home': os.environ['HOME']})
 
     _files = ['.bashrc', '.bash_profile', '.gitconfig', '.hushlogin', '.vimrc', '.dotfiles_config']
 
-    if re.match(u'linux', info[u'os']):
+    # Verificar se tem um melhor modo de tratar especificidades de plataforma
+    if re.match('linux', info['os']):
         _files.extend(['.bash_profile_linux'])
-    if re.match(u'mac', info[u'os']):
+    if re.match('mac', info['os']):
         _files.extend(['.bash_profile_mac'])
-    info.update({u'files': _files })
+    info.update({'files': _files })
     return info
 
 def debug(info):
-    print(u'{:<20}{:<20}'.format(u'Script dir:', info[u'script_dir']))
-    print(u'{:<20}{:<20}'.format(u'OS:', info[u'os']))
-    print("Files that will be linked:")
-    for _file in info[u'files']:
-        _src = os.path.join(info[u'home'], _file)
-        _dst = os.path.join(info[u'script_dir'], _file)
+    logging.debug('{} {}'.format('Script dir:', info['script_dir']))
+    logging.debug('{} {}'.format('OS:', info['os']))
+    text = 'Files that will be linked:'
+    for _file in info['files']:
+        _src = os.path.join(info['home'], _file)
+        _dst = os.path.join(info['script_dir'], _file)
         isFile = 'file' if os.path.isfile(_src) else 'link destination do not exist'
         isLink = 'link' if os.path.islink(_src) else 'do not exist'
-        print(u'{0} ({2})\n\t-> {1}'.format(_src, _dst, ','.join([isLink, isFile])))
-    print(u'{:<20}{:<20}'.format(u'Home dir:', info[u'home']))
+        text += '\n{0} ({2})\n\t-> {1}'.format(_src, _dst, ','.join([isLink, isFile]))
+    text += '{:<20}{:<20}'.format('Home dir:', info['home'])
+    logging.debug(text)
 
 def backup(info):
-    _backup_dir = os.path.join(info[u'script_dir'], 'backup')
+    text = 'Backing up files'
+    _backup_dir = os.path.join(info['script_dir'], 'backup')
     if not os.path.exists(_backup_dir): os.mkdir(_backup_dir)
-    with open(os.path.join(_backup_dir, 'backuplist.log'), u'w') as _backup_file:
-        for _file in info[u'files']:
-            _src = os.path.realpath(os.path.join(info[u'home'], _file)).strip()
+    with open(os.path.join(_backup_dir, 'backuplist.log'), 'w') as _backup_file:
+        for _file in info['files']:
+            _src = os.path.realpath(os.path.join(info['home'], _file)).strip()
             if os.path.exists(_src) and os.path.isfile(_src):
-                _backup_file.write(u'{}\n'.format(_file))
+
+                _backup_file.write('{}\n'.format(_file))
                 _dst = os.path.join(_backup_dir, _file).strip()
-                print(u'Backing up {}'.format(_file))
+                text += '\n' + os.path.join('~', _file)
+                logging.debug('Copying ' + _src)
+                logging.debug('to ' + _dst)
                 shutil.copy(_src, _dst)
+    logging.info(text)
 
 def restore(info):
-    _backup_dir = os.path.join(info[u'script_dir'], 'backup')
-    with open(os.path.join(_backup_dir, 'backuplist.log'), u'r') as _backup_file:
+    _backup_dir = os.path.join(info['script_dir'], 'backup')
+    with open(os.path.join(_backup_dir, 'backuplist.log'), 'r') as _backup_file:
         for _file in _backup_file.readlines():
             _file = _file.strip()
-            _dst = os.path.realpath(os.path.join(info[u'home'], _file)).strip()
+            _dst = os.path.realpath(os.path.join(info['home'], _file)).strip()
             if os.path.exists(_dst):
                 _src = os.path.join(_backup_dir, _file).strip()
-                print(u'Restoring file {}'.format(_file))
-                #if not info[u'debug']: os.remove(_dst)
-                if not info[u'debug']: shutil.move(_src, _dst)
+                logging.info('Restoring file {}'.format(_file))
+                if not info['debug']: shutil.copy(_src, _dst)
 
 def install(info, update=False):
+    aborted = False
     if not update:
-        for _file in info[u'files']:
-            _src = os.path.join(info[u'home'], _file)
+        for _file in info['files']:
+            _src = os.path.join(info['home'], _file)
             if os.path.exists(_src) and os.path.islink(_src):
-                print(u'''Symlink to \'{}\' ALREADY exist, aborting.
-If you want to update your installation run with 'update' option'''.format(_src))
-                exit(1001)
+                logging.error('Symlink to \'{}\' ALREADY exist, aborting.'.format(_src))
+                aborted = True
+
+    if aborted:
+        logging.critical('If you want to update your installation run with \'update\' option')
+        exit(1001)
 
     backup(info)
 
-    print(u'Creating symlinks')
-    for _file in info[u'files']:
-        _src = os.path.join(info[u'script_dir'], _file)
-        _dst = os.path.join(info[u'home'], _file)
-        print(u'{}\n\t-> {}'.format(_src, _dst))
-        if not info[u'debug'] and os.path.exists(_dst): os.remove(_dst)
-        if not info[u'debug']: os.symlink(_src, _dst)
+    text = 'Creating symlinks'
+    for _file in info['files']:
+        _src = os.path.join(info['script_dir'], _file)
+        _dst = os.path.join(info['home'], _file)
+        _src_log = os.path.join('<DOTFILES_DIR>', _file)
+        _dst_log = os.path.join('~', _file)
+        text += '\n{:<40} -> {:<30}'.format(_src_log, _dst_log)
+        if not info['debug'] and os.path.exists(_dst): os.remove(_dst)
+        if not info['debug']: os.symlink(_src, _dst)
 
-    with open(os.path.join(info[u'home'], u'.dotfiles_config'), u'a') as _file:
-        if re.match(u'linux', info[u'os']):
-            _file.write(u'_is_linux=true\n_is_mac=false\n')
-        if re.match(u'mac', info[u'os']):
-            _file.write(u'_is_mac=true\n_is_linux=false\n')
+    logging.info(text)
 
-    install_pyenv()
-    install_rbenv()
+    # Verificar se tem um melhor modo de tratar especificidades de plataforma
+    with open(os.path.join(info['home'], '.dotfiles_config'), 'a') as _file:
+        if re.match('linux', info['os']):
+            _file.write('_is_linux=true\n_is_mac=false\n')
+        if re.match('mac', info['os']):
+            _file.write('_is_mac=true\n_is_linux=false\n')
 
-    print(u'''Installation finished.
+    if not update:
+        install_pyenv()
+        install_rbenv()
+        install_powerline_shell()
+
+    logging.info('''Installation finished.
 run \'source ~/.bash_profile\' or open another terminal to see the changes.
 If you are updating an existing installation you can run \'dotfiles_update\'''')
 
-def choose(msg=u'Do you want to delete your config file?', choices={ u'y': True, u'n': False }, default=u'n'):
-    _choice = u''
+def choose(msg='Do you want to delete your config file?', choices={ 'y': True, 'n': False }, default='n'):
+    _choice = ''
     while _choice.lower() not in choices.keys():
         try:
-            _choices = u'/'.join(choices.keys())
+            _choices = '/'.join(choices.keys())
             _choices = _choices.replace(default.lower(), default.upper())
-            _choice = unicode(raw_input(u'{} ({}): '.format(msg, _choices).encode(u'utf-8')))
-            _choice = default if _choice == u'' else _choice
+            _choice = unicode(raw_input('{} ({}): '.format(msg, _choices).encode('utf-8')))
+            _choice = default if _choice == '' else _choice
             _choosen = choices[_choice[0].lower()]
         except Exception, e:
-            _choice = u''
+            _choice = ''
     return _choosen
 
 def remove(info):
-    print(info[u'files'])
-    for _file in info[u'files']:
-        _src = os.path.join(info[u'home'], _file)
+    print(info['files'])
+    for _file in info['files']:
+        _src = os.path.join(info['home'], _file)
         _answer = True
-        if _file in [u'.dotfiles_config']:
+        if _file in ['.dotfiles_config']:
             _answer = choose()
             if os.path.exists(_src) and os.path.isfile(_src) and _answer:
-                print(u'Removing file {}'.format(_file))
-                if not info[u'debug'] and os.path.exists(_src): os.remove(_src)
+                print('Removing file {}'.format(_file))
+                if not info['debug'] and os.path.exists(_src): os.remove(_src)
         elif os.path.exists(_src) and os.path.islink(_src) and _answer:
-            print(u'Removing symlink to {}'.format(_file))
-            if not info[u'debug'] and os.path.exists(_src): os.remove(_src)
+            print('Removing symlink to {}'.format(_file))
+            if not info['debug'] and os.path.exists(_src): os.remove(_src)
 
     restore(info)
 
-    print(u'''Removal completed.
-Open another terminal to see the changes''')
+    logging.info('Removal completed.\nOpen another terminal to see the changes')
 
 def install_pyenv():
     _choice = choose(msg='Do you want to install pyenv?')
@@ -162,28 +185,46 @@ def install_rbenv():
         # curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
         pass
 
+def install_powerline_shell():
+    _choice = choose(msg='Do you want to install powerline-shell?')
+    if _choice:
+        # git submodule init
+        # subprocess.call()
+        # ./powerline-shell/install.py
+        # _src = ./powerline-shell/powerline-shell.py
+        # _dst = ~/powerline-shell.py
+        # os.symlink(_src, _dst)
+        pass
+
 def main():
     _info = info()
     args = docopt(__doc__)
-    print(args)
-    if args.has_key('-d') and args[u'-d']:
-        _info.update({u'debug': True})
-    else:
-        _info.update({u'debug': False})
 
-    if args.has_key('-d') and args[u'-d']:
+    if args.has_key('-d') and args['-d']:
+        _info.update({'debug': True})
+        log_level = logging.DEBUG
+    else:
+        _info.update({'debug': False})
+        log_level = logging.INFO
+
+    try:
+        coloredlogs.install(show_hostname=False, show_name=False, level=log_level)
+    except:
+        logging.basicConfig(level=log_level)
+
+    logging.debug('Passed arguments: {}'.format(args))
+
+    if args.has_key('-d') and args['-d']:
         debug(_info)
 
-    if args.has_key('install') and args[u'install']:
+    if args.has_key('install') and args['install']:
         install(_info)
-    elif args.has_key('update') and args[u'update']:
-        install(_info, args[u'update'])
-    elif args.has_key('remove') and args[u'remove']:
+    elif args.has_key('update') and args['update']:
+        install(_info, args['update'])
+    elif args.has_key('remove') and args['remove']:
         remove(_info)
-    # elif args.has_key('-d') and args[u'-d']:
+    # elif args.has_key('-d') and args['-d']:
     #     debug(_info)
-
-
 
 if __name__ == '__main__':
     main()

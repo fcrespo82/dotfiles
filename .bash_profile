@@ -11,12 +11,6 @@ elif $_is_mac; then
 fi
 
 # ---- BEGIN PYTHON ----
-# Virtualenvwrapper stuff
-#if [ -x /usr/local/bin/virtualenvwrapper.sh ]; then
-#    export WORKON_HOME=$HOME/virtualenvs
-#    export PROJECT_HOME=$HOME/developer
-#    . /usr/local/bin/virtualenvwrapper.sh
-#fi
 
 # pyenv
 if [ -x "${HOME}/.pyenv/bin/pyenv" ]; then
@@ -25,8 +19,6 @@ if [ -x "${HOME}/.pyenv/bin/pyenv" ]; then
         export PATH="${PYENV_ROOT}/bin:${PATH}"
         eval "$(pyenv init -)"
     fi
-#else
-#    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 fi
 # ----- END PYTHON -----
 
@@ -37,8 +29,6 @@ if [ -x "${HOME}/.rbenv/bin/rbenv" ]; then
         export PATH="${RBENV_ROOT}/bin:${PATH}"
         eval "$(rbenv init -)"
     fi
-#else
-#    curl https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
 fi
 # ------ END RUBY ------
 
@@ -47,17 +37,13 @@ fi
 alias realpath='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.realpath(path)"'
 alias realdirname='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.realpath(os.path.dirname(path))"'
 alias ls="command ls ${DOTFILES_COLOR_FLAG} ${DOTFILES_MY_FLAGS}"
-alias lsa="ls -a ${DOTFILES_COLOR_FLAG} ${DOTFILES_MY_FLAGS}"
+alias lsa="ls -A ${DOTFILES_COLOR_FLAG} ${DOTFILES_MY_FLAGS}"
 alias ll="ls -l ${DOTFILES_COLOR_FLAG} ${DOTFILES_MY_FLAGS}" # all files, in long format
-alias lla="ll -a ${DOTFILES_COLOR_FLAG} ${DOTFILES_MY_FLAGS}" # all files inc dotfiles, in long format
+alias lla="ll -A ${DOTFILES_COLOR_FLAG} ${DOTFILES_MY_FLAGS}" # all files inc dotfiles, in long format
 alias lld='ll ${DOTFILES_COLOR_FLAG} ${DOTFILES_MY_FLAGS} | grep "/$"' # only directories
-alias lls='lla | cut -c -11,50- | grep "\->"'
+alias lls='echo "Symbolic Links:"; lla | cut -d":"  -f 2 | cut -c 4- | grep "\->" --color=NEVER'
 alias grep='grep --color'
-
-alias scripts="cd ~/developer/scripts"
-alias dotfiles="cd ~/developer/dotfiles"
 alias sudo='sudo ' # Allow sudo other aliases
-alias s='subl -a'
 
 # You must install Pygments first - "sudo pip install Pygments"
 if [ -x "`which pygmentize`" ]; then
@@ -70,7 +56,7 @@ fi
 # You must install Git first
 if [ -x "`which git`" ]; then
     alias gs='git status'
-    alias ga='git add .'
+    alias ga='git add -i'
     alias gc='git commit -m' # requires you to type a commit message
     alias gp='git push'
     alias gd="git diff"
@@ -79,7 +65,8 @@ else
     echo "${RED}ERROR: ${RESET}Git is not installed, aliases not installed"
 fi
 
-alias dotfiles_update='source ~/.bash_profile'
+alias dotfiles_update='echo ''Deprecated. Use update_dotfiles.''; source ~/.bash_profile'
+alias update_dotfiles='source ~/.bash_profile'
 
 alias pgrep='pgrep -f'
 alias pkill='pkill -f'
@@ -94,10 +81,13 @@ bind '"\e[B":history-search-forward'
 # ----- END BINDINGS -----
 
 # ---- BEGIN VARIABLES ----
-export EDITOR="subl -w"
-export GIT_EDITOR="subl -w"
-export CVSEDITOR="subl -w"
-export VISUAL="subl -w"
+
+_EDITOR="atom"
+
+export EDITOR="$_EDITOR -w"
+export GIT_EDITOR="$_EDITOR -w"
+export CVSEDITOR="$_EDITOR -w"
+export VISUAL="$_EDITOR -w"
 # ----- END VARIABLES -----
 
 # ---- BEGIN COLORS ----
@@ -128,12 +118,11 @@ function print_colors() {
 }
 # ----- END COLORS -----
 
+# ---- BEGIN PROMPT ----
 # Only show the current directory's name in the tab
-export PROMPT_COMMAND='echo -ne "\033]0; ${PWD##*/}\007"'
-# ----- END PROMPT -----
-
 function _update_ps1() {
     export PS1="$(~/powerline-shell.py $? 2> /dev/null)"
 }
 
-export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+export PROMPT_COMMAND='_update_ps1; echo -ne "\033]0; ${PWD##*/}\007"; $PROMPT_COMMAND'
+# ----- END PROMPT -----

@@ -3,8 +3,6 @@
     email = fernando@crespo.in
 [push]
     default = simple
-[alias]
-    # TBC
 [core]
     # Use custom `.gitignore`
     excludesfile = ~/.gitignore
@@ -26,7 +24,5 @@
     added = yellow
     changed = green
     untracked = cyan
-[alias]
-    up-sub = "!f() { cd $1 && git checkout master && git pull && git submodule update --init --recursive; }; f"
 [credential]
     helper = cache

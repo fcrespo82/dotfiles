@@ -30,52 +30,58 @@ try:
 except:
     logging.critical('Please install docopt - pip install docopt')
 
-__version__ = '0.2'
+__version__ = '1.0'
 
-def info():
-    info = {}
+class MyInfo(object):
+    """docstring for MyInfo"""
+    def __init__(self):
+        import re
+        import os
+        import sys
+        import logging
+        super(MyInfo, self).__init__()
 
-    if re.match(r'[Ll]inux', ' '.join(os.uname())):
-        info.update({'os': 'linux' })
-    elif re.match(r'[Dd]arwin', ' '.join(os.uname())):
-        info.update({'os': 'mac' })
-    else:
-        logging.critical('Cannot determine what SO you are running')
-        exit(1000)
+        if 'linux'.lower() in map(str.lower, os.uname()):
+            self.os = 'linux'
+        elif 'darwin'.lower() in map(str.lower, os.uname()):
+            self.os = 'mac'
+        else:
+            logging.critical('Cannot determine what SO you are running')
 
-    info.update({'script_dir': os.path.realpath(os.path.dirname(sys.argv[0]))})
-    info.update({'home': os.environ['HOME']})
+        self.script_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
+        self.home = os.environ['HOME']
+        self.files = ['.bashrc', '.bash_profile', '.gitconfig', '.hushlogin', '.vimrc', '.dotfiles_config']
 
-    _files = ['.bashrc', '.bash_profile', '.gitconfig', '.hushlogin', '.vimrc', '.dotfiles_config']
+        # Verificar se tem um melhor modo de tratar especificidades de plataforma
+        if 'linux' in self.os:
+            self.files.extend(['.bash_profile_linux'])
+        if 'mac' in self.os:
+            self.files.extend(['.bash_profile_mac'])
 
-    # Verificar se tem um melhor modo de tratar especificidades de plataforma
-    if re.match('linux', info['os']):
-        _files.extend(['.bash_profile_linux'])
-    if re.match('mac', info['os']):
-        _files.extend(['.bash_profile_mac'])
-    info.update({'files': _files })
-    return info
+        self.debug = False
+        self.log_level = logging.INFO
 
 def debug(info):
-    logging.debug('{} {}'.format('Script dir:', info['script_dir']))
-    logging.debug('{} {}'.format('OS:', info['os']))
+    logging.debug('{} {}'.format('Script dir:', info.script_dir))
+    logging.debug('{} {}'.format('OS:', info.os))
     text = 'Files that will be linked:'
-    for _file in info['files']:
-        _src = os.path.join(info['home'], _file)
-        _dst = os.path.join(info['script_dir'], _file)
+    for _file in info.files:
+        _src = os.path.join(info.home, _file)
+        _dst = os.path.join(info.script_dir, _file)
         isFile = 'file' if os.path.isfile(_src) else 'link destination do not exist'
         isLink = 'link' if os.path.islink(_src) else 'do not exist'
         text += '\n{0} ({2})\n\t-> {1}'.format(_src, _dst, ','.join([isLink, isFile]))
-    text += '{:<20}{:<20}'.format('Home dir:', info['home'])
+    text += '{:<20}{:<20}'.format('Home dir:', info.home)
     logging.debug(text)
 
 def backup(info):
     text = 'Backing up files'
-    _backup_dir = os.path.join(info['script_dir'], 'backup')
+    from datetime import datetime
+    _backup_dir = os.path.join(info.script_dir, 'backup-{}'.format(datetime.strftime(datetime.now(), '%Y.%m.%d-%H.%M.%S')))
     if not os.path.exists(_backup_dir): os.mkdir(_backup_dir)
     with open(os.path.join(_backup_dir, 'backuplist.log'), 'w') as _backup_file:
-        for _file in info['files']:
-            _src = os.path.realpath(os.path.join(info['home'], _file)).strip()
+        for _file in info.files:
+            _src = os.path.realpath(os.path.join(info.home, _file)).strip()
             if os.path.exists(_src) and os.path.isfile(_src):
 
                 _backup_file.write('{}\n'.format(_file))
@@ -87,11 +93,11 @@ def backup(info):
     logging.info(text)
 
 def restore(info):
-    _backup_dir = os.path.join(info['script_dir'], 'backup')
+    _backup_dir = os.path.join(info.script_dir, 'backup')
     with open(os.path.join(_backup_dir, 'backuplist.log'), 'r') as _backup_file:
         for _file in _backup_file.readlines():
             _file = _file.strip()
-            _dst = os.path.realpath(os.path.join(info['home'], _file)).strip()
+            _dst = os.path.realpath(os.path.join(info.home, _file)).strip()
             if os.path.exists(_dst):
                 _src = os.path.join(_backup_dir, _file).strip()
                 logging.info('Restoring file {}'.format(_file))
@@ -99,36 +105,36 @@ def restore(info):
 
 def install(info, update=False):
     aborted = False
-    if not update:
-        for _file in info['files']:
-            _src = os.path.join(info['home'], _file)
-            if os.path.exists(_src) and os.path.islink(_src):
-                logging.error('Symlink to \'{}\' ALREADY exist, aborting.'.format(_src))
-                aborted = True
-
-    if aborted:
-        logging.critical('If you want to update your installation run with \'update\' option')
-        exit(1001)
+    # if not update:
+    #     for _file in info.files:
+    #         _src = os.path.join(info.home, _file)
+    #         if os.path.exists(_src) and os.path.islink(_src):
+    #             logging.error('Symlink to \'{}\' ALREADY exist, aborting.'.format(_src))
+    #             aborted = True
+    #
+    # if aborted:
+    #     logging.critical('If you want to update your installation run with \'update\' option')
+    #     exit(1001)
 
     backup(info)
 
     text = 'Creating symlinks'
-    for _file in info['files']:
-        _src = os.path.join(info['script_dir'], _file)
-        _dst = os.path.join(info['home'], _file)
+    for _file in info.files:
+        _src = os.path.join(info.script_dir, _file)
+        _dst = os.path.join(info.home, _file)
         _src_log = os.path.join('<DOTFILES_DIR>', _file)
         _dst_log = os.path.join('~', _file)
         text += '\n{:<40} -> {:<30}'.format(_src_log, _dst_log)
-        if not info['debug'] and os.path.exists(_dst): os.remove(_dst)
-        if not info['debug']: os.symlink(_src, _dst)
+        if not info.debug and os.path.exists(_dst): os.remove(_dst)
+        if not info.debug: os.symlink(_src, _dst)
 
     logging.info(text)
 
     # Verificar se tem um melhor modo de tratar especificidades de plataforma
-    with open(os.path.join(info['home'], '.dotfiles_config'), 'a') as _file:
-        if re.match('linux', info['os']):
+    with open(os.path.join(info.home, '.dotfiles_config'), 'a') as _file:
+        if 'linux' == info.os:
             _file.write('_is_linux=true\n_is_mac=false\n')
-        if re.match('mac', info['os']):
+        if 'mac' == info.os:
             _file.write('_is_mac=true\n_is_linux=false\n')
 
     if not update:
@@ -154,18 +160,18 @@ def choose(msg='Do you want to delete your config file?', choices={ 'y': True, '
     return _choosen
 
 def remove(info):
-    print(info['files'])
-    for _file in info['files']:
-        _src = os.path.join(info['home'], _file)
+    print(info.files)
+    for _file in info.files:
+        _src = os.path.join(info.home, _file)
         _answer = True
         if _file in ['.dotfiles_config']:
             _answer = choose()
             if os.path.exists(_src) and os.path.isfile(_src) and _answer:
                 print('Removing file {}'.format(_file))
-                if not info['debug'] and os.path.exists(_src): os.remove(_src)
+                if not info.debug and os.path.exists(_src): os.remove(_src)
         elif os.path.exists(_src) and os.path.islink(_src) and _answer:
             print('Removing symlink to {}'.format(_file))
-            if not info['debug'] and os.path.exists(_src): os.remove(_src)
+            if not info.debug and os.path.exists(_src): os.remove(_src)
 
     restore(info)
 
@@ -196,21 +202,28 @@ def install_powerline_shell():
         # os.symlink(_src, _dst)
         pass
 
+def install_homebrew():
+    _choice = choose(msg='Do you want to install powerline-shell?')
+    if _choice:
+        # subprocess.call()
+        pass
+
 def main():
-    _info = info()
+    _info = MyInfo()
     args = docopt(__doc__)
 
     if args.has_key('-d') and args['-d']:
-        _info.update({'debug': True})
-        log_level = logging.DEBUG
+        # _info.update({'debug': True})
+        _info.debug = True
+        _info.log_level = logging.DEBUG
     else:
-        _info.update({'debug': False})
-        log_level = logging.INFO
+        # _info.update({'debug': False})
+        _info.log_level = logging.INFO
 
     try:
-        coloredlogs.install(show_hostname=False, show_name=False, level=log_level)
+        coloredlogs.install(show_hostname=False, show_name=False, level=_info.log_level)
     except:
-        logging.basicConfig(level=log_level)
+        logging.basicConfig(level=_info.log_level)
 
     logging.debug('Passed arguments: {}'.format(args))
 

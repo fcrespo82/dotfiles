@@ -1,2 +1,6 @@
 _is_mac=true
 _is_linux=false
+_is_linux=true
+_is_mac=false
+_is_linux=true
+_is_mac=false

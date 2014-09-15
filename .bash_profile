@@ -66,7 +66,7 @@ else
 fi
 
 alias dotfiles_update='echo ''Deprecated. Use update_dotfiles.''; source ~/.bash_profile'
-alias update_dotfiles='source ~/.bash_profile'
+alias update-dotfiles='source ~/.bash_profile'
 
 alias pgrep='pgrep -f'
 alias pkill='pkill -f'
@@ -119,10 +119,12 @@ function print_colors() {
 # ----- END COLORS -----
 
 # ---- BEGIN PROMPT ----
-# Only show the current directory's name in the tab
+
 function _update_ps1() {
     export PS1="$(~/powerline-shell.py $? 2> /dev/null)"
 }
-
-export PROMPT_COMMAND='_update_ps1; echo -ne "\033]0; ${PWD##*/}\007"; $PROMPT_COMMAND'
+# Only show the current directory's name in the tab
+# echo -ne "\033]0; ${PWD##*/}\007"
+export PROMPT_COMMAND='echo -ne "\033]0; ${PWD##*/}\007"'
+export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 # ----- END PROMPT -----

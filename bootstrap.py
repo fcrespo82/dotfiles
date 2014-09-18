@@ -180,16 +180,22 @@ def remove(info):
 def install_pyenv():
     _choice = choose(msg='Do you want to install pyenv?')
     if _choice:
-        # subprocess.call()
-        # curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-        pass
+        logging.info('Installing pyenv')
+        curl = subprocess.Popen(['curl', '-L', 'https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout_curl, stderr_curl = curl.communicate()
+        bash = subprocess.Popen(['bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout_bash, stderr_bash = bash.communicate(stdout_curl)
+        logging.info(stdout_bash)
 
 def install_rbenv():
     _choice = choose(msg='Do you want to install rbenv?')
     if _choice:
-        # subprocess.call()
-        # curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-        pass
+        logging.info('Installing rbenv')
+        curl = subprocess.Popen(['curl', '-L', 'https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout_curl, stderr_curl = curl.communicate()
+        bash = subprocess.Popen(['bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout_bash, stderr_bash = bash.communicate(stdout_curl)
+        logging.info(stdout_bash)
 
 def install_powerline_shell():
     _choice = choose(msg='Do you want to install powerline-shell?')

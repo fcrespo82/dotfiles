@@ -1,6 +1,6 @@
 [user]
     name = Fernando Crespo
-    email = fernando@crespo.in
+    email = fernando82@gmail.com
 [push]
     default = simple
 [core]
@@ -26,3 +26,5 @@
     untracked = cyan
 [credential]
     helper = cache
+[url "https://"]
+	insteadOf = git://

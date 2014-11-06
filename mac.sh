@@ -1,7 +1,8 @@
-DOTFILES_COLOR_FLAG="-G"
+LS_COLOR_FLAG="-G"
+
 export LSCOLORS="ExGxFxDxCxDxDxxxxbxgxc"
 
-if [ -x "`which brew`" ]; then
+if [ -e "$(which brew)" ]; then
     if [ -f $(brew --prefix)/etc/bash_completion ]; then
       . $(brew --prefix)/etc/bash_completion
     fi
@@ -11,6 +12,7 @@ fi
 
 alias nasconnect='ssh -p 22 root@diskstation.local'
 alias alespconnect='ssh -p 1234 fernando@localhost'
+
 # Quick way to rebuild the Launch Services database and get rid
 # of duplicates in the Open With submenu.
 alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'

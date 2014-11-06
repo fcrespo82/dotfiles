@@ -1,0 +1,1 @@
+/home/fxcrespo/developer/powerline-shell/powerline-shell.py

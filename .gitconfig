@@ -25,6 +25,6 @@
     changed = green
     untracked = cyan
 [credential]
-    helper = cache
+	helper = cache --timeout=2628000
 [url "https://"]
 	insteadOf = git://

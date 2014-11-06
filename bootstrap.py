@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding: utf-8
 '''Usage:
-    bootstrap.py ( install | update | remove ) [ -force_ext ] [ -d ]
+    bootstrap.py ( install | update | remove | test ) [ -force_ext ] [ -d ]
     bootstrap.py -h
 
 Options:
@@ -23,12 +23,13 @@ import logging
 try:
     import coloredlogs
 except:
-    pass
+    logging.warning('Please install coloredlogs - pip install coloredlogs')
 
 try:
     from docopt import docopt
 except:
     logging.critical('Please install docopt - pip install docopt')
+    exit(1)
 
 __version__ = '1.0'
 
@@ -50,13 +51,13 @@ class MyInfo(object):
 
         self.script_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
         self.home = os.environ['HOME']
-        self.files = ['.bashrc', '.bash_profile', '.gitconfig', '.hushlogin', '.vimrc', '.dotfiles_config']
+        self.files = ['.bashrc', '.bash_profile', '.gitconfig', '.hushlogin', '.vimrc']
 
         # Verificar se tem um melhor modo de tratar especificidades de plataforma
         if 'linux' in self.os:
-            self.files.extend(['.bash_profile_linux'])
+            self.files.extend(['linux.sh'])
         if 'mac' in self.os:
-            self.files.extend(['.bash_profile_mac'])
+            self.files.extend(['mac.sh'])
 
         self.debug = False
         self.log_level = logging.INFO
@@ -71,7 +72,7 @@ def debug(info):
         isFile = 'file' if os.path.isfile(_src) else 'link destination do not exist'
         isLink = 'link' if os.path.islink(_src) else 'do not exist'
         text += '\n{0} ({2})\n\t-> {1}'.format(_src, _dst, ','.join([isLink, isFile]))
-    text += '{:<20}{:<20}'.format('Home dir:', info.home)
+    text += '\n{:<20}{:<20}'.format('Home dir:', info.home)
     logging.debug(text)
 
 def backup(info):
@@ -105,16 +106,6 @@ def restore(info):
 
 def install(info, update=False):
     aborted = False
-    # if not update:
-    #     for _file in info.files:
-    #         _src = os.path.join(info.home, _file)
-    #         if os.path.exists(_src) and os.path.islink(_src):
-    #             logging.error('Symlink to \'{}\' ALREADY exist, aborting.'.format(_src))
-    #             aborted = True
-    #
-    # if aborted:
-    #     logging.critical('If you want to update your installation run with \'update\' option')
-    #     exit(1001)
 
     backup(info)
 
@@ -130,21 +121,9 @@ def install(info, update=False):
 
     logging.info(text)
 
-    # Verificar se tem um melhor modo de tratar especificidades de plataforma
-    with open(os.path.join(info.home, '.dotfiles_config'), 'a') as _file:
-        if 'linux' == info.os:
-            _file.write('_is_linux=true\n_is_mac=false\n')
-        if 'mac' == info.os:
-            _file.write('_is_mac=true\n_is_linux=false\n')
-
-    if not update:
-        install_pyenv()
-        install_rbenv()
-        install_powerline_shell()
-
     logging.info('''Installation finished.
 run \'source ~/.bash_profile\' or open another terminal to see the changes.
-If you are updating an existing installation you can run \'dotfiles_update\'''')
+If you are updating an existing installation you can run \'update-dotfiles\'''')
 
 def choose(msg='Do you want to delete your config file?', choices={ 'y': True, 'n': False }, default='n'):
     _choice = ''
@@ -164,38 +143,13 @@ def remove(info):
     for _file in info.files:
         _src = os.path.join(info.home, _file)
         _answer = True
-        if _file in ['.dotfiles_config']:
-            _answer = choose()
-            if os.path.exists(_src) and os.path.isfile(_src) and _answer:
-                print('Removing file {}'.format(_file))
-                if not info.debug and os.path.exists(_src): os.remove(_src)
-        elif os.path.exists(_src) and os.path.islink(_src) and _answer:
+        if os.path.exists(_src) and os.path.islink(_src) and _answer:
             print('Removing symlink to {}'.format(_file))
             if not info.debug and os.path.exists(_src): os.remove(_src)
 
     restore(info)
 
     logging.info('Removal completed.\nOpen another terminal to see the changes')
-
-def install_pyenv():
-    _choice = choose(msg='Do you want to install pyenv?')
-    if _choice:
-        logging.info('Installing pyenv')
-        curl = subprocess.Popen(['curl', '-L', 'https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout_curl, stderr_curl = curl.communicate()
-        bash = subprocess.Popen(['bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout_bash, stderr_bash = bash.communicate(stdout_curl)
-        logging.info(stdout_bash)
-
-def install_rbenv():
-    _choice = choose(msg='Do you want to install rbenv?')
-    if _choice:
-        logging.info('Installing rbenv')
-        curl = subprocess.Popen(['curl', '-L', 'https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout_curl, stderr_curl = curl.communicate()
-        bash = subprocess.Popen(['bash'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout_bash, stderr_bash = bash.communicate(stdout_curl)
-        logging.info(stdout_bash)
 
 def install_powerline_shell():
     _choice = choose(msg='Do you want to install powerline-shell?')
@@ -218,12 +172,10 @@ def main():
     _info = MyInfo()
     args = docopt(__doc__)
 
-    if args.has_key('-d') and args['-d']:
-        # _info.update({'debug': True})
+    if args.has_key('-d') and args['-d'] or (args.has_key('test') and args['test']):
         _info.debug = True
         _info.log_level = logging.DEBUG
     else:
-        # _info.update({'debug': False})
         _info.log_level = logging.INFO
 
     try:
@@ -242,8 +194,8 @@ def main():
         install(_info, args['update'])
     elif args.has_key('remove') and args['remove']:
         remove(_info)
-    # elif args.has_key('-d') and args['-d']:
-    #     debug(_info)
+    elif args.has_key('test') and args['test']:
+        debug(_info)
 
 if __name__ == '__main__':
     main()

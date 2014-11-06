@@ -1,0 +1,2 @@
+rm -r .metadata/.plugins/org.eclipse.jdt.core/*
+rm -r .metadata/.plugins/org.eclipse.core.resources/.history/*

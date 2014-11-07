@@ -67,7 +67,7 @@ class MyInfo(object):
 
 def debug(info):
     logging.debug('{} {}'.format('Script dir:', info.script_dir))
-    logging.debug('{} {}'.format('OS:', info.os))
+    logging.debug('{} {}'.format('OS:', info.os_name))
     text = 'Files that will be linked:'
     for _file in info.files:
         _src = os.path.join(info.home, _file)

@@ -1,3 +1,4 @@
 backup
 .dotfiles_config
 backup*
+.DS_Store

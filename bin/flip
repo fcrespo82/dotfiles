@@ -1,1 +1,1 @@
-pbpaste | python ~/bin/flip.py | pbcopy
+pbpaste | python $DOTFILES_ROOT/bin/flip.py | pbcopy

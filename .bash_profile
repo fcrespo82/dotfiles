@@ -1,20 +1,17 @@
-export DOTFILES_PATH=$HOME/developer/dotfiles-dev
+export DOTFILES_ROOT=$HOME/developer/dotfiles-dev
 #export DOTFILES_VERBOSE=0
 
-# Add $DOTFILES_PATH/bin to $PATH
-if [[ $PATH != *$DOTFILES_PATH/bin* ]]; then
-    export PATH=$DOTFILES_PATH/bin:$PATH
+# Add $DOTFILES_ROOT/bin to $PATH
+if [[ $PATH != *$DOTFILES_ROOT/bin* ]]; then
+    export PATH=$PATH:$DOTFILES_ROOT/bin
 fi
 
 LS_CUSTOM_FLAGS="-Fh"
 
-_is_linux=$([[ $(uname) = *[Ll]inux* ]])
-_is_mac=$([[ $(uname) = *[Dd]arwin* ]])
-
-if $_is_linux; then
-    source $DOTFILES_PATH/linux.sh
-elif $_is_mac; then
-    source $DOTFILES_PATH/mac.sh
+if [[ $(uname) = *[Ll]inux* ]]; then
+    source $DOTFILES_ROOT/linux.sh
+elif [[ $(uname) = *[Dd]arwin* ]]; then
+    source $DOTFILES_ROOT/mac.sh
 fi
 
 # ---- BEGIN PYTHON ----
@@ -22,13 +19,13 @@ fi
 if [ -e "$(which virtualenv)" ]; then
     export VIRTUALENV_ROOT=$HOME/.virtualenv
 
-    _activate() 
+    _activate()
     {
         local cur prev opts
         COMPREPLY=()
         cur="${COMP_WORDS[COMP_CWORD]}"
         prev="${COMP_WORDS[COMP_CWORD-1]}"
-        opts="$(command ls $VIRTUALENV_ROOT)"
+        opts="$(command ls $VIRTUALENV_ROOT 2>/dev/null)"
 
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
     }
@@ -140,7 +137,7 @@ function print_colors() {
 # ---- BEGIN PROMPT ----
 
 function _update_ps1() {
-    export PS1="$($DOTFILES_PATH/bin/powerline-shell.py $? 2> /dev/null)"
+    export PS1="$($DOTFILES_ROOT/bin/powerline-shell.py $? 2> /dev/null)"
 }
 # Only show the current directory's name in the tab
 # echo -ne "\033]0; ${PWD##*/}\007"

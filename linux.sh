@@ -1,3 +1,7 @@
+if [[ $PATH != *$DOTFILES_ROOT/bin/linux* ]]; then
+    export PATH=$PATH:$DOTFILES_ROOT/bin/linux
+fi
+
 LS_COLOR_FLAG="--color"
 
 export LS_COLORS="di=01;34:ln=01;36:so=01;35:pi=01;33:ex=01;32:bd=01;33:cd=01;33:su=01;00:sg=01;00;41:tw=01;00;46:ow=01;00;42:"
@@ -10,9 +14,8 @@ alias restart_unity_1='setsid unity'
 alias restart_lightdm_2='sudo service lightdm restart'
 alias o='gnome-open'
 
-alias nasconnect='ssh -p 3456 root@nas.crespo.in'
-alias macconnect='ssh -p 6080 fernando@nas.crespo.in'
-alias nassftp='o sftp://fernando@fcrespo82.myds.me:3050'
+alias ssh-nas='ssh -p 3456 root@nas.crespo.in'
+alias ssh-mac='ssh -p 6080 fernando@nas.crespo.in'
 
 # ---- BEGIN FUNCTIONS ----
 function count() {
@@ -33,5 +36,5 @@ if [ -x "`which xclip`" ]; then
     alias pbcopy='xclip -i -selection clipboard'
     alias pbpaste='xclip -o -selection clipboard'
 else
-    echo "${RED}ERROR: ${RESET}xclip bindinds to mac equivalents are not going to work"
+    echo "${RED}ERROR:${RESET} xclip bindinds to mac equivalents are not going to work"
 fi

@@ -1,3 +1,7 @@
+if [[ $PATH != *$DOTFILES_ROOT/bin/mac* ]]; then
+    export PATH=$PATH:$DOTFILES_ROOT/bin/mac
+fi
+
 LS_COLOR_FLAG="-G"
 
 export LSCOLORS="ExGxFxDxCxDxDxxxxbxgxc"
@@ -10,8 +14,8 @@ else
     ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 fi
 
-alias nasconnect='ssh -p 22 root@diskstation.local'
-alias alespconnect='ssh -p 1234 fernando@localhost'
+alias ssh-nas='ssh -p 22 root@diskstation.local'
+alias ssh-alesp='ssh -p 1234 fernando@localhost'
 
 # Quick way to rebuild the Launch Services database and get rid
 # of duplicates in the Open With submenu.
@@ -20,10 +24,10 @@ alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/
 # ---- BEGIN FUNCTIONS ----
 function count() {
     # gnugetopt installed by homebrew
-    if [[ -x `which gnugetopt` ]]; then
-        TEMP=`gnugetopt -o ah -- "$@"`
+    if [[ -x $(which gnugetopt) ]]; then
+        TEMP=$(gnugetopt -o ah -- "$@")
     else
-        TEMP=`getopt ah $*`
+        TEMP=$(getopt ah $*)
     fi
 
     eval set -- "$TEMP"

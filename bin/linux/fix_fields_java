@@ -1,0 +1,1 @@
+sed 's/nr/numero/g' | sed 's/Nr/Numero/g' | sed 's/dt/data/g' | sed 's/Dt/Data/g' | sed 's/nm/nome/g' | sed 's/Nm/Nome/g' | sed 's/orig/Orig/g' | sed 's/adm/Adm/g' | sed 's/matr/Matr/g' | sed 's/dep/Dep/g' | sed 's/tp/tipo/g' | sed 's/Tp/Tipo/g'

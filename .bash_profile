@@ -1,6 +1,21 @@
 export DOTFILES_ROOT=$HOME/developer/dotfiles-dev
 #export DOTFILES_VERBOSE=0
 
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
 # Add $DOTFILES_ROOT/bin to $PATH
 if [[ $PATH != *$DOTFILES_ROOT/bin* ]]; then
     export PATH=$PATH:$DOTFILES_ROOT/bin
@@ -46,7 +61,7 @@ fi
 
 alias ssh-webfaction='ssh -p 3456 fcrespo82@ssh.crespo.net.br'
 alias realpath='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.realpath(path)"'
-alias realdirname='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.realpath(os.path.dirname(path))"'
+alias realdirname='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.dirname(os.path.realpath(path))"'
 alias ls="command ls ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}"
 alias l="ls"
 alias lsa="ls -A ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}"

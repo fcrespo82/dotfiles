@@ -173,7 +173,8 @@ def choose(**config):
     while _choice.lower() not in choices.keys():
         try:
             _choices = "/".join(choices.keys())
-            _choices = _choices.replace(default.lower(), "[{0}]".format(default.lower()))
+            _choices = _choices.replace(default.lower(),
+                                        "[{0}]".format(default.lower()))
             _choice = unicode(raw_input(
                 "{} ({}): ".format(question, _choices).encode("utf-8")))
             _choice = default if _choice == "" else _choice
@@ -183,7 +184,7 @@ def choose(**config):
     return _choosen
 
 def remove(info):
-    """Remove dotfiles and restore backup if it is possible"""
+    """Remove dotfiles"""
     print(info.files)
     for _file in info.files:
         _src = os.path.join(info.home, _file)

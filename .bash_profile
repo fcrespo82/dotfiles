@@ -57,8 +57,11 @@ if [ -e "$(which virtualenv)" ]; then
 fi
 # ----- END PYTHON -----
 
-# ---- BEGIN ALIASES ----
+# --- START BASH COMPLETE ---
+complete -a alias
+# ---- END BASH COMPLETE ----
 
+# ---- BEGIN ALIASES ----
 alias ssh-webfaction='ssh -p 3456 fcrespo82@ssh.crespo.net.br'
 alias realpath='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.realpath(path)"'
 alias realdirname='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.dirname(os.path.realpath(path))"'
@@ -99,21 +102,17 @@ alias update-dotfiles='source ~/.bash_profile'
 
 alias pgrep='pgrep -f'
 alias pkill='pkill -f'
-
 # ----- END ALIASES -----
 
 # ---- BEGIN BINDINGS ----
-
 bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
 
 bind '"\e[1;5C":forward-word'
 bind '"\e[1;5D":backward-word'
-
 # ----- END BINDINGS -----
 
 # ---- BEGIN VARIABLES ----
-
 _EDITOR="subl"
 
 export EDITOR="$_EDITOR -w"
@@ -151,7 +150,6 @@ function print_colors() {
 # ----- END COLORS -----
 
 # ---- BEGIN PROMPT ----
-
 function _update_ps1() {
     export PS1="$($DOTFILES_ROOT/bin/powerline-shell.py $? 2> /dev/null)"
 }

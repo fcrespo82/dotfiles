@@ -74,6 +74,7 @@ alias lld='ll | grep "/$"' # only directories
 alias lls='echo "Symbolic Links:"; lla | cut -d":"  -f 2 | cut -c 4- | grep "\->" --color=NEVER'
 alias grep='grep --color'
 alias sudo='sudo ' # Allow sudo other aliases
+alias watch='watch ' # Allow watch other aliases
 
 # You must install Pygments first - "sudo pip install Pygments"
 if [ -e "$(which pygmentize)" ]; then

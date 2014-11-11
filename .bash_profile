@@ -67,10 +67,10 @@ alias realpath='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 e
 alias realdirname='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.dirname(os.path.realpath(path))"'
 alias ls="command ls ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}"
 alias l="ls"
-alias lsa="ls -A ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}"
-alias ll="ls -l ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}" # all files, in long format
-alias lla="ll -A ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}" # all files inc dotfiles, in long format
-alias lld='ll ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS} | grep "/$"' # only directories
+alias lsa="ls -A"
+alias ll="ls -l" # all files, in long format
+alias lla="ll -A" # all files inc dotfiles, in long format
+alias lld='ll | grep "/$"' # only directories
 alias lls='echo "Symbolic Links:"; lla | cut -d":"  -f 2 | cut -c 4- | grep "\->" --color=NEVER'
 alias grep='grep --color'
 alias sudo='sudo ' # Allow sudo other aliases

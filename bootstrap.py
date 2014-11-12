@@ -70,8 +70,8 @@ class MyInfo(object):
 
 def debug(info):
     """Print debug info"""
-    logging.debug("{} {}".format("Script dir:", info.script_dir))
-    logging.debug("{} {}".format("OS:", info.os_name()))
+    logging.debug("{0} {1}".format("Script dir:", info.script_dir))
+    logging.debug("{0} {1}".format("OS:", info.os_name()))
     text = "Files that will be linked:"
     for _file in info.files:
         _src = os.path.join(info.home, _file)
@@ -87,14 +87,14 @@ def debug(info):
             is_link = "do not exist"
         text += "\n{0} ({2})\n\t-> {1}".format(
             _src, _dst, ",".join([is_link, is_file]))
-    text += "\n{:<20}{:<20}".format("Home dir:", info.home)
+    text += "\n{0:<20}{1:<20}".format("Home dir:", info.home)
     logging.debug(text)
 
 def backup(info):
     """Backup files that would be overwritten"""
     text = "Backing up files"
     from datetime import datetime
-    _backup_dir = os.path.join(info.script_dir, "backup-{}".format(
+    _backup_dir = os.path.join(info.script_dir, "backup-{0}".format(
         datetime.strftime(datetime.now(), "%Y.%m.%d-%H.%M.%S")))
     if not os.path.exists(_backup_dir):
         os.mkdir(_backup_dir)
@@ -103,7 +103,7 @@ def backup(info):
             _src = os.path.realpath(os.path.join(info.home, _file)).strip()
             if os.path.exists(_src) and os.path.isfile(_src):
 
-                _backup_file.write("{}\n".format(_file))
+                _backup_file.write("{0}\n".format(_file))
                 _dst = os.path.join(_backup_dir, _file).strip()
                 text += "\n" + os.path.join("~", _file)
                 logging.debug("Copying " + _src)
@@ -120,7 +120,7 @@ def restore(info):
             _dst = os.path.realpath(os.path.join(info.home, _file)).strip()
             if os.path.exists(_dst):
                 _src = os.path.join(_backup_dir, _file).strip()
-                logging.info("Restoring file {}".format(_file))
+                logging.info("Restoring file {0}".format(_file))
                 if not info["debug"]:
                     shutil.copy(_src, _dst)
 
@@ -134,7 +134,7 @@ def install(info):
         _dst = os.path.join(info.home, _file)
         _src_log = os.path.join("<DOTFILES_DIR>", _file)
         _dst_log = os.path.join("~", _file)
-        text += "\n{:<40} -> {:<30}".format(_src_log, _dst_log)
+        text += "\n{0:<40} -> {1:<30}".format(_src_log, _dst_log)
         if not info.debug and os.path.exists(_dst):
             os.remove(_dst)
         if not info.debug:
@@ -176,7 +176,7 @@ def choose(**config):
             _choices = _choices.replace(default.lower(),
                                         "[{0}]".format(default.lower()))
             _choice = unicode(raw_input(
-                "{} ({}): ".format(question, _choices).encode("utf-8")))
+                "{0} ({1}): ".format(question, _choices).encode("utf-8")))
             _choice = default if _choice == "" else _choice
             _choosen = choices[_choice[0].lower()]
         except Exception:
@@ -190,7 +190,7 @@ def remove(info):
         _src = os.path.join(info.home, _file)
         _answer = True
         if os.path.exists(_src) and os.path.islink(_src) and _answer:
-            print("Removing symlink to {}".format(_file))
+            print("Removing symlink to {0}".format(_file))
             if not info.debug and os.path.exists(_src):
                 os.remove(_src)
 
@@ -235,7 +235,7 @@ def main():
     else:
         logging.basicConfig(level=_info.log_level)
 
-    logging.debug("Passed arguments: {}".format(args))
+    logging.debug("Passed arguments: {0}".format(args))
 
     if args.has_key("-d") and args["-d"]:
         debug(_info)

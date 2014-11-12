@@ -55,6 +55,13 @@ if [ -e "$(which virtualenv)" ]; then
 
     complete -F _activate activate
 fi
+
+#python bash calculator
+function my_calc() {
+    python <<< "print $*"
+}
+alias ?=my_calc
+
 # ----- END PYTHON -----
 
 # --- START BASH COMPLETE ---

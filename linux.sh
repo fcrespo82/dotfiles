@@ -32,7 +32,7 @@ function count() {
 }
 
 # ----- END FUNCTIONS -----
-if [ -x "`which xclip`" ]; then
+if [ -x "$(which xclip 2> /dev/null)" ]; then
     alias pbcopy='xclip -i -selection clipboard'
     alias pbpaste='xclip -o -selection clipboard'
 else

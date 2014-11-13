@@ -31,7 +31,7 @@ fi
 
 # ---- BEGIN PYTHON ----
 # Only executes if virtualenv is installed
-if [ -e "$(which virtualenv)" ]; then
+if [ -e "$(which virtualenv 2> /dev/null)" ]; then
     export VIRTUALENV_ROOT=$HOME/.virtualenv
 
     _activate()
@@ -84,7 +84,7 @@ alias sudo='sudo ' # Allow sudo other aliases
 alias watch='watch ' # Allow watch other aliases
 
 # You must install Pygments first - "sudo pip install Pygments"
-if [ -e "$(which pygmentize)" ]; then
+if [ -e "$(which pygmentize 2> /dev/null)" ]; then
     alias c='pygmentize -O style=monokai -f console256 -g'
 else
     echo "${RED}ERROR: ${RESET}Pygments is not installed, aliases not installed"
@@ -92,7 +92,7 @@ fi
 
 # Git
 # You must install Git first
-if [ -x "$(which git)" ]; then
+if [ -x "$(which git 2> /dev/null)" ]; then
     alias gs='git status'
     alias ga='git add -i' # Interactive
     alias gu='git add -u :/' # Update Tracked files

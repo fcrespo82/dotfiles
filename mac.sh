@@ -8,7 +8,7 @@ LS_COLOR_FLAG="-G"
 
 export LSCOLORS="ExGxFxDxCxDxDxxxxbxgxc"
 
-if [ -e "$(which brew)" ]; then
+if [ -e "$(which brew 2> /dev/null)" ]; then
     if [ -f $(brew --prefix)/etc/bash_completion ]; then
       . $(brew --prefix)/etc/bash_completion
     fi
@@ -26,7 +26,7 @@ alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/
 # ---- BEGIN FUNCTIONS ----
 function count() {
     # gnugetopt installed by homebrew
-    if [[ -x $(which gnugetopt) ]]; then
+    if [[ -x $(which gnugetopt 2> /dev/null) ]]; then
         TEMP=$(gnugetopt -o ah -- "$@")
     else
         TEMP=$(getopt ah $*)

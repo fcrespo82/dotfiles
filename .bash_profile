@@ -1,3 +1,8 @@
+if [ -d $HOME/bin ]; then
+    export PATH=$PATH:$HOME/bin
+fi
+
+
 export DOTFILES_ROOT=$HOME/developer/dotfiles-dev
 #export DOTFILES_VERBOSE=0
 

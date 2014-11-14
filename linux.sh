@@ -35,6 +35,4 @@ function count() {
 if [ -x "$(which xclip 2> /dev/null)" ]; then
     alias pbcopy='xclip -i -selection clipboard'
     alias pbpaste='xclip -o -selection clipboard'
-else
-    echo "${RED}ERROR:${RESET} xclip bindinds to mac equivalents are not going to work"
 fi

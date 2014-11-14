@@ -91,8 +91,6 @@ alias watch='watch ' # Allow watch other aliases
 # You must install Pygments first - "sudo pip install Pygments"
 if [ -e "$(which pygmentize 2> /dev/null)" ]; then
     alias c='pygmentize -O style=monokai -f console256 -g'
-else
-    echo "${RED}ERROR: ${RESET}Pygments is not installed, aliases not installed"
 fi
 
 # Git
@@ -106,8 +104,6 @@ if [ -x "$(which git 2> /dev/null)" ]; then
     alias gp='git push'
     alias gd="git diff"
     alias grmall='gs | grep deleted | cut -c 15- | xargs -i* git rm "*"'
-else
-    echo "${RED}ERROR: ${RESET}Git is not installed, aliases not installed"
 fi
 
 alias update-dotfiles='source ~/.bash_profile'

@@ -2,10 +2,6 @@ if [ -d $HOME/bin ]; then
     export PATH=$PATH:$HOME/bin
 fi
 
-
-export DOTFILES_ROOT=$HOME/developer/dotfiles-dev
-#export DOTFILES_VERBOSE=0
-
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -55,7 +51,11 @@ if [ -e "$(which virtualenv 2> /dev/null)" ]; then
     }
 
     function virtualenv-create() {
-        virtualenv $VIRTUALENV_ROOT/$1
+        if [[ $1 ]]; then
+            virtualenv $VIRTUALENV_ROOT/$1;
+        else
+            echo "usage: virtualenv-create <name>";
+        fi
     }
 
     complete -F _activate activate

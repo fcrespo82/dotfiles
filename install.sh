@@ -1,18 +1,18 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 DOTFILES_ROOT=$(pwd)
 
 if [[ -e $HOME/.bash_profile ]]; then
-    if [[ $(grep -c "$DOTFILES_ROOT/bash_profile" $HOME/.bash_profile) -eq 0 ]]; then
-        echo "if [ -e $DOTFILES_ROOT/bash_profile ]; then
+    if [[ $(grep -c "$DOTFILES_ROOT/bash_profile.sh" $HOME/.bash_profile) -eq 0 ]]; then
+        echo "if [ -e $DOTFILES_ROOT/bash_profile.sh ]; then
     export DOTFILES_ROOT=$DOTFILES_ROOT
-    source $DOTFILES_ROOT/bash_profile
+    source $DOTFILES_ROOT/bash_profile.sh
 fi" >> $HOME/.bash_profile
     fi
 else
-    echo "if [ -e $DOTFILES_ROOT/bash_profile ]; then
+    echo "if [ -e $DOTFILES_ROOT/bash_profile.sh ]; then
     export DOTFILES_ROOT=$DOTFILES_ROOT
-    source $DOTFILES_ROOT/bash_profile
+    source $DOTFILES_ROOT/bash_profile.sh
 fi" >> $HOME/.bash_profile;
 fi
 

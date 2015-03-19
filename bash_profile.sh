@@ -115,11 +115,12 @@ alias pkill='pkill -f'
 # ----- END ALIASES -----
 
 # ---- BEGIN BINDINGS ----
-bind '"\e[A":history-search-backward'
-bind '"\e[B":history-search-forward'
-
-bind '"\e[1;5C":forward-word'
-bind '"\e[1;5D":backward-word'
+if [ "$PS1" ]; then
+    bind '"\e[A":history-search-backward'
+    bind '"\e[B":history-search-forward'
+    bind '"\e[1;5C":forward-word'
+    bind '"\e[1;5D":backward-word'
+fi
 # ----- END BINDINGS -----
 
 # ---- BEGIN VARIABLES ----

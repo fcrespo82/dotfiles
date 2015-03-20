@@ -1,4 +1,4 @@
-#!/usr/bin/env python -B
+#!/usr/bin/env python
 # encoding: utf-8
 """
 Usage:
@@ -12,6 +12,7 @@ import subprocess
 import re
 import getpass
 import sys
+sys.dont_write_bytecode = True
 import os
 sys.path.append(os.path.realpath(os.path.join(os.path.dirname(sys.argv[0]), "../../lib")))
 from color import white, cyan, magenta, blue, yellow, green, red

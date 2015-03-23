@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import sys
 sys.dont_write_bytecode = True
@@ -8,21 +8,21 @@ import os
 import sys
 
 def warn(msg):
-    print '[powerline-bash] ', msg
+    print('[powerline-bash] ', msg)
 
 class Powerline:
     symbols = {
         'compatible': {
             'lock': 'RO',
             'network': 'SSH',
-            'separator': u'\u25B6',
-            'separator_thin': u'\u276F'
+            'separator': '\u25B6',
+            'separator_thin': '\u276F'
         },
         'patched': {
-            'lock': u'\uE0A2',
-            'network': u'\uE0A2',
-            'separator': u'\uE0B0',
-            'separator_thin': u'\uE0B1'
+            'lock': '\uE0A2',
+            'network': '\uE0A2',
+            'separator': '\uE0B0',
+            'separator_thin': '\uE0B1'
         },
         'flat': {
             'lock': '',
@@ -74,7 +74,7 @@ class Powerline:
 
     def draw(self):
         return (''.join(self.draw_segment(i) for i in range(len(self.segments)))
-                + self.reset).encode('utf-8') + ' '
+                + self.reset) + ' '
 
     def draw_segment(self, idx):
         segment = self.segments[idx]
@@ -252,11 +252,11 @@ def get_short_path(cwd):
 
 def add_cwd_segment():
     cwd = powerline.cwd or os.getenv('PWD')
-    names = get_short_path(cwd.decode('utf-8'))
+    names = get_short_path(cwd)
 
     max_depth = powerline.args.cwd_max_depth
     if len(names) > max_depth:
-        names = names[:2] + [u'\u2026'] + names[2 - max_depth:]
+        names = names[:2] + ['\u2026'] + names[2 - max_depth:]
 
     if not powerline.args.cwd_only:
         for n in names[:-1]:
@@ -294,15 +294,16 @@ def get_git_status():
     origin_position = ""
     output = subprocess.Popen(['git', 'status', '--ignore-submodules'],
             env={"LANG": "C", "HOME": os.getenv("HOME")}, stdout=subprocess.PIPE).communicate()[0]
+    output = str(output)
     for line in output.split('\n'):
         origin_status = re.findall(
             r"Your branch is (ahead|behind).*?(\d+) comm", line)
         if origin_status:
             origin_position = " %d" % int(origin_status[0][1])
             if origin_status[0][0] == 'behind':
-                origin_position += u'\u21E3'
+                origin_position += '\u21E3'
             if origin_status[0][0] == 'ahead':
-                origin_position += u'\u21E1'
+                origin_position += '\u21E1'
 
         if line.find('nothing to commit') >= 0:
             has_pending_commits = False
@@ -316,11 +317,11 @@ def add_git_segment():
     p = subprocess.Popen(['git', 'symbolic-ref', '-q', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
 
-    if 'Not a git repo' in err:
+    if 'Not a git repo' in str(err):
         return
 
     if out:
-        branch = out[len('refs/heads/'):].rstrip()
+        branch = out[len('refs/heads/'):].rstrip().decode("utf-8")
     else:
         branch = '(Detached)'
 
@@ -461,7 +462,7 @@ import subprocess
 def add_jobs_segment():
     pppid = subprocess.Popen(['ps', '-p', str(os.getppid()), '-oppid='], stdout=subprocess.PIPE).communicate()[0].strip()
     output = subprocess.Popen(['ps', '-a', '-o', 'ppid'], stdout=subprocess.PIPE).communicate()[0]
-    num_jobs = len(re.findall(str(pppid), output)) - 1
+    num_jobs = len(re.findall(str(pppid), str(output))) - 1
 
     if num_jobs > 0:
         powerline.append(' %d ' % num_jobs, Color.JOBS_FG, Color.JOBS_BG)

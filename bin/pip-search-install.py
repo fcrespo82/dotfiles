@@ -32,11 +32,11 @@ def search(package):
 
 def install(package_name):
     print(blue("Installing {0}".format(package_name)))
-    response = subprocess.call(["pip", "install", package_name])
+    response = subprocess.call(["sudo", "pip", "install", package_name])
 
 def update(package_name):
     print(blue("Upgrading {0}".format(package_name)))
-    response = subprocess.call(["pip", "install", "-U", package_name])
+    response = subprocess.call(["sudo", "pip", "install", "-U", package_name])
 
 def choose(options, su):
     for i, option in enumerate(options):
@@ -50,16 +50,16 @@ def choose(options, su):
 def check_sudo():
     if getpass.getuser() != "root":
         print(red("You should run this as root to install/update, this time you only be able to search."))
-        return False
+        return True
     else:
         return True
 
 def main():
     args = docopt(__doc__, version=VERSION)
-    su = check_sudo()
+    #su = check_sudo()
     op = search(args["PACKAGE_NAME"])
-    choosen = choose(op, su)
-    if su:
+    choosen = choose(op, True)
+    if True:
         response = raw_input("Instalar ou atualizar [i/a]? ")
         install_or_update = True if response == "i" else False
         if install_or_update:

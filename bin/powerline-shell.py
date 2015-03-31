@@ -382,6 +382,7 @@ def add_hg_segment():
         if has_missing_files:
             extra += '!'
         branch += (' ' + extra if extra != '' else '')
+        branch = branch.decode("utf-8")
     return powerline.append(' %s ' % branch, fg, bg)
 
 add_hg_segment()
@@ -402,7 +403,7 @@ def add_svn_segment():
             stdin=p1.stdout, stdout=subprocess.PIPE)
     output = p2.communicate()[0].strip()
     if len(output) > 0 and int(output) > 0:
-        changes = output.strip()
+        changes = output.strip().decode("utf-8")
         powerline.append(' %s ' % changes, Color.SVN_CHANGES_FG, Color.SVN_CHANGES_BG)
 
 try:
@@ -445,6 +446,7 @@ def add_fossil_segment():
         if has_missing_files:
             extra += '!'
         branch += (' ' + extra if extra != '' else '')
+        branch = branch.decode("utf-8")
     powerline.append(' %s ' % branch, fg, bg)
 
 try:

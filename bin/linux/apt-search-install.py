@@ -55,7 +55,7 @@ def main():
     #su = check_sudo()
     op = search(args["PACKAGE_NAME"])
     choosen = choose(op, True)
-    if su:
+    if True:
         install(op[choosen]["name"])
 
 main()

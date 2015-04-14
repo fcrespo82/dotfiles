@@ -60,6 +60,22 @@ if [ -e "$(which virtualenv 2> /dev/null)" ]; then
         fi
     }
 
+    function mkvirtualenv() {
+        if [[ $1 ]]; then
+            virtualenv $VIRTUALENV_ROOT/$1;
+        else
+            echo "usage: mkvirtualenv <name>";
+        fi
+    }
+
+    function mkvirtualenv3() {
+        if [[ $1 ]]; then
+            virtualenv -p python3 $VIRTUALENV_ROOT/$1;
+        else
+            echo "usage: mkvirtualenv3 <name>";
+        fi
+    }
+
     complete -F _activate activate
 fi
 
@@ -79,16 +95,19 @@ complete -a alias
 alias ssh-webfaction='ssh -p 3456 fcrespo82@ssh.crespo.net.br'
 alias realpath='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.realpath(path)"'
 alias realdirname='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.dirname(os.path.realpath(path))"'
-alias ls="command ls ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}"
-alias l="ls"
-alias lsa="ls -A"
-alias ll="ls -l" # all files, in long format
-alias lla="ll -A" # all files inc dotfiles, in long format
+alias ls='command ls ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}'
+alias l='ls'
+alias lsa='ls -A'
+alias ll='ls -l' # all files, in long format
+alias lla='ll -A' # all files inc dotfiles, in long format
 alias lld='ll | grep "/$"' # only directories
 alias lls='echo "Symbolic Links:"; lla | cut -d":"  -f 2 | cut -c 4- | grep "\->" --color=NEVER'
 alias grep='grep --color'
 alias sudo='sudo ' # Allow sudo other aliases
 alias watch='watch ' # Allow watch other aliases
+alias unbz2='tar vxjf'
+alias ungzip='tar vxzf'
+
 
 # You must install Pygments first - "sudo pip install Pygments"
 if [ -e "$(which pygmentize 2> /dev/null)" ]; then

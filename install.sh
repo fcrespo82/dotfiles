@@ -29,13 +29,11 @@ fi" >> $HOME/.bashrc;
 fi
 
 if [[ ! -e $HOME/.gitconfig ]]; then
+    echo "Linking $HOME/.gitconfig -> $DOTFILES_ROOT/.gitconfig"
     ln -s $DOTFILES_ROOT/.gitconfig $HOME/.gitconfig
 fi
 
 if [[ ! -e $HOME/.hushlogin ]]; then
+    echo "Linking $HOME/.hushlogin -> $DOTFILES_ROOT/.hushlogin"
     ln -s $DOTFILES_ROOT/.hushlogin $HOME/.hushlogin
 fi
-
-# if [[ ! -e $HOME/.vimrc ]]; then
-#     ln -s $DOTFILES_ROOT/.vimrc $HOME/.vimrc
-# fi

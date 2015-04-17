@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export DOTFILES_VERSION=1.0
+
 if [ -d $HOME/bin ]; then
     export PATH=$PATH:$HOME/bin
 fi
@@ -37,7 +39,7 @@ fi
 if [ -e "$(which virtualenv 2> /dev/null)" ]; then
     export VIRTUALENV_ROOT=$HOME/.virtualenv
 
-    _activate()
+    _virtualenvs()
     {
         local cur prev opts
         COMPREPLY=()
@@ -49,15 +51,12 @@ if [ -e "$(which virtualenv 2> /dev/null)" ]; then
     }
 
     function activate() {
-        source $VIRTUALENV_ROOT/$1/bin/activate
+        echo "Deprecated, use workon. (will not work on next version)"
+        workon $1
     }
 
-    function virtualenv-create() {
-        if [[ $1 ]]; then
-            virtualenv $VIRTUALENV_ROOT/$1;
-        else
-            echo "usage: virtualenv-create <name>";
-        fi
+    function workon() {
+        source $VIRTUALENV_ROOT/$1/bin/activate
     }
 
     function mkvirtualenv() {
@@ -76,16 +75,18 @@ if [ -e "$(which virtualenv 2> /dev/null)" ]; then
         fi
     }
 
-    complete -F _activate activate
+    complete -F _virtualenvs activate
+    complete -F _virtualenvs workon
 fi
-
-#python bash calculator
-function my_calc() {
-    python <<< "print $*"
-}
-alias ?=my_calc
-
 # ----- END PYTHON -----
+
+# ---- START BASH CALCULATOR ----
+? () { echo "scale=2
+define mod(x) {
+   if (x < 0) return -x else return x
+}
+$*" | bc -l; }
+# ----- END BASH CALCULATOR -----
 
 # --- START BASH COMPLETE ---
 complete -a alias
@@ -105,9 +106,11 @@ alias lls='echo "Symbolic Links:"; lla | cut -d":"  -f 2 | cut -c 4- | grep "\->
 alias grep='grep --color'
 alias sudo='sudo ' # Allow sudo other aliases
 alias watch='watch ' # Allow watch other aliases
-alias unbz2='tar vxjf'
-alias ungzip='tar vxzf'
-
+alias untar='tar -vxf'
+alias untar-bz2='tar -vxjf'
+alias untar-gzip='tar -vxzf'
+alias tar-bz2='tar -vcjf'
+alias tar-gzip='tar -vczf'
 
 # You must install Pygments first - "sudo pip install Pygments"
 if [ -e "$(which pygmentize 2> /dev/null)" ]; then

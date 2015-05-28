@@ -39,26 +39,6 @@ fi
 if [ -e "$(which virtualenv 2> /dev/null)" ]; then
     export VIRTUALENV_ROOT=$HOME/.virtualenv
 
-    _virtualenvs()
-    {
-        local cur prev opts
-        COMPREPLY=()
-        cur="${COMP_WORDS[COMP_CWORD]}"
-        prev="${COMP_WORDS[COMP_CWORD-1]}"
-        opts="$(command ls $VIRTUALENV_ROOT 2>/dev/null)"
-
-        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-    }
-
-    function activate() {
-        echo "Deprecated, use workon. (will not work on next version)"
-        workon $1
-    }
-
-    function workon() {
-        source $VIRTUALENV_ROOT/$1/bin/activate
-    }
-
     function mkvirtualenv() {
         if [[ $1 ]]; then
             virtualenv $VIRTUALENV_ROOT/$1;
@@ -75,8 +55,6 @@ if [ -e "$(which virtualenv 2> /dev/null)" ]; then
         fi
     }
 
-    complete -F _virtualenvs activate
-    complete -F _virtualenvs workon
 fi
 # ----- END PYTHON -----
 
@@ -90,6 +68,11 @@ $*" | bc -l; }
 
 # --- START BASH COMPLETE ---
 complete -a alias
+
+for f in $DOTFILES_ROOT/bash_completion/*-completion.bash; do
+   source $f
+done
+
 # ---- END BASH COMPLETE ----
 
 # ---- BEGIN ALIASES ----

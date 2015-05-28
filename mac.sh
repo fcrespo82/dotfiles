@@ -12,8 +12,8 @@ if [ -e "$(which brew 2> /dev/null)" ]; then
     if [ -f $(brew --prefix)/etc/bash_completion ]; then
       . $(brew --prefix)/etc/bash_completion
     fi
-else
-    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+#else
+    #ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 fi
 
 alias ssh-nas='ssh -p 22 root@diskstation.local'

@@ -17,6 +17,10 @@ alias o='gnome-open'
 alias ssh-nas='ssh -p 3456 root@nas.crespo.in'
 alias ssh-mac='ssh -p 6080 fernando@nas.crespo.in'
 
+alias cvsstatus_command='cvs -q status | grep "^[?F]" | grep -v "Up-to-date" | grep -v "\.so" | grep -v "\.[c]*project"'
+alias cvsstatus_color='nawk '"'"'BEGIN { arr["Needs Merge"] = "0;31"; arr["Needs Patch"] = "1;31"; arr["conflicts"] = "1;33"; arr["Locally Modified"] = "0;33"; arr["Locally Added"] = "0;32" } { l = $0; for (pattern in arr) { gsub(".*" pattern ".*", "\033[" arr[pattern] "m&\033[0m", l); } print l; }'"'"
+alias cvsstatus='cvsstatus_command | cvsstatus_color'
+
 # ---- BEGIN FUNCTIONS ----
 function count() {
     TEMP=`getopt -o ah -- "$@"`

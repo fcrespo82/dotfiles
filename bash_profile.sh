@@ -168,6 +168,7 @@ function print_colors() {
 
 # ---- BEGIN PROMPT ----
 function _update_ps1() {
+    export PYTHONIOENCODING='utf8'
     export PS1="$($DOTFILES_ROOT/bin/powerline-shell.py $? 2> /dev/null)"
 }
 # Only show the current directory's name in the tab

@@ -25,8 +25,8 @@ class Powerline:
             'separator_thin': '\uE0B1'
         },
         'flat': {
-            'lock': '',
-            'network': '',
+            'lock': 'RO',
+            'network': 'SSH',
             'separator': '',
             'separator_thin': ''
         },

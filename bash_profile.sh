@@ -130,12 +130,12 @@ fi
 # ----- END BINDINGS -----
 
 # ---- BEGIN VARIABLES ----
-_EDITOR="subl"
+_EDITOR="vim"
 
-export EDITOR="$_EDITOR -w"
-export GIT_EDITOR="$_EDITOR -w"
-export CVSEDITOR="$_EDITOR -w"
-export VISUAL="$_EDITOR -w"
+export EDITOR="$_EDITOR"
+export GIT_EDITOR="$_EDITOR"
+export CVSEDITOR="$_EDITOR"
+export VISUAL="$_EDITOR"
 # ----- END VARIABLES -----
 
 # ---- BEGIN COLORS ----

@@ -77,6 +77,7 @@ done
 
 # ---- BEGIN ALIASES ----
 alias ssh-webfaction='ssh -p 3456 fcrespo82@ssh.crespo.net.br'
+alias ssh-amazon='ssh -p 23 ubuntu@amazon.crespo.in'
 alias realpath='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.realpath(path)"'
 alias realdirname='python -c "import os,sys; path=(sys.argv[1] if len(sys.argv)>1 else \".\"); print os.path.dirname(os.path.realpath(path))"'
 alias ls='command ls ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}'

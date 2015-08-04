@@ -40,7 +40,7 @@ def choose(options, su):
 
     if su:
         choosen = raw_input("Qual o pacote que deseja instalar (numero ou vazio)? ")
-        if choosen:
+        if not choosen == "" and int(choosen) >= 0:
             return int(choosen) - 1  #print("Will install {0}".format(choosen))
 
 def check_sudo():
@@ -50,12 +50,10 @@ def check_sudo():
     else:
         return True
 
-def main():
+if __name__ == "__main__":
     args = docopt(__doc__, version=VERSION)
     #su = check_sudo()
     op = search(args["PACKAGE_NAME"])
     choosen = choose(op, True)
-    if True:
+    if choosen >= 0:
         install(op[choosen]["name"])
-
-main()

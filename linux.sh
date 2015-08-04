@@ -2,6 +2,9 @@ if [[ $PATH != *$DOTFILES_ROOT/bin/linux* ]]; then
     export PATH=$PATH:$DOTFILES_ROOT/bin/linux
 fi
 
+export ORACLE_HOME=/usr/lib/oracle/12.1/client64
+export LD_LIBRARY_PATH=/usr/lib/oracle/12.1/client64/lib:$LD_LIBRARY_PATH
+
 LS_COLOR_FLAG="--color"
 
 export LS_COLORS="di=01;34:ln=01;36:so=01;35:pi=01;33:ex=01;32:bd=01;33:cd=01;33:su=01;00:sg=01;00;41:tw=01;00;46:ow=01;00;42:"
@@ -20,6 +23,8 @@ alias ssh-mac='ssh -p 6080 fernando@nas.crespo.in'
 alias cvsstatus_command='cvs -q status | grep "^[?F]" | grep -v "Up-to-date" | grep -v "\.so" | grep -v "\.[c]*project"'
 alias cvsstatus_color='nawk '"'"'BEGIN { arr["Needs Merge"] = "0;31"; arr["Needs Patch"] = "1;31"; arr["conflicts"] = "1;33"; arr["Locally Modified"] = "0;33"; arr["Locally Added"] = "0;32" } { l = $0; for (pattern in arr) { gsub(".*" pattern ".*", "\033[" arr[pattern] "m&\033[0m", l); } print l; }'"'"
 alias cvsstatus='cvsstatus_command | cvsstatus_color'
+
+alias sql-prot='sqlplus64 ADMINISTRATIVO_APL/ADMINAPL@172.19.0.16:1521/descorp'
 
 # ---- BEGIN FUNCTIONS ----
 function count() {

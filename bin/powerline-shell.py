@@ -1,5 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+from __future__ import unicode_literals
 import sys
 sys.dont_write_bytecode = True
 

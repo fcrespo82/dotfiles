@@ -21,6 +21,11 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+# Add $HOME/bin to $PATH
+if [[ $PATH != *$HOME/bin* ]]; then
+    export PATH=$PATH:$HOME/bin
+fi
+
 # Add $DOTFILES_ROOT/bin to $PATH
 if [[ $PATH != *$DOTFILES_ROOT/bin* ]]; then
     export PATH=$PATH:$DOTFILES_ROOT/bin
@@ -177,15 +182,17 @@ export PROMPT_COMMAND='echo -ne "\033]0; ${PWD##*/}\007"'
 export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 # ----- END PROMPT -----
 
+# ----- BEGIN HISTORY SYNC IN ALL TERMINAL -----
+shopt -s histappend              # append new history items to .bash_history
+export HISTCONTROL=ignorespace:ignoredups:erasedups   # leading space hides commands from history
+export HISTFILESIZE=10000        # increase history file size (default is 500)
+export HISTSIZE=${HISTFILESIZE}  # increase history size (default is 500)
+export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"   # mem/file sync
+# ------ END HISTORY SYNC IN ALL TERMINAL ------
 
 # ----- BEGIN HH HISTORY SEARCH -----
 if [ -e "$(which hh 2> /dev/null)" ]; then
     export HH_CONFIG=hicolor         # get more colors
-    shopt -s histappend              # append new history items to .bash_history
-    export HISTCONTROL=ignorespace   # leading space hides commands from history
-    export HISTFILESIZE=10000        # increase history file size (default is 500)
-    export HISTSIZE=${HISTFILESIZE}  # increase history size (default is 500)
-    export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"   # mem/file sync
     # if this is interactive shell, then bind hh to Ctrl-r (for Vi mode check doc)
     if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hh \C-j"'; fi
 fi

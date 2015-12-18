@@ -5,6 +5,9 @@ fi
 export ORACLE_HOME=/usr/lib/oracle/12.1/client64
 export LD_LIBRARY_PATH=/usr/lib/oracle/12.1/client64/lib:$LD_LIBRARY_PATH
 
+export SWIFT_HOME=/home/fxcrespo/apps/swift/usr/bin
+export PATH=$SWIFT_HOME:"${PATH}"
+
 LS_COLOR_FLAG="--color"
 
 export LS_COLORS="di=01;34:ln=01;36:so=01;35:pi=01;33:ex=01;32:bd=01;33:cd=01;33:su=01;00:sg=01;00;41:tw=01;00;46:ow=01;00;42:"

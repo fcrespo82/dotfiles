@@ -24,6 +24,9 @@ alias ssh-alesp='ssh -p 1234 fernando@localhost'
 alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
 
 # ---- BEGIN FUNCTIONS ----
+
+function code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*; }
+
 function count() {
     # gnugetopt installed by homebrew
     if [[ -x $(which gnugetopt 2> /dev/null) ]]; then

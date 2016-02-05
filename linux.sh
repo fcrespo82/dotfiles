@@ -48,3 +48,8 @@ if [ -x "$(which xclip 2> /dev/null)" ]; then
     alias pbcopy='xclip -i -selection clipboard'
     alias pbpaste='xclip -o -selection clipboard'
 fi
+
+if [[ ! -e /usr/share/X11/xorg.conf.d/50-applemouse.conf ]]; then
+    echo "Linking /usr/share/X11/xorg.conf.d/50-applemouse.conf -> $DOTFILES_ROOT/config/50-applemouse.conf"
+    ln -s $DOTFILES_ROOT/config/50-applemouse.conf /usr/share/X11/xorg.conf.d/50-applemouse.conf
+fi

@@ -16,10 +16,10 @@ class GitHub:
         self.__PUBLIC_REPOS=response.json()
         self.public_repos_names = ""
         for repo in self.__PUBLIC_REPOS:
-            self.public_repos_names="{0}\n{1}".format(self.public_repos_names, repo['git_url'])
+            #self.public_repos_names="{0}\n{1}".format(self.public_repos_names, repo['git_url'])
             self.public_repos_names="{0}\n{1}".format(self.public_repos_names, repo['ssh_url'])
-            self.public_repos_names="{0}\n{1}".format(self.public_repos_names, repo['clone_url'])
-            self.public_repos_names="{0}\n{1}".format(self.public_repos_names, repo['svn_url'])
+            #self.public_repos_names="{0}\n{1}".format(self.public_repos_names, repo['clone_url'])
+            #self.public_repos_names="{0}\n{1}".format(self.public_repos_names, repo['svn_url'])
 
 
 gh=GitHub(USERNAME)

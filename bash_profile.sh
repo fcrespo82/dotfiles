@@ -135,7 +135,7 @@ fi
 # ----- END BINDINGS -----
 
 # ---- BEGIN VARIABLES ----
-_EDITOR="vim"
+_EDITOR="nano"
 
 export EDITOR="$_EDITOR"
 export GIT_EDITOR="$_EDITOR"

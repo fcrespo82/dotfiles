@@ -34,16 +34,21 @@ fi" >> $HOME/.bashrc;
 fi
 
 if [[ ! -e $HOME/.gitconfig ]]; then
-    echo "Linking $HOME/.gitconfig -> $DOTFILES_ROOT/.gitconfig"
+    echo "Linking $HOME/.gitconfig -> $DOTFILES_ROOT/homedir/.gitconfig"
     ln -s $DOTFILES_ROOT/.gitconfig $HOME/.gitconfig
 fi
 
 if [[ ! -e $HOME/.hushlogin ]]; then
-    echo "Linking $HOME/.hushlogin -> $DOTFILES_ROOT/.hushlogin"
+    echo "Linking $HOME/.hushlogin -> $DOTFILES_ROOT/homedir/.hushlogin"
     ln -s $DOTFILES_ROOT/.hushlogin $HOME/.hushlogin
 fi
 
 if [[ ! -e $HOME/.ssh/config ]]; then
-    echo "Linking $HOME/.ssh/config -> $DOTFILES_ROOT/.ssh/config"
+    echo "Linking $HOME/.ssh/config -> $DOTFILES_ROOT/homedir/.ssh/config"
     ln -s $DOTFILES_ROOT/.ssh/config $HOME/.ssh/config
+fi
+
+if [[ ! -e $HOME/.xstartup ]]; then
+    echo "Linking $HOME/.xstartup -> $DOTFILES_ROOT/homedir/.xstartup"
+    ln -s $DOTFILES_ROOT/.xstartup $HOME/.xstartup
 fi

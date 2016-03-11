@@ -1,0 +1,9 @@
+
+_EDITOR="nano"
+
+export EDITOR="$_EDITOR"
+export GIT_EDITOR="$_EDITOR"
+export CVSEDITOR="$_EDITOR"
+export VISUAL="$_EDITOR"
+
+LS_CUSTOM_FLAGS="-Fh"

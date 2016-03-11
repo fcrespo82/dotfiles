@@ -1,1 +1,1 @@
-$HOME/apps/code/Code $@ &> /dev/null &
+$HOME/apps/code/code $@ &> /dev/null &

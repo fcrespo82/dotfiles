@@ -86,5 +86,6 @@ function nonzero_return {
 function _update_ps1() {
     # -(${HOST_COLOR}\h${RESET})
     export PS1="\n`echo -e \"\u250c\"``_user`-(${PATH_COLOR}$(basename $(pwd))${RESET})`_parse_git_branch`\n`echo -e \"\u2514\"``_is_root` "
+    export PS1="\n`_user`-(${PATH_COLOR}$(basename $(pwd))${RESET})`_parse_git_branch`\n`_is_root` "
 }
 export PROMPT_COMMAND='_update_ps1'

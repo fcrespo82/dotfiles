@@ -71,7 +71,7 @@ fi
 # ---- START BASH COMPLETION ----
 complete -a alias
 
-if [ -D $DOTFILES_ROOT/bash_completion.d ]; then
+if [ -d $DOTFILES_ROOT/bash_completion.d ]; then
     for f in $DOTFILES_ROOT/bash_completion.d/*; do
     source $f
     done
@@ -79,7 +79,7 @@ fi
 # ---- END BASH COMPLETION ----
 
 # ---- BEGIN ALIASES ----
-if [ -D $DOTFILES_ROOT/bash_aliases.d ]; then
+if [ -d $DOTFILES_ROOT/bash_aliases.d ]; then
     for f in $DOTFILES_ROOT/bash_aliases.d/*; do
     source $f
     done
@@ -87,7 +87,7 @@ fi
 # ---- END ALIASES ----
 
 # ---- BEGIN FUNCTIONS ----
-if [ -D $DOTFILES_ROOT/bash_functions.d ]; then
+if [ -d $DOTFILES_ROOT/bash_functions.d ]; then
     for f in $DOTFILES_ROOT/bash_functions.d/*; do
         source $f
     done
@@ -134,20 +134,7 @@ function print_colors() {
 # ---- END COLORS ----
 
 # ---- BEGIN PROMPT ----
-
-function _new_prompt() {
-    
-    GIT_BRANCH="${GREEN}[${RESET}$(git branch | grep \* | cut -c 3-)${GREEN}]${RESET}"
-    
-}
-
-function _update_ps1() {
-    export PS1="$($DOTFILES_ROOT/bin/powerline-shell.py $? 2> /dev/null)"
-}
-# Only show the current directory's name in the tab
-# echo -ne "\033]0; ${PWD##*/}\007"
-export PROMPT_COMMAND='echo -ne "\033]0; ${PWD##*/}\007"'
-export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+source bash_prompt.sh
 # ---- END PROMPT ----
 
 

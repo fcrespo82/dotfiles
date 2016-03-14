@@ -83,9 +83,23 @@ function nonzero_return {
 	[ $RETVAL -ne 0 ] && echo "$RETVAL"
 }
 
+function path {
+    pwd_length=10
+    pwd_symbol="..."
+    newPWD="${PWD/$HOME/~}"
+    if [ $(echo -n $newPWD | wc -c | tr -d " ") -gt $pwd_length ]; then
+        newPWD=$(echo -n $newPWD | awk -F '/' '{
+        print $1 "/" $2 "/${pwd_symbol}/" $(NF-1) "/" $(NF)}')
+    fi
+    echo -e "${newPWD}"
+}
+
 function _update_ps1() {
     # -(${HOST_COLOR}\h${RESET})
-    export PS1="\n`echo -e \"\u250c\"``_user`-(${PATH_COLOR}$(basename $(pwd))${RESET})`_parse_git_branch`\n`echo -e \"\u2514\"``_is_root` "
-    export PS1="\n`_user`-(${PATH_COLOR}$(basename $(pwd))${RESET})`_parse_git_branch`\n`_is_root` "
+    #export PS1="\n`echo -e \"\u250c\"``_user`-(${PATH_COLOR}$(basename $(pwd))${RESET})`_parse_git_branch`\n`echo -e \"\u2514\"``_is_root` "
+    export PS1="\n`_user`" # User
+    export PS1=$PS1"-(${PATH_COLOR}\W${RESET})" # Path
+    export PS1=$PS1"`_parse_git_branch`" # Git status
+    export PS1=$PS1"\n`_is_root` " # User/Root prompt
 }
 export PROMPT_COMMAND='_update_ps1'

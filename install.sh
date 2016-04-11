@@ -2,10 +2,10 @@
 
 DOTFILES_ROOT=$(pwd)
 
-if [ "$UID" -ne 0 ]; then
-    echo "You must be root to run this script"
-    exit 1
-fi
+# if [ "$UID" -ne 0 ]; then
+#     echo "You must be root to run this script"
+#     exit 1
+# fi
 
 if [[ -e $HOME/.bash_profile ]]; then
     if [[ $(grep -c "$DOTFILES_ROOT/bash_profile.sh" $HOME/.bash_profile) -eq 0 ]]; then

@@ -34,9 +34,11 @@ fi
 # ---- END VARIABLES ----
 
 # ---- BEGIN CHOOSE OS ----
-if [[ $(uname) = *[Ll]inux* ]]; then
+if [[ $(uname -a) = *[Ss]ynology* ]]; then
+    source $DOTFILES_ROOT/nas.sh
+elif [[ $(uname -a) = *[Ll]inux* ]]; then
     source $DOTFILES_ROOT/linux.sh
-elif [[ $(uname) = *[Dd]arwin* ]]; then
+elif [[ $(uname -a) = *[Dd]arwin* ]]; then
     source $DOTFILES_ROOT/mac.sh
 fi
 # ---- END CHOOSE OS ----
@@ -126,15 +128,10 @@ export YELLOW=$(tput setaf 11)
 export BOLD=$(tput bold)
 export RESET="\[\033[0m\]"
 
-
-## Functions
-function print_colors() {
-    for i in {0..256}; do echo $(tput setaf $i) COLOR $i; done;
-}
 # ---- END COLORS ----
 
 # ---- BEGIN PROMPT ----
-source bash_prompt.sh
+source $DOTFILES_ROOT/bash_prompt.sh
 # ---- END PROMPT ----
 
 

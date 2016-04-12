@@ -34,24 +34,24 @@ DOTFILES_ROOT=$(pwd)
 # fi
 
 if [[ ! -e $HOME/.gitconfig ]]; then
-    echo "Linking $HOME/.gitconfig -> $DOTFILES_ROOT/common/home/.gitconfig"
-    ln -fs $DOTFILES_ROOT/common/home/.gitconfig $HOME/.gitconfig
+    echo "Linking $HOME/.gitconfig -> $DOTFILES_ROOT/os/common/home/.gitconfig"
+    ln -fs $DOTFILES_ROOT/os/common/home/.gitconfig $HOME/.gitconfig
 fi
 
 if [[ ! -e $HOME/.hushlogin ]]; then
-    echo "Linking $HOME/.hushlogin -> $DOTFILES_ROOT/common/home/.hushlogin"
-    ln -fs $DOTFILES_ROOT/common/home/.hushlogin $HOME/.hushlogin
+    echo "Linking $HOME/.hushlogin -> $DOTFILES_ROOT/os/common/home/.hushlogin"
+    ln -fs $DOTFILES_ROOT/os/common/home/.hushlogin $HOME/.hushlogin
 fi
 
 # if [[ ! -e $HOME/.ssh/config ]]; then
-#     echo "Linking $HOME/.ssh/config -> $DOTFILES_ROOT/common/home/.ssh/config"
-#     ln -fs $DOTFILES_ROOT/common/home/.ssh/config $HOME/.ssh/config
+#     echo "Linking $HOME/.ssh/config -> $DOTFILES_ROOT/os/common/home/.ssh/config"
+#     ln -fs $DOTFILES_ROOT/os/common/home/.ssh/config $HOME/.ssh/config
 # fi
 
 # if [[ $(uname -a) = *[Ll]inux* ]]; then
 #     if [[ ! -e $HOME/.xstartup ]]; then
-#         echo "Linking $HOME/.xstartup -> $DOTFILES_ROOT/common/home/.xstartup"
-#         ln -fs $DOTFILES_ROOT/common/home/.xstartup $HOME/.xstartup
+#         echo "Linking $HOME/.xstartup -> $DOTFILES_ROOT/os/common/home/.xstartup"
+#         ln -fs $DOTFILES_ROOT/os/common/home/.xstartup $HOME/.xstartup
 #     fi
 # fi
 

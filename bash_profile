@@ -131,7 +131,7 @@ export RESET="\[\033[0m\]"
 # ---- END COLORS ----
 
 # ---- BEGIN PROMPT ----
-source $DOTFILES_ROOT/bash_prompt.sh
+source $DOTFILES_ROOT/bash_prompt
 # ---- END PROMPT ----
 
 

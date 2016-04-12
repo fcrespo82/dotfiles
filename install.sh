@@ -8,16 +8,16 @@ DOTFILES_ROOT=$(pwd)
 # fi
 
 if [[ -e $HOME/.bash_profile ]]; then
-    if [[ $(grep -c "$DOTFILES_ROOT/bash_profile.sh" $HOME/.bash_profile) -eq 0 ]]; then
-        echo "if [ -e $DOTFILES_ROOT/bash_profile.sh ]; then
+    if [[ $(grep -c "$DOTFILES_ROOT/bash_profile" $HOME/.bash_profile) -eq 0 ]]; then
+        echo "if [ -e $DOTFILES_ROOT/bash_profile ]; then
     export DOTFILES_ROOT=$DOTFILES_ROOT
-    source $DOTFILES_ROOT/bash_profile.sh
+    source $DOTFILES_ROOT/bash_profile
 fi" >> $HOME/.bash_profile
     fi
 else
-    echo "if [ -e $DOTFILES_ROOT/bash_profile.sh ]; then
+    echo "if [ -e $DOTFILES_ROOT/bash_profile ]; then
     export DOTFILES_ROOT=$DOTFILES_ROOT
-    source $DOTFILES_ROOT/bash_profile.sh
+    source $DOTFILES_ROOT/bash_profile
 fi" >> $HOME/.bash_profile;
 fi
 
@@ -48,7 +48,10 @@ if [[ ! -e $HOME/.ssh/config ]]; then
     ln -s $DOTFILES_ROOT/home/.ssh/config $HOME/.ssh/config
 fi
 
-if [[ ! -e $HOME/.xstartup ]]; then
-    echo "Linking $HOME/.xstartup -> $DOTFILES_ROOT/home/.xstartup"
-    ln -s $DOTFILES_ROOT/home/.xstartup $HOME/.xstartup
+if [[ $(uname -a) = *[Ll]inux* ]]; then
+    if [[ ! -e $HOME/.xstartup ]]; then
+        echo "Linking $HOME/.xstartup -> $DOTFILES_ROOT/home/.xstartup"
+        ln -s $DOTFILES_ROOT/home/.xstartup $HOME/.xstartup
+    fi
 fi
+

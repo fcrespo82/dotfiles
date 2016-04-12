@@ -1,5 +1,5 @@
-if [[ $PATH != *$DOTFILES_ROOT/bin/nas* ]]; then
-    export PATH=$PATH:$DOTFILES_ROOT/bin/nas
+if [[ $PATH != *$DOTFILES_ROOT/nas/bin* ]]; then
+    export PATH=$PATH:$DOTFILES_ROOT/nas/bin
 fi
 
 LS_COLOR_FLAG="--color"

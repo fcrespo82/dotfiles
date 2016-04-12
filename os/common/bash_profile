@@ -28,45 +28,23 @@ shopt -s checkwinsize
 # ---- END BASICS ----
 
 # ---- BEGIN VARIABLES ----
-if [ -e $DOTFILES_ROOT/variables.sh ]; then
-    source $DOTFILES_ROOT/variables.sh
+if [ -e $DOTFILES_ROOT/variables ]; then
+    source $DOTFILES_ROOT/variables
 fi
 # ---- END VARIABLES ----
 
 # ---- BEGIN CHOOSE OS ----
 if [[ $(uname -a) = *[Ss]ynology* ]]; then
-    source $DOTFILES_ROOT/nas.sh
+    source $DOTFILES_ROOT/nas/start
 elif [[ $(uname -a) = *[Ll]inux* ]]; then
-    source $DOTFILES_ROOT/linux.sh
+    source $DOTFILES_ROOT/linux/start
 elif [[ $(uname -a) = *[Dd]arwin* ]]; then
-    source $DOTFILES_ROOT/mac.sh
+    source $DOTFILES_ROOT/mac/start
 fi
 # ---- END CHOOSE OS ----
 
 # ---- BEGIN PYTHON ----
 export PYTHONIOENCODING='utf8'
-    
-# Only executes if virtualenv is installed
-if [ -e "$(which virtualenv 2> /dev/null)" ]; then
-    export VIRTUALENV_ROOT=$HOME/.virtualenv
-
-    function mkvirtualenv() {
-        if [[ $1 ]]; then
-            virtualenv $VIRTUALENV_ROOT/$1;
-        else
-            echo "usage: mkvirtualenv <name>";
-        fi
-    }
-
-    function mkvirtualenv3() {
-        if [[ $1 ]]; then
-            virtualenv -p python3 $VIRTUALENV_ROOT/$1;
-        else
-            echo "usage: mkvirtualenv3 <name>";
-        fi
-    }
-
-fi
 # ---- END PYTHON ----
 
 

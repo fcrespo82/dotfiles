@@ -3,6 +3,8 @@
     "files.associations": {
         "**/bash_aliases.d/*": "shellscript",
         "**/bash_completion.d/*": "shellscript",
-        "**/bash_functions.d/*": "shellscript"
+        "**/bash_functions.d/*": "shellscript",
+        "**/os/**": "shellscript"
+        
     }
 }

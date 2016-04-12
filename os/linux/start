@@ -1,5 +1,5 @@
-if [[ $PATH != *$DOTFILES_ROOT/bin/linux* ]]; then
-    export PATH=$PATH:$DOTFILES_ROOT/bin/linux
+if [[ $PATH != *$DOTFILES_ROOT/linux/bin* ]]; then
+    export PATH=$PATH:$DOTFILES_ROOT/linux/bin
 fi
 
 export ORACLE_HOME=/usr/lib/oracle/12.1/client64

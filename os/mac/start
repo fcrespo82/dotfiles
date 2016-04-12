@@ -1,7 +1,7 @@
 export HOMEBREW_GITHUB_API_TOKEN=db4aed845b07b95a197a1df34eafc851c448dc40
 
-if [[ $PATH != *$DOTFILES_ROOT/bin/mac* ]]; then
-    export PATH=$PATH:$DOTFILES_ROOT/bin/mac
+if [[ $PATH != *$DOTFILES_ROOT/mac/bin* ]]; then
+    export PATH=$PATH:$DOTFILES_ROOT/mac/bin
 fi
 
 LS_COLOR_FLAG="-G"

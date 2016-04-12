@@ -35,23 +35,23 @@ fi
 
 if [[ ! -e $HOME/.gitconfig ]]; then
     echo "Linking $HOME/.gitconfig -> $DOTFILES_ROOT/home/.gitconfig"
-    ln -s $DOTFILES_ROOT/home/.gitconfig $HOME/.gitconfig
+    ln -fs $DOTFILES_ROOT/home/.gitconfig $HOME/.gitconfig
 fi
 
 if [[ ! -e $HOME/.hushlogin ]]; then
     echo "Linking $HOME/.hushlogin -> $DOTFILES_ROOT/home/.hushlogin"
-    ln -s $DOTFILES_ROOT/home/.hushlogin $HOME/.hushlogin
+    ln -fs $DOTFILES_ROOT/home/.hushlogin $HOME/.hushlogin
 fi
 
 if [[ ! -e $HOME/.ssh/config ]]; then
     echo "Linking $HOME/.ssh/config -> $DOTFILES_ROOT/home/.ssh/config"
-    ln -s $DOTFILES_ROOT/home/.ssh/config $HOME/.ssh/config
+    ln -fs $DOTFILES_ROOT/home/.ssh/config $HOME/.ssh/config
 fi
 
 if [[ $(uname -a) = *[Ll]inux* ]]; then
     if [[ ! -e $HOME/.xstartup ]]; then
         echo "Linking $HOME/.xstartup -> $DOTFILES_ROOT/home/.xstartup"
-        ln -s $DOTFILES_ROOT/home/.xstartup $HOME/.xstartup
+        ln -fs $DOTFILES_ROOT/home/.xstartup $HOME/.xstartup
     fi
 fi
 

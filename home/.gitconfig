@@ -28,3 +28,5 @@
 	helper = cache --timeout=2628000
 [help]
 	autocorrect = 1
+[url "https://"]
+    insteadOf = git://

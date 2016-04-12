@@ -116,16 +116,15 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
     export TERM=xterm-256color
 fi
 
-export BLACK=$(tput setaf 0)
-export MAGENTA=$(tput setaf 9)
-export ORANGE=$(tput setaf 172)
-export GREEN="\[\033[32m\]"
-export PURPLE=$(tput setaf 141)
-export WHITE=$(tput setaf 15)
+export BLACK="\[\033[30m\]"
 export RED="\[\033[31m\]"
-export BLUE=$(tput setaf 4)
-export YELLOW=$(tput setaf 11)
-export BOLD=$(tput bold)
+export GREEN="\[\033[32m\]"
+export YELLOW="\[\033[33m\]"
+export BLUE="\[\033[34m\]"
+export PURPLE="\[\033[35m\]"
+export CYAN="\[\033[36m\]"
+export WHITE="\[\033[37m\]"
+export BOLD="\[\033[1m\]"
 export RESET="\[\033[0m\]"
 
 # ---- END COLORS ----

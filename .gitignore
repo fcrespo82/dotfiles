@@ -2,3 +2,4 @@ backup
 .dotfiles_config
 backup*
 .DS_Store
+current_home

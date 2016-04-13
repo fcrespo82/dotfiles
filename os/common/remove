@@ -1,0 +1,9 @@
+DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/common
+
+if [[ -h $HOME/.gitconfig ]]; then
+    rm $HOME/.gitconfig
+fi
+
+if [[ -h $HOME/.ssh/config ]]; then
+    rm $HOME/.ssh/config
+fi

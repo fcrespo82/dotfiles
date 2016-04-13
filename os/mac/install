@@ -1,0 +1,6 @@
+DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/mac
+
+if [[ ! -e $HOME/.ssh/config ]]; then
+    echo "Linking $HOME/.ssh/config -> $DOTFILES_OS_ROOT/home/.ssh/config"
+    ln -fs $DOTFILES_OS_ROOT/home/.ssh/config $HOME/.ssh/config
+fi

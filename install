@@ -1,57 +1,19 @@
 #!/usr/bin/env bash
 
-DOTFILES_ROOT=$(pwd)
+export DOTFILES_ROOT=$(pwd)
 
-# if [ "$UID" -ne 0 ]; then
-#     echo "You must be root to run this script"
-#     exit 1
-# fi
-
-# if [[ -e $HOME/.bash_profile ]]; then
-#     if [[ $(grep -c "$DOTFILES_ROOT/bash_profile" $HOME/.bash_profile) -eq 0 ]]; then
-#         echo "if [ -e $DOTFILES_ROOT/bash_profile ]; then
-#     export DOTFILES_ROOT=$DOTFILES_ROOT
-#     source $DOTFILES_ROOT/bash_profile
-# fi" >> $HOME/.bash_profile
-#     fi
-# else
-#     echo "if [ -e $DOTFILES_ROOT/bash_profile ]; then
-#     export DOTFILES_ROOT=$DOTFILES_ROOT
-#     source $DOTFILES_ROOT/bash_profile
-# fi" >> $HOME/.bash_profile;
-# fi
-
-# if [[ -e $HOME/.bashrc ]]; then
-#     if [[ $(grep -c "$HOME/.bash_profile" $HOME/.bashrc) -eq 0 ]]; then
-#         echo "if [ -e $HOME/.bash_profile ]; then
-#     source $HOME/.bash_profile
-# fi" >> $HOME/.bashrc
-#     fi
-# else
-#     echo "if [ -e $HOME/.bash_profile ]; then
-#     source $HOME/.bash_profile
-# fi" >> $HOME/.bashrc;
-# fi
-
-if [[ ! -e $HOME/.gitconfig ]]; then
-    echo "Linking $HOME/.gitconfig -> $DOTFILES_ROOT/os/common/home/.gitconfig"
-    ln -fs $DOTFILES_ROOT/os/common/home/.gitconfig $HOME/.gitconfig
+if [[ -e $DOTFILES_ROOT/os/common/install ]]; then
+    bash $DOTFILES_ROOT/os/common/install
 fi
 
-if [[ ! -e $HOME/.hushlogin ]]; then
-    echo "Linking $HOME/.hushlogin -> $DOTFILES_ROOT/os/common/home/.hushlogin"
-    ln -fs $DOTFILES_ROOT/os/common/home/.hushlogin $HOME/.hushlogin
+if [[ $(uname -a) = *[Ss]ynology* ]]; then
+    export DOTFILES_OS="nas"
+elif [[ $(uname -a) = *[Ll]inux* ]]; then
+    export DOTFILES_OS="linux"
+elif [[ $(uname -a) = *[Dd]arwin* ]]; then
+    export DOTFILES_OS="mac"
 fi
 
-# if [[ ! -e $HOME/.ssh/config ]]; then
-#     echo "Linking $HOME/.ssh/config -> $DOTFILES_ROOT/os/common/home/.ssh/config"
-#     ln -fs $DOTFILES_ROOT/os/common/home/.ssh/config $HOME/.ssh/config
-# fi
-
-# if [[ $(uname -a) = *[Ll]inux* ]]; then
-#     if [[ ! -e $HOME/.xstartup ]]; then
-#         echo "Linking $HOME/.xstartup -> $DOTFILES_ROOT/os/common/home/.xstartup"
-#         ln -fs $DOTFILES_ROOT/os/common/home/.xstartup $HOME/.xstartup
-#     fi
-# fi
-
+if [[ -e $DOTFILES_ROOT/os/$DOTFILES_OS/install ]]; then
+    bash $DOTFILES_ROOT/os/$DOTFILES_OS/install
+fi

@@ -1,0 +1,23 @@
+DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/common
+
+# Installing into .bash_profile
+echo "
+#Added by DOTFILES #DOTFILES
+if [ -f ~/.bashrc ]; then #DOTFILES
+   source ~/.bashrc #DOTFILES
+fi #DOTFILES" >> $HOME/.bash_profile
+
+echo "
+#Added by DOTFILES #DOTFILES" >> $HOME/.bashrc
+echo "export DOTFILES_ROOT=$DOTFILES_ROOT #DOTFILES" >> $HOME/.bashrc
+echo "source $DOTFILES_OS_ROOT/bashrc #DOTFILES" >> $HOME/.bashrc
+
+if [[ ! -e $HOME/.gitconfig ]]; then
+    echo "Linking $HOME/.gitconfig -> $DOTFILES_OS_ROOT/home/.gitconfig"
+    ln -fs $DOTFILES_OS_ROOT/home/.gitconfig $HOME/.gitconfig
+fi
+
+if [[ ! -e $HOME/.ssh/config ]]; then
+    echo "Linking $HOME/.ssh/config -> $DOTFILES_OS_ROOT/home/.ssh/config"
+    ln -fs $DOTFILES_OS_ROOT/home/.ssh/config $HOME/.ssh/config
+fi

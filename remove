@@ -2,35 +2,21 @@
 
 DOTFILES_ROOT=$(pwd)
 
-# if [[ -e $HOME/.bash_profile ]]; then
-#     if [[ $(grep -c "$DOTFILES_ROOT/bash_profile.sh" $HOME/.bash_profile) -eq 0 ]]; then
-#         echo "if [ -e $DOTFILES_ROOT/bash_profile.sh ]; then
-#     export DOTFILES_ROOT=$DOTFILES_ROOT
-#     source $DOTFILES_ROOT/bash_profile.sh
-# fi" >> $HOME/.bash_profile
-#     fi
-# else
-#     echo "if [ -e $DOTFILES_ROOT/bash_profile.sh ]; then
-#     export DOTFILES_ROOT=$DOTFILES_ROOT
-#     source $DOTFILES_ROOT/bash_profile.sh
-# fi" >> $HOME/.bash_profile;
-# fi
+sed -i'.dotfiles.bak' -e '/.*#DOTFILES$/d' -e '/^\s*$/d' $HOME/.bashrc
+sed -i'.dotfiles.bak' -e '/.*#DOTFILES$/d' -e '/^\s*$/d' $HOME/.bash_profile
 
-# if [[ -e $HOME/.bashrc ]]; then
-#     if [[ $(grep -c "$HOME/.bash_profile" $HOME/.bashrc) -eq 0 ]]; then
-#         echo "if [ -e $HOME/.bash_profile ]; then
-#     source $HOME/.bash_profile
-# fi" >> $HOME/.bashrc
-#     fi
-# else
-#     echo "if [ -e $HOME/.bash_profile ]; then
-#     source $HOME/.bash_profile
-# fi" >> $HOME/.bashrc;
-# fi
+if [[ -e $DOTFILES_ROOT/os/common/remove ]]; then
+    bash $DOTFILES_ROOT/os/common/remove
+fi
 
+if [[ $(uname -a) = *[Ss]ynology* ]]; then
+    export DOTFILES_OS="nas"
+elif [[ $(uname -a) = *[Ll]inux* ]]; then
+    export DOTFILES_OS="linux"
+elif [[ $(uname -a) = *[Dd]arwin* ]]; then
+    export DOTFILES_OS="mac"
+fi
 
-echo "Removing $HOME/.gitconfig"
-rm -f $HOME/.gitconfig
-
-echo "Removing $HOME/.hushlogin"
-rm -f $HOME/.hushlogin
+if [[ -e $DOTFILES_ROOT/os/$DOTFILES_OS/remove ]]; then
+    bash $DOTFILES_ROOT/os/$DOTFILES_OS/remove
+fi

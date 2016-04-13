@@ -1,10 +1,13 @@
-export HOMEBREW_GITHUB_API_TOKEN=db4aed845b07b95a197a1df34eafc851c448dc40
+DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/mac
 
-if [[ $PATH != *$DOTFILES_ROOT/mac/bin* ]]; then
-    export PATH=$PATH:$DOTFILES_ROOT/mac/bin
+# Add $DOTFILES_OS_ROOT/bin to $PATH
+if [[ $PATH != *$DOTFILES_OS_ROOT/bin* ]]; then
+    export PATH=$PATH:$DOTFILES_OS_ROOT/bin
 fi
 
-LS_COLOR_FLAG="-G"
+export HOMEBREW_GITHUB_API_TOKEN=db4aed845b07b95a197a1df34eafc851c448dc40
+
+export LS_COLOR_FLAG="-G"
 
 export LSCOLORS="ExGxFxDxCxDxDxxxxbxgxc"
 
@@ -16,15 +19,15 @@ if [ -e "$(which brew 2> /dev/null)" ]; then
     #ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 fi
 
-alias ssh-nas='ssh -p 22 root@diskstation.local'
-alias ssh-alesp='ssh -p 1234 fernando@localhost'
+alias ssh-nas='ssh -p 3456 fernando@diskstation.local'
+#alias ssh-alesp='ssh -p 1234 fernando@localhost'
 
 # Quick way to rebuild the Launch Services database and get rid
 # of duplicates in the Open With submenu.
 alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
 
-# ---- BEGIN FUNCTIONS ----
 
+# ---- BEGIN FUNCTIONS ----
 function code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*; }
 
 function count() {

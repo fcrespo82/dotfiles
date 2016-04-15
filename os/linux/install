@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+function install() {
+    local DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/linux
+
+    echo -e "${BOLD}${GREEN}[LINKING]${RESET} \$HOME/.ssh/config -> \$DOTFILES_OS_ROOT/home/.ssh/config"
+    ln -fs $DOTFILES_OS_ROOT/home/.ssh/config $HOME/.ssh/config
+}
+
+install

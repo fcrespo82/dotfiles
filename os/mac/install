@@ -1,6 +1,17 @@
-DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/mac
+#!/usr/bin/env bash
 
-if [[ ! -e $HOME/.ssh/config ]]; then
-    echo "Linking $HOME/.ssh/config -> $DOTFILES_OS_ROOT/home/.ssh/config"
-    ln -fs $DOTFILES_OS_ROOT/home/.ssh/config $HOME/.ssh/config
-fi
+function install() {
+    local DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/mac
+
+    #if [[ -h $HOME/.gitconfig ]]; then
+        echo -e "${BOLD}${GREEN}[LINKING]${RESET} \$HOME/.gitconfig -> \$DOTFILES_OS_ROOT/home/.gitconfig"
+        ln -fs $DOTFILES_OS_ROOT/home/.gitconfig $HOME/.gitconfig
+    #fi
+
+    #if [[ -h $HOME/.ssh/config ]]; then
+        echo -e "${BOLD}${GREEN}[LINKING]${RESET} \$HOME/.ssh/config -> \$DOTFILES_OS_ROOT/home/.ssh/config"
+        ln -fs $DOTFILES_OS_ROOT/home/.ssh/config $HOME/.ssh/config
+    #fi
+}
+
+install

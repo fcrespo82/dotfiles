@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-
 export DOTFILES_VERSION=2.0
 
-DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/common
+export DOTFILES_COMMOM_INSTALLED="YES"
+
+
+export DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/common
 
 # Add $DOTFILES_OS_ROOT/bin to $PATH
 if [[ $PATH != *$DOTFILES_OS_ROOT/bin* ]]; then

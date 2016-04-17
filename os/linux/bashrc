@@ -1,3 +1,7 @@
+
+export DOTFILES_LINUX_INSTALLED="YES"
+export DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/linux
+
 if [[ $PATH != *$DOTFILES_ROOT/linux/bin* ]]; then
     export PATH=$PATH:$DOTFILES_ROOT/linux/bin
 fi

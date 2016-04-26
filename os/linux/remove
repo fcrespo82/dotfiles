@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+function remove_linux {
+    echo -e "${BOLD}${RED}[REMOVING]${RESET} symlink to \$HOME/.ssh/config"
+    if [[ -h $HOME/.ssh/config ]]; then
+        rm $HOME/.ssh/config
+    fi
+    
+    echo -e "${BOLD}${RED}[REMOVING]${RESET} dotfiles added lines from \$HOME/.bashrc"
+    sed -i'.dotfiles.bak' -e '/.*#DOTFILES_LINUX$/d' -e '/^\s*$/d' $HOME/.bashrc
+}
+
+remove_linux

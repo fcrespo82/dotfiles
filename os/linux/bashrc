@@ -34,7 +34,7 @@ alias cvsstatus='cvsstatus_command | cvsstatus_color'
 alias sql-prot='sqlplus64 ADMINISTRATIVO_APL/ADMINAPL@172.19.0.16:1521/descorp'
 
 # ---- BEGIN FUNCTIONS ----
-function count() {
+function count {
     TEMP=`getopt -o ah -- "$@"`
     eval set -- "$TEMP"
     while true; do
@@ -51,9 +51,4 @@ function count() {
 if [ -x "$(which xclip 2> /dev/null)" ]; then
     alias pbcopy='xclip -i -selection clipboard'
     alias pbpaste='xclip -o -selection clipboard'
-fi
-
-if [[ ! -e /usr/share/X11/xorg.conf.d/50-applemouse.conf ]]; then
-    echo "Linking /usr/share/X11/xorg.conf.d/50-applemouse.conf -> $DOTFILES_ROOT/config/50-applemouse.conf"
-    ln -s $DOTFILES_ROOT/config/50-applemouse.conf /usr/share/X11/xorg.conf.d/50-applemouse.conf
 fi

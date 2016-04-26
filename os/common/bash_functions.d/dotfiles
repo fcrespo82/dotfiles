@@ -1,3 +1,7 @@
-function update-dotfiles() {
+function update-dotfiles {
     source ~/.bash_profile
+}
+
+function dotfiles_env {
+    env | grep DOTFILES
 }

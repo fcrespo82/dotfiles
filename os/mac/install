@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
-function install() {
+function install_mac {
     local DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/mac
 
-    #if [[ -h $HOME/.gitconfig ]]; then
-        echo -e "${BOLD}${GREEN}[LINKING]${RESET} \$HOME/.gitconfig -> \$DOTFILES_OS_ROOT/home/.gitconfig"
-        ln -fs $DOTFILES_OS_ROOT/home/.gitconfig $HOME/.gitconfig
-    #fi
+    echo -e "${BOLD}${GREEN}[INSTALLING]${RESET} dotfiles lines to \$HOME/.bashrc"
+    echo "#Added by #DOTFILES_MAC
+export DOTFILES_OS_ROOT=$DOTFILES_OS_ROOT #DOTFILES_MAC
+source $DOTFILES_OS_ROOT/bashrc #DOTFILES_MAC" >> $HOME/.bashrc
 
-    #if [[ -h $HOME/.ssh/config ]]; then
-        echo -e "${BOLD}${GREEN}[LINKING]${RESET} \$HOME/.ssh/config -> \$DOTFILES_OS_ROOT/home/.ssh/config"
-        ln -fs $DOTFILES_OS_ROOT/home/.ssh/config $HOME/.ssh/config
-    #fi
+    echo -e "${BOLD}${GREEN}[LINKING]${RESET} \$HOME/.gitconfig -> \$DOTFILES_OS_ROOT/home/.gitconfig"
+    ln -fs $DOTFILES_OS_ROOT/home/.gitconfig $HOME/.gitconfig
+
+    echo -e "${BOLD}${GREEN}[LINKING]${RESET} \$HOME/.ssh/config -> \$DOTFILES_OS_ROOT/home/.ssh/config"
+    ln -fs $DOTFILES_OS_ROOT/home/.ssh/config $HOME/.ssh/config
 }
 
-install
+install_mac

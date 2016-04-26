@@ -3,7 +3,6 @@ export DOTFILES_VERSION=2.0
 
 export DOTFILES_COMMOM_INSTALLED="YES"
 
-
 export DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/common
 
 # Add $DOTFILES_OS_ROOT/bin to $PATH
@@ -71,13 +70,3 @@ fi
 # ---- BEGIN PROMPT ----
 source $DOTFILES_OS_ROOT/bash_prompt
 # ---- END PROMPT ----
-
-# ---- BEGIN CHOOSE OS ----
-if [[ $(uname -a) = *[Ss]ynology* ]]; then
-    source $DOTFILES_ROOT/os/nas/bashrc
-elif [[ $(uname -a) = *[Ll]inux* ]]; then
-    source $DOTFILES_ROOT/os/linux/bashrc
-elif [[ $(uname -a) = *[Dd]arwin* ]]; then
-    source $DOTFILES_ROOT/os/mac/bashrc
-fi
-# ---- END CHOOSE OS ----

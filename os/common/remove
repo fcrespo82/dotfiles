@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-function remove_common () {
+function remove_common {
+    # Tudo que for removido aqui deve ter sido instalado no script de instalação
     local DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/common
     
     echo -e "${BOLD}${RED}[REMOVING]${RESET} dotfiles added lines from \$HOME/.bashrc"
@@ -12,11 +13,6 @@ function remove_common () {
     echo -e "${BOLD}${RED}[REMOVING]${RESET} symlink to \$HOME/.gitconfig"
     if [[ -h $HOME/.gitconfig ]]; then
         rm $HOME/.gitconfig
-    fi
-
-    echo -e "${BOLD}${RED}[REMOVING]${RESET} symlink to \$HOME/.ssh/config"
-    if [[ -h $HOME/.ssh/config ]]; then
-        rm $HOME/.ssh/config
     fi
 }
 

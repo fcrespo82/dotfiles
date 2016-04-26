@@ -11,7 +11,7 @@ WHITE="\033[37m"
 BOLD="\033[1m"
 RESET="\033[0m"
 
-function install() {
+function install {
     export DOTFILES_ROOT=$(pwd)
 
     echo -e "${BOLD}${YELLOW}[CALLING]${RESET} Common dotfiles install script"
@@ -35,7 +35,7 @@ function install() {
 
 #install
 
-function remove() {
+function remove {
     export DOTFILES_ROOT=$(pwd)
 
     echo -e "${BOLD}${YELLOW}[CALLING]${RESET} Common dotfiles remove script"
@@ -57,12 +57,12 @@ function remove() {
     fi
 }
 
-function usage() {
+function usage {
     echo "usage:
     bootstrap.sh [install|remove|-h|--help]"
 }
 
-function help() {
+function help {
     echo "
 options:
     install         Install dotfiles

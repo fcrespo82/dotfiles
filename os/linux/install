@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
 
-function install() {
+function install_linux {
     local DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/linux
+
+    echo -e "${BOLD}${GREEN}[INSTALLING]${RESET} dotfiles lines to \$HOME/.bashrc"
+    echo "#Added by #DOTFILES_LINUX
+export DOTFILES_OS_ROOT=$DOTFILES_OS_ROOT #DOTFILES_LINUX
+source $DOTFILES_OS_ROOT/bashrc #DOTFILES_LINUX" >> $HOME/.bashrc
 
     echo -e "${BOLD}${GREEN}[LINKING]${RESET} \$HOME/.ssh/config -> \$DOTFILES_OS_ROOT/home/.ssh/config"
     ln -fs $DOTFILES_OS_ROOT/home/.ssh/config $HOME/.ssh/config
+    
+    
+    echo -e "${BOLD}${GREEN}[LINKING]${RESET} /usr/share/X11/xorg.conf.d/50-applemouse.conf -> \$DOTFILES_OS_ROOT/defaults/config/50-applemouse.conf"
+    sudo ln -fs $DOTFILES_OS_ROOT/defaults/config/50-applemouse.conf /usr/share/X11/xorg.conf.d/50-applemouse.conf
+
 }
 
-install
+install_linux

@@ -3,10 +3,18 @@
 export HOST_COLOR="\[\033[32m\]"
 export USER_COLOR="\[\033[34m\]"
 export ROOT_USER_COLOR="\[\033[31m\]"
+export CONDA_ENV_COLOR="\[\033[32m\]"
 export PATH_COLOR="\[\033[1;34m\]"
 export GIT_COLOR="\[\033[32m\]"
 export STATS_COLOR="\[\033[m\]"
 export RESET="\[\033[0m\]"
+
+function _conda_env {
+    if [ "$CONDA_DEFAULT_ENV" != "" ]; then
+        COLOR=$CONDA_ENV_COLOR
+		echo "(python enviroment:${COLOR}$CONDA_DEFAULT_ENV${RESET})\n"
+    fi
+}
 
 function _user {
     COLOR=$USER_COLOR
@@ -99,7 +107,7 @@ function path {
 function _update_ps1() {
     # -(${HOST_COLOR}\h${RESET})
     #export PS1="\n`echo -e \"\u250c\"``_user`-(${PATH_COLOR}$(basename $(pwd))${RESET})`_parse_git_branch`\n`echo -e \"\u2514\"``_is_root` "
-    export PS1="\n`_user`" # User
+    export PS1="\n`_conda_env``_user`" # User
     export PS1=$PS1"-(${PATH_COLOR}\W${RESET})" # Path
     export PS1=$PS1"`_parse_git_branch`" # Git status
     export PS1=$PS1"\n`_is_root` " # User/Root prompt

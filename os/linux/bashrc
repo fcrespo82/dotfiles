@@ -2,15 +2,15 @@
 export DOTFILES_LINUX_INSTALLED="YES"
 export DOTFILES_OS_ROOT=$DOTFILES_ROOT/os/linux
 
-if [[ $PATH != *$DOTFILES_ROOT/linux/bin* ]]; then
-    export PATH=$PATH:$DOTFILES_ROOT/linux/bin
+if [[ $PATH != *$DOTFILES_ROOT/os/linux/bin* ]]; then
+    export PATH=$PATH:$DOTFILES_ROOT/os/linux/bin
 fi
 
-export ORACLE_HOME=/usr/lib/oracle/12.1/client64
-export LD_LIBRARY_PATH=/usr/lib/oracle/12.1/client64/lib:$LD_LIBRARY_PATH
+# export ORACLE_HOME=/usr/lib/oracle/12.1/client64
+# export LD_LIBRARY_PATH=/usr/lib/oracle/12.1/client64/lib:$LD_LIBRARY_PATH
 
-export SWIFT_HOME=/home/fxcrespo/apps/swift/usr/bin
-export PATH=$SWIFT_HOME:"${PATH}"
+# export SWIFT_HOME=/home/fxcrespo/apps/swift/usr/bin
+# export PATH=$SWIFT_HOME:"${PATH}"
 
 LS_COLOR_FLAG="--color"
 

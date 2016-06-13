@@ -1,1 +1,7 @@
-env DISPLAY=:0 xinput set-button-map 10 1 1 3 4 5 6 7
+#!/bin/bash
+
+while(true)
+do
+    echo -n | xsel -n -i
+    sleep 0.5
+done

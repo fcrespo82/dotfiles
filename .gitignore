@@ -3,3 +3,4 @@ backup
 backup*
 .DS_Store
 current_home
+.venv

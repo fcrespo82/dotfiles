@@ -1,3 +1,4 @@
 # Dotfiles
 
-My custom configuration for both home (Mac) and work (Ubuntu) machines
+My custom configuration for both home (Mac) and work (Archlinux) machines
+

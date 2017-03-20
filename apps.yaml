@@ -1,0 +1,19 @@
+openssl:
+    os: all
+    type: executable
+    executable: openssl
+    required: false
+asdf:
+    os: all
+    type: folder
+    folder: ~/.asdf
+    required: false
+zplug:
+    os: all
+    type: folder
+    folder: ~/.zplug
+    required: false
+fail:
+    type: executable
+    executable: do_not_exist
+    required: true

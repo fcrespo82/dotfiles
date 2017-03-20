@@ -4,3 +4,4 @@ backup*
 .DS_Store
 current_home
 .venv
+__pycache__

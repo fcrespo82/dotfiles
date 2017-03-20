@@ -1,34 +1,54 @@
-import subprocess
+#!.venv/bin/python
+'''usage:
+    bootstrap.py [-d]
 
-REQUIRED_APPS = {
-    "openssl": {
-        "os": "all"
-    },
-    "asdf": {
-        "os": "all",
-        "git": True,
-        "path": "~"
-    },
-    "zplug": {
-        "os": "all",
-        "git": True,
-        "function": True,
-        "path": "~"
-    }
-}
+options:
+    -d          Enable debug
 
-def verify_requirements():
-    for command in REQUIRED_APPS:
-        which = subprocess.run(["which", command], stdout=subprocess.PIPE)
-        if which.returncode == 0:
-            if not REQUIRED_APPS[command].get('function'):
-                REQUIRED_APPS[command]['real_path'] = which.stdout
-            REQUIRED_APPS[command]['installed'] = True
+'''
+from pathlib import Path
+from distutils.spawn import find_executable
+import logging
+import yaml
+from docopt import docopt
 
-    return REQUIRED_APPS
+VERSION = '1.0'
+
+
+def verify_app(app):
+    if app['type'] == 'folder':
+        #pylint: disable=no-member
+        return Path(app[app['type']]).expanduser().exists()
+    else:
+        if find_executable(app[app['type']]):
+            return True
+    return False
+
+
+def verify_requirements(apps):
+    logging.info('Checking for requirements')
+    for app in apps:
+        installed = verify_app(apps[app])
+        apps[app]['installed'] = installed
+        logging.debug('%s - installed: %s', app, installed)
+
+    for app in apps:
+        if not apps[app]['installed'] and apps[app]['required']:
+            logging.fatal('\'%s\' is required but is not installed', app)
+            return False
+    return True
+
 
 def main():
-    print(verify_requirements())
+    logging.basicConfig(level=LOG_LEVEL)
+    apps = yaml.load(open('apps.yaml'))
+    ok = verify_requirements(apps)
+    print(ok)
+
 
 if __name__ == '__main__':
+    PARAMS = docopt(__doc__, version=VERSION)
+    LOG_LEVEL = logging.INFO
+    if PARAMS['-d']:
+        LOG_LEVEL = logging.DEBUG
     main()

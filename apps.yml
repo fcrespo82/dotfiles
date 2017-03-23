@@ -1,3 +1,4 @@
+---
 openssl:
     os: all
     type: executable
@@ -16,4 +17,4 @@ zplug:
 fail:
     type: executable
     executable: do_not_exist
-    required: true
+    required: false

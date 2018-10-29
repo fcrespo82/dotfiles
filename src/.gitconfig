@@ -1,0 +1,34 @@
+[user]
+	name = Fernando Crespo
+	email = fernando82@gmail.com
+[push]
+    default = simple
+[core]
+    # Use custom `.gitignore`
+    excludesfile = ~/.gitignore
+    # Treat spaces before tabs, lines that are indented with 8 or more spaces, and all kinds of trailing whitespace as an error
+    whitespace = space-before-tab,indent-with-non-tab,trailing-space
+[color]
+    # Use colors in Git commands that are capable of colored output when outputting to the terminal
+    ui = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+[credential]
+	helper = cache --timeout=2628000
+[help]
+	autocorrect = 1
+[merge]
+    tool = vscode-difftool
+[mergetool "vscode-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE

@@ -10,5 +10,9 @@
     "python.pythonPath": "${workspaceRoot}/.venv/bin/python3",
     "python.linting.pylintArgs": [
         "-d C0111,C0301"
-    ]
+    ],
+    "files.exclude": {
+        "**/.git": false,
+        ".git": true
+    }
 }

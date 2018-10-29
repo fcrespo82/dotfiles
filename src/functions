@@ -1,0 +1,22 @@
+pgrep() {
+    command pgrep -fla $@ | grep -E "^[0-9]+"
+}
+
+nas() {
+    echo "Starting remote ssh port redirect from nas.crespo.com.br:1234 to localhost:22"
+    until `ssh -p 3456 fernando@nas.crespo.com.br -R 1234:localhost:22 -N`; do
+        echo "Restarting remote ssh port redirect from nas.crespo.com.br:1234 to localhost:22"
+        sleep 1
+    done
+}
+
+psc() {
+    cmd='ps axo %cpu,pid,ppid,user,command'
+    if [ "$1" == "" ]; then
+        echo $cmd
+        $cmd;
+    else
+        echo $cmd
+        $cmd | grep "$1" | grep -v "grep $1" | grep -v "bin/psc" | grep -v '$cmd';
+    fi;
+}

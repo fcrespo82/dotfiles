@@ -5,3 +5,4 @@ backup*
 current_home
 .venv
 __pycache__
+tmp

@@ -147,8 +147,8 @@ alias pkill='pkill -f'
 
 alias ssh-nas='ssh -p 3456 root@nas.crespo.com.br'
 
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
+source $HOME/.asdf/asdf.sh
+source $HOME/.asdf/completions/asdf.bash
 
 export EDITOR="code -nw"
 
@@ -167,4 +167,6 @@ esac
 export PATH="/usr/local/opt/e2fsprogs/bin:$PATH"
 export PATH="/usr/local/opt/e2fsprogs/sbin:$PATH"
 
-. functions
+
+source $DOTFILES/.dotfiles/functions
+source $DOTFILES/.dotfiles/apps

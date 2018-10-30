@@ -143,6 +143,8 @@ alias untar-gzip='tar -vxzf' # Extract gzip files
 alias tar-bz2='tar -vcjf' # Create bz2 files
 alias tar-gzip='tar -vczf' # Create gzip files
 
+alias pkill='pkill -f'
+
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 

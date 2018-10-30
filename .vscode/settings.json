@@ -7,7 +7,7 @@
         "**/os/**": "shellscript"
         
     },
-    "python.pythonPath": "${workspaceRoot}/.venv/bin/python3",
+    "python.pythonPath": "/Users/fernando/.asdf/shims/python",
     "python.linting.pylintArgs": [
         "-d C0111,C0301"
     ],

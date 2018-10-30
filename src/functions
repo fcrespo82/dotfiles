@@ -20,3 +20,17 @@ psc() {
         $cmd | grep "$1" | grep -v "grep $1" | grep -v "bin/psc" | grep -v '$cmd';
     fi;
 }
+
+count() {
+    if [[ $1 == "" ]]; then
+        ls -1 | wc -l | sed "s/ //g"
+    else
+        while getopts ":a" arg; do
+            case "$arg" in
+                a) ls -A1 | wc -l | sed "s/ //g";; 
+                \?) echo -e "Usage:\n\tcount   \tCount files in a folder (except hidden)\n\tcount -a\tCount files in a folder including hidden";;
+            esac
+            shift $((OPTIND-1))
+        done
+    fi
+}

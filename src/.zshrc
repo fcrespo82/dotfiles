@@ -145,6 +145,8 @@ alias tar-gzip='tar -vczf' # Create gzip files
 
 alias pkill='pkill -f'
 
+alias ssh-nas='ssh -p 3456 root@nas.crespo.com.br'
+
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 

@@ -12,7 +12,7 @@ fi
 
 # ---- BEGIN FUNCTIONS ----
 function count() {
-    TEMP=`getopt -o ah -- "$@"`
+    TEMP=`getopt -oah -- "$*"`
     eval set -- "$TEMP"
     while true; do
         case "$1" in

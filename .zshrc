@@ -126,6 +126,8 @@ case $(uname -s) in
         ;;
 esac
 
+# export LS_COLORS="di=01;34:ln=01;36:so=01;35:pi=01;33:ex=01;32:bd=01;33:cd=01;33:su=01;00:sg=01;00;41:tw=01;00;46:ow=01;00;42:"
+
 LS_CUSTOM_FLAGS="-Fh"
 
 alias ls='ls ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}'
@@ -155,18 +157,28 @@ export EDITOR="code -nw"
 # Replace macos coreutils with gnu versions
 case $(uname -s) in
     Darwin)
-        export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-        export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-        # Override default flag for macOS since we have gnu coreutils in PATH
-        LS_COLOR_FLAG="--color"
-        alias ls='ls ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}'
+        if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
+            export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+            # Override default flag for macOS since we have gnu coreutils in PATH
+            LS_COLOR_FLAG="--color"
+            alias ls='ls ${LS_COLOR_FLAG} ${LS_CUSTOM_FLAGS}'
+        fi
+        if [ -d /usr/local/opt/gnu-sed/libexec/gnubin ]; then
+            export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+        fi
         ;;
 esac
 
-
-export PATH="/usr/local/opt/e2fsprogs/bin:$PATH"
-export PATH="/usr/local/opt/e2fsprogs/sbin:$PATH"
-
+if [ -d usr/local/opt/e2fsprogs ]; then
+    export PATH="/usr/local/opt/e2fsprogs/bin:$PATH"
+    export PATH="/usr/local/opt/e2fsprogs/sbin:$PATH"
+fi
 
 source $DOTFILES/.dotfiles/functions
 source $DOTFILES/.dotfiles/apps
+
+
+# You must install Pygments first - "sudo pip install Pygments"
+if [ -e "$(which pygmentize 2> /dev/null)" ]; then
+    alias c='pygmentize -O style=monokai -f console256 -g'
+fi

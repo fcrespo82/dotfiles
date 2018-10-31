@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh 
+#!/usr/bin/env zsh
 
 if [ "$(which zsh)" = "" ]; then 
 	echo "Please install zsh first"
@@ -8,34 +8,52 @@ fi
 autoload -Uz compinit && compinit
 autoload -Uz colors && colors
 
-dest=tmp
 
-function realpath() { python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" "$1"; }
+if [ -z "${DOTFILES_DIR}" ]; then 
+    export DOTFILES_DIR=/tmp/.dotfiles
+fi
 
-function install() {
-	rsync -avh --no-perms src/ $dest
-	location=$(realpath $dest)
-	sed -i "1s;^;export DOTFILES=\"$location\"\n;" $dest/.zshrc
-	echo "Sourcing"
-	source $dest/.zshrc
+linkedfiles=(
+    .gitconfig
+    .vim
+    .vimrc
+    .zshrc
+)
+
+backup() {
+    date=`date '+%Y_%m_%d-%H_%M_%S'`
+    backup=$DOTFILES_DIR/backup/$date
+    echo "Backing up to $backup"
+    echo mkdir -p $backup
+    for file in ${linkedfiles[@]}; do
+        echo mv "$HOME/$file" $backup
+    done
 }
 
-if [ "$1" = "--force" -o "$1" = "-f" ]; then
-	install;
-else
-	list=$(find src | xargs -n1 -J% echo % | sed s/src/$dest/g | tail -n+2)
-	for i in ${list[@]}; do
-	echo $i
-		if [ -e "$i" ]; then
-			echo $bg[red]\*$i$reset_color
-		else
-			echo $fg[green]$i$reset_color
-		fi
-	done
-	read "REPLY?This will override the files marked with $bg[red] * $reset_color destination($dest) directory. Are you sure? (y/n) ";
-	echo "";
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		install;
-	fi;
-fi;
-unset install realpath;
+check() {
+    echo "This files would be overriden. I'll make a backup first."
+    for file in ${linkedfiles[@]}; do
+        if [ -e "$HOME/$file" ]; then
+            echo $bg[red]\*$file$reset_color
+        else
+            echo $fg[green]$file$reset_color
+        fi
+    done
+}
+
+install() {
+    for file in ${linkedfiles[@]}; do
+        echo "ln -s \"$file\" \"$HOME/$file\""
+    done
+}
+
+main() {
+    check
+    read "REPLY?Make a backup of your files and install to $DOTFILES_DIR? (y/n) ";
+    echo "";
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        backup
+        install
+    fi;
+}
+main

@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 pgrep() {
     command pgrep -fla $@ | grep -E "^[0-9]+"
 }

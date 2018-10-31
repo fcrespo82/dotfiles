@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 
 if [ "$(which brew)" = "" ]; then 
 	echo "Installing homebrew"

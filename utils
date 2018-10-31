@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+debug() {
+	if [ ! -z "$DOTFILES_DEBUG" ]; then
+		echo $@
+	fi
+}

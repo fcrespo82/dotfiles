@@ -1,17 +1,19 @@
 #!/usr/bin/env zsh
 
+source $DOTFILES/utils
+
 if [ "$(which brew)" = "" ]; then 
 	echo "Installing homebrew"
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
-	echo "Homebrew already installed"
+	debug "Homebrew already installed"
 fi
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then 
 	echo "Installing oh-my-zsh"
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 else
-	echo "oh-my-zsh already installed"
+	debug "oh-my-zsh already installed"
 fi
 
 if [ "$(which asdf)" = "" ]; then 
@@ -23,5 +25,5 @@ if [ "$(which asdf)" = "" ]; then
 		asdf plugin add $plugin
 	done
 else
-	echo "asdf already installed"
+	debug "asdf already installed"
 fi

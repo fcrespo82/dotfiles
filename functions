@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+update-dotfiles() {
+    $(cd $DOTFILES_DIR && git pull && source $DOTFILES_DIR/.zshrc)
+}
+
 pgrep() {
     command pgrep -fla $@ | grep -E "^[0-9]+"
 }

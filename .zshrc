@@ -1,5 +1,9 @@
+source .dotfiles_dir
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+source $DOTFILES_DIR/functions
+source $DOTFILES_DIR/apps
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -147,7 +151,7 @@ alias tar-gzip='tar -vczf' # Create gzip files
 
 alias pkill='pkill -f'
 
-alias ssh-nas='ssh -p 3456 root@nas.crespo.com.br'
+alias ssh-nas='ssh -p 3456 fernando@nas.crespo.com.br'
 
 source $HOME/.asdf/asdf.sh
 source $HOME/.asdf/completions/asdf.bash
@@ -174,11 +178,7 @@ if [ -d usr/local/opt/e2fsprogs ]; then
     export PATH="/usr/local/opt/e2fsprogs/sbin:$PATH"
 fi
 
-source $DOTFILES/.dotfiles/functions
-source $DOTFILES/.dotfiles/apps
-
-
 # You must install Pygments first - "sudo pip install Pygments"
 if [ -e "$(which pygmentize 2> /dev/null)" ]; then
-    alias c='pygmentize -O style=monokai -f console256 -g'
+    alias ccat='pygmentize -O style=monokai -f console256 -g' #colorized cat
 fi

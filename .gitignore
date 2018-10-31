@@ -6,3 +6,4 @@ current_home
 .venv
 __pycache__
 tmp
+.dotfiles_dir

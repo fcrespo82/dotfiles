@@ -12,5 +12,5 @@ My custom configuration
 
 ### Custom install location
 
-`export DOTFILES_DIR=<install_dir> git clone git@github.com:fcrespo82/dotfiles.git $DOTFILES_DIR && $HOME/.dotfiles/bootstrap.sh`
+`export DOTFILES_DIR=<install_dir> git clone git@github.com:fcrespo82/dotfiles.git $DOTFILES_DIR && $DOTFILES_DIR/bootstrap.sh`
 

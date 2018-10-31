@@ -8,9 +8,8 @@ fi
 autoload -Uz compinit && compinit
 autoload -Uz colors && colors
 
-
 if [ -z "${DOTFILES_DIR}" ]; then 
-    export DOTFILES_DIR=/tmp/.dotfiles
+    export DOTFILES_DIR=$HOME/.dotfiles
 fi
 
 linkedfiles=(
@@ -24,14 +23,17 @@ backup() {
     date=`date '+%Y_%m_%d-%H_%M_%S'`
     backup=$DOTFILES_DIR/backup/$date
     echo "Backing up to $backup"
-    echo mkdir -p $backup
     for file in ${linkedfiles[@]}; do
-        echo mv "$HOME/$file" $backup
+        if [ -e "$HOME/$file" ]; then
+            mkdir -p $backup
+            rsync -Ea "$HOME/$file" $backup/
+            rm -rf $HOME/$file
+        fi
     done
 }
 
 check() {
-    echo "This files would be overriden. I'll make a backup first."
+    echo "This files marked with $bg[red]*$reset_color would be overriden. I'll make a backup first."
     for file in ${linkedfiles[@]}; do
         if [ -e "$HOME/$file" ]; then
             echo $bg[red]\*$file$reset_color
@@ -43,8 +45,11 @@ check() {
 
 install() {
     for file in ${linkedfiles[@]}; do
-        echo "ln -s \"$file\" \"$HOME/$file\""
+        ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
     done
+    echo "export DOTFILES_DIR=\"$DOTFILES_DIR\"" > $DOTFILES_DIR/.dotfiles_dir
+	echo "Sourcing..."
+	echo source $DOTFILES_DIR/.zshrc
 }
 
 main() {

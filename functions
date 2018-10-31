@@ -36,3 +36,22 @@ count() {
         done
     fi
 }
+
+to_mp4() {
+    FFMPEG=`which ffmpeg`
+    file=$1
+    $FFMPEG -i "$file" "${file%.*}.mp4"
+}
+
+git-status-recursive() {
+    find . -name .git -execdir bash -c 'echo -en "\033[1;31m"repo: "\033[1;34m"; basename "`git rev-parse --show-toplevel`"; git status -s' \; 
+}
+
+
+reverse-ssh-connection-nas() {
+    echo "Starting remote ssh port redirect from nas:1234 to localhost:22"
+    until `ssh -p 3456 root@nas.crespo.com.br -R 1234:localhost:22 -N`; do
+        echo "Restarting remote ssh port redirect from nas:1234 to localhost:22"
+        sleep 1
+    done
+}

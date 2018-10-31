@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-FFMPEG=`which ffmpeg`
-
-file=$1
- 
-$FFMPEG -i "$file" "${file%.*}.mp4"

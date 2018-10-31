@@ -24,19 +24,18 @@ if [ "$1" = "--force" -o "$1" = "-f" ]; then
 	install;
 else
 	list=$(find src | xargs -n1 -J% echo % | sed s/src/$dest/g | tail -n+2)
-	echo "This will override the files marked with "$bg[red] \* $reset_color", the other files don't exist in your system and are safe to install."
 	for i in ${list[@]}; do
-		echo $bg
+	echo $i
 		if [ -e "$i" ]; then
-			echo $bg[red] \* $i $reset_color
+			echo $bg[red]\*$i$reset_color
 		else
-			echo $fg[green] $i $reset_color
+			echo $fg[green]$i$reset_color
 		fi
 	done
-	read "REPLY?This will overwrite existing files in your destination($dest) directory. Are you sure? (y/n) ";
+	read "REPLY?This will override the files marked with $bg[red] * $reset_color destination($dest) directory. Are you sure? (y/n) ";
 	echo "";
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
 		install;
 	fi;
 fi;
-unset install;
+unset install realpath;

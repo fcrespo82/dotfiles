@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source $DOTFILES/utils
+source $DOTFILES_DIR/utils
 
 if [ "$(which brew)" = "" ]; then 
 	echo "Installing homebrew"

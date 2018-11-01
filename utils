@@ -5,3 +5,7 @@ debug() {
 		echo $@
 	fi
 }
+
+update-dotfiles() {
+    (cd $DOTFILES_DIR && git pull && source $DOTFILES_DIR/.zshrc)
+}

@@ -47,7 +47,7 @@ install() {
     for file in ${linkedfiles[@]}; do
         ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
     done
-    export DOTFILES_DIR=$DOTFILES_DIR > $HOME/.dotfiles_dir
+    echo export DOTFILES_DIR=$DOTFILES_DIR > $HOME/.dotfiles_dir
 	echo "Sourcing..."
 	source $DOTFILES_DIR/.zshrc
 }

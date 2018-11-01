@@ -2,7 +2,6 @@ source $HOME/.dotfiles_dir
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-source $DOTFILES_DIR/env
 source $DOTFILES_DIR/functions
 source $DOTFILES_DIR/apps
 
@@ -183,3 +182,5 @@ fi
 if [ -e "$(which pygmentize 2> /dev/null)" ]; then
     alias ccat='pygmentize -O style=monokai -f console256 -g' #colorized cat
 fi
+
+source $DOTFILES_DIR/env

@@ -2,6 +2,7 @@ source $HOME/.dotfiles_dir
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+source $DOTFILES_DIR/env
 source $DOTFILES_DIR/functions
 source $DOTFILES_DIR/apps
 

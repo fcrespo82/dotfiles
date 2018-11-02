@@ -57,21 +57,19 @@ reverse-ssh-connection-nas() {
 }
 
 java-asdf-link() {
+    echo $fg_bold[yellow]To create links on $macOS_java_dir this script needs Super User powers.$reset_color
     macOS_java_dir=/Library/Java/JavaVirtualMachines
     asdf_java_dir=$ASDF_DIR/installs/java
 
     if [ -d $asdf_java_dir ]; then
-        installs=$(find $asdf_java_dir -type d -depth 1 -print)
-        for install in $installs; do
-            # echo $install
-            # echo find $install -type d -name Home -print 
-            founds=$(find $install -type d -name Home -print )
-            for found in $founds; do
+        installs=( $(find $asdf_java_dir -type d -depth 1 -print) )
+        for install in ${installs[*]}; do
+            found=$(find $install -name Home -print)
+            if [ ! -z $found ]; then
                 destination=$(dirname $(dirname $found))
                 source=${destination##*/}
-                echo To create links on $macOS_java_dir this script needs Super User powers.
-                sudo ln -s "$destination" "$macOS_java_dir/$source"
-            done
+                sudo ln -sf "$destination" "$macOS_java_dir/$source"
+            fi
         done
     fi
 }

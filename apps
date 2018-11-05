@@ -2,11 +2,13 @@
 
 source $DOTFILES_DIR/utils
 
-if [ "$(which brew)" = "" ]; then 
-	echo "Installing homebrew"
-	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-else
-	debug "Homebrew already installed"
+if [[ "$(uname -s)" = Darwin ]]; then # Only executes if macOS
+	if [ "$(which brew)" = "" ]; then 
+		echo "Installing homebrew"
+		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	else
+		debug "Homebrew already installed"
+	fi
 fi
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then 

@@ -9,4 +9,6 @@ asdf_update_java_home() {
     echo "No java version set. Type `asdf list-all java` for all versions."
   fi
 }
-asdf_update_java_home
+if [[ "$(uname -a)" != *synology* ]]; then # Don't set java home on NAS
+    asdf_update_java_home
+fi

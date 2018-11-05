@@ -183,4 +183,10 @@ if [ -e "$(which pygmentize 2> /dev/null)" ]; then
     alias ccat='pygmentize -O style=monokai -f console256 -g' #colorized cat
 fi
 
+# Put local bin in path
+if [ -d /usr/local/bin ]; then
+    export PATH=$PATH:/usr/local/bin
+fi
+
+
 source $DOTFILES_DIR/env

@@ -73,6 +73,10 @@ plugins=(
   urltools
   jsontools
   vscode
+  extract
+  colorize
+  catimg
+  emoji
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -156,7 +160,7 @@ alias ssh-nas='ssh -p 3456 fernando@nas.crespo.com.br'
 source $HOME/.asdf/asdf.sh
 source $HOME/.asdf/completions/asdf.bash
 
-export EDITOR="code -nw"
+export EDITOR="code -w"
 
 # Replace macos coreutils with gnu versions
 case $(uname -s) in
@@ -176,11 +180,6 @@ esac
 if [ -d usr/local/opt/e2fsprogs ]; then
     export PATH="/usr/local/opt/e2fsprogs/bin:$PATH"
     export PATH="/usr/local/opt/e2fsprogs/sbin:$PATH"
-fi
-
-# You must install Pygments first - "sudo pip install Pygments"
-if [ -e "$(which pygmentize 2> /dev/null)" ]; then
-    alias ccat='pygmentize -O style=monokai -f console256 -g' #colorized cat
 fi
 
 # Put local bin in path

@@ -73,3 +73,7 @@ java-asdf-link() {
         done
     fi
 }
+
+rename-from-exif() {
+    exiftool '-filename<DateTimeOriginal' -d %Y-%m-%d-%H-%M-%S%%-c.%%le $1
+}

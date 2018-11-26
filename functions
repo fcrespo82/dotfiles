@@ -43,6 +43,12 @@ to_mp4() {
     $FFMPEG -i "$file" "${file%.*}.mp4"
 }
 
+to_mp3() {
+    FFMPEG=`which ffmpeg`
+    file=$1
+    $FFMPEG -i "$file" "${file%.*}.mp3"
+}
+
 git-status-recursive() {
     find . -name .git -execdir bash -c 'echo -en "\033[1;31m"repo: "\033[1;34m"; basename "`git rev-parse --show-toplevel`"; git status -s' \; 
 }

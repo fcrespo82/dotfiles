@@ -12,3 +12,6 @@ asdf_update_java_home() {
 if [[ "$(uname -a)" != *synology* ]]; then # Don't set java home on NAS
     asdf_update_java_home
 fi
+
+
+export TNS_ADMIN=~/OneDrive/alesp/TNSNAMES/

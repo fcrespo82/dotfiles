@@ -7,7 +7,8 @@ debug() {
 }
 
 dotfiles-update() {
-    (cd $DOTFILES_DIR && git pull && source $DOTFILES_DIR/.zshrc)
+    (cd $DOTFILES_DIR && git pull)
+	source $DOTFILES_DIR/.zshrc
 }
 
 alias update-dotfiles=dotfiles-update

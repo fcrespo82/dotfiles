@@ -1,3 +1,3 @@
 syntax on
 colorscheme monokai
-set number
+set number relativenumber

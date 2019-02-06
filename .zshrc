@@ -185,7 +185,7 @@ fi
 
 # Put local bin in path
 if [ -d /usr/local/bin ]; then
-    export PATH=$PATH:/usr/local/bin
+    export PATH="/usr/local/bin:$PATH"
 fi
 
 

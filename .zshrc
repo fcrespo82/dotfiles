@@ -178,7 +178,7 @@ case $(uname -s) in
         ;;
 esac
 
-if [ -d usr/local/opt/e2fsprogs ]; then
+if [ -d /usr/local/opt/e2fsprogs ]; then
     export PATH="/usr/local/opt/e2fsprogs/bin:$PATH"
     export PATH="/usr/local/opt/e2fsprogs/sbin:$PATH"
 fi

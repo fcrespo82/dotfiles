@@ -12,3 +12,29 @@ dotfiles-update() {
 }
 
 alias update-dotfiles=dotfiles-update
+
+ensure_zsh() {
+	if [ -z $(command -v zsh) ]; then
+		echo "Installing zsh"
+		case $(uname -s) in
+			Linux)
+				apt install -y zsh
+				;;
+			Darwin)
+				ensure_homebrew()
+				brew install zsh
+				;;
+		esac
+	fi
+}
+
+ensure_homebrew() {
+	if [ -z $(command -v brew) ]; then
+		echo "Installing brew"
+		case $(uname -s) in
+			Darwin)
+				/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+				;;
+		esac
+	fi
+}

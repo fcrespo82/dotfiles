@@ -1,10 +1,9 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env sh
+source utils
 
-if [ "$(which zsh)" = "" ]; then 
-	echo "Please install zsh first"
-	exit 1
-fi
+ensure_zsh()
 
+/usr/bin/zsh <<'EOF'
 autoload -Uz compinit && compinit
 autoload -Uz colors && colors
 
@@ -62,3 +61,4 @@ main() {
     fi;
 }
 main
+EOF

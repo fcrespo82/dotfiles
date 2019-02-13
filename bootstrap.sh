@@ -49,18 +49,21 @@ install() {
     echo export DOTFILES_DIR=$DOTFILES_DIR > $HOME/.dotfiles_dir
 	echo "Sourcing..."
 	source $DOTFILES_DIR/.zshrc
-
-    install_daemon
+    case $(uname -s) in
+        Darwin)
+            install_daemon
+            ;;
+    esac
 }
 
 install_daemon() {
-    case $(uname -s) in
-        Darwin)
-            echo "You will need sudo password to install Launch Daemons"
-            echo sudo ln -s $DOTFILES_DIR/macOS/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist /Library/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist
-            sudo ln -s $DOTFILES_DIR/macOS/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist /Library/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist
-            ;;
-    esac
+    echo "You will need sudo password to install Launch Daemons"
+    set -x
+    sed 's@\[DOTFILES\]@'"$DOTFILES_DIR"'@' $DOTFILES_DIR/macOS/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist > /tmp/br.com.crespo.dotfiles.beacon.plist
+    sudo chown root:staff /tmp/br.com.crespo.dotfiles.beacon.plist
+    sudo chmod 664 /tmp/br.com.crespo.dotfiles.beacon.plist
+    sudo mv /tmp/br.com.crespo.dotfiles.beacon.plist /Library/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist
+    set +x
 }
 
 main() {

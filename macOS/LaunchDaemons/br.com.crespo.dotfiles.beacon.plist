@@ -10,7 +10,7 @@
     <key>Label</key>
     <string>br.com.crespo.dotfiles.beacon</string>
     <key>Program</key>
-    <string>/Users/fxcrespo/.dotfiles/LaunchDaemons/beacon.sh</string>
+    <string>[DOTFILES]/LaunchDaemons/beacon.sh</string>
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>

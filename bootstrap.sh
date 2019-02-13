@@ -1,7 +1,7 @@
-#!/usr/bin/env sh
-source utils
+#!/usr/bin/env bash
+. ./utils
 
-ensure_zsh()
+ensure_zsh
 
 /usr/bin/zsh <<'EOF'
 autoload -Uz compinit && compinit
@@ -49,16 +49,33 @@ install() {
     echo export DOTFILES_DIR=$DOTFILES_DIR > $HOME/.dotfiles_dir
 	echo "Sourcing..."
 	source $DOTFILES_DIR/.zshrc
+
+    install_daemon
+}
+
+install_daemon() {
+    case $(uname -s) in
+        Darwin)
+            echo "You will need sudo password to install Launch Daemons"
+            echo sudo ln -s $DOTFILES_DIR/macOS/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist /Library/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist
+            sudo ln -s $DOTFILES_DIR/macOS/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist /Library/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist
+            ;;
+    esac
 }
 
 main() {
     check
-    read "REPLY?Make a backup of your files and install to $DOTFILES_DIR? (y/n) ";
-    echo "";
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
+    if [[ "$1" == "y" ]]; then
         backup
         install
+    else
+        read "REPLY?Make a backup of your files and install to $DOTFILES_DIR? (y/n) ";
+        echo "";
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            backup
+            install
+        fi;
     fi;
 }
-main
+main $1
 EOF

@@ -18,10 +18,10 @@ ensure_zsh() {
 		echo "Installing zsh"
 		case $(uname -s) in
 			Linux)
-				apt install -y zsh
+				apt-get update && apt-get install -y zsh
 				;;
 			Darwin)
-				ensure_homebrew()
+				ensure_homebrew
 				brew install zsh
 				;;
 		esac

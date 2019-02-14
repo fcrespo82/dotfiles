@@ -6,22 +6,24 @@
     <dict>
       <key>PATH</key>
       <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:</string>
+      <key>DOTFILES_DIR</key>
+      <string>[DOTFILES]/</string>
     </dict>
     <key>Label</key>
     <string>br.com.crespo.dotfiles.beacon</string>
-    <key>Program</key>
-    <string>[DOTFILES]/macOS/LaunchDaemons/beacon.sh</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/bin/bash</string>
+      <string>-c</string>
+      <string>[DOTFILES]/macOS/LaunchDaemons/beacon.sh</string>
+    </array>
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>
-    <false/>
-    <key>LaunchOnlyOnce</key>
     <true/>
     <key>StandardOutPath</key>
-    <string>/tmp/dotfiles.beacon.stdout</string>
+    <string>/tmp/br.com.crespo.dotfiles.beacon.stdout</string>
     <key>StandardErrorPath</key>
-    <string>/tmp/dotfiles.beacon.stderr</string>
-    <key>InitGroups</key>
-    <true/>
+    <string>/tmp/br.com.crespo.dotfiles.beacon.stderr</string>
   </dict>
 </plist>

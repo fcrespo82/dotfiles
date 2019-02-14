@@ -60,8 +60,6 @@ install_daemon() {
     echo "You will need sudo password to install Launch Daemons"
     set -x
     sed 's@\[DOTFILES\]@'"$DOTFILES_DIR"'@' $DOTFILES_DIR/macOS/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist > /tmp/br.com.crespo.dotfiles.beacon.plist
-    sudo chown root:staff /tmp/br.com.crespo.dotfiles.beacon.plist
-    sudo chmod 664 /tmp/br.com.crespo.dotfiles.beacon.plist
     sudo mv /tmp/br.com.crespo.dotfiles.beacon.plist /Library/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist
     set +x
 }

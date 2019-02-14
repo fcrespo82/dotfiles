@@ -21,10 +21,6 @@
     <string>/tmp/dotfiles.beacon.stdout</string>
     <key>StandardErrorPath</key>
     <string>/tmp/dotfiles.beacon.stderr</string>
-    <key>UserName</key>
-    <string>admin</string>
-    <key>GroupName</key>
-    <string>admin</string>
     <key>InitGroups</key>
     <true/>
   </dict>

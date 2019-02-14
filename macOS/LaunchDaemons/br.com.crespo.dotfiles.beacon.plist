@@ -7,7 +7,7 @@
       <key>PATH</key>
       <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:</string>
       <key>DOTFILES_DIR</key>
-      <string>[DOTFILES]/</string>
+      <string>[DOTFILES]</string>
     </dict>
     <key>Label</key>
     <string>br.com.crespo.dotfiles.beacon</string>
@@ -20,7 +20,7 @@
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>
-    <true/>
+    <false/>
     <key>StandardOutPath</key>
     <string>/tmp/br.com.crespo.dotfiles.beacon.stdout</string>
     <key>StandardErrorPath</key>

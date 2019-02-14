@@ -59,6 +59,8 @@ install() {
 install_daemon() {
     echo "You will need sudo password to install Launch Daemons"
     set -x
+    launchctl stop br.com.crespo.dotfiles.beacon
+    launchctl unload -w /Library/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist
     sed 's@\[DOTFILES\]@'"$DOTFILES_DIR"'@' $DOTFILES_DIR/macOS/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist > /tmp/br.com.crespo.dotfiles.beacon.plist
     sudo chown root:wheel /tmp/br.com.crespo.dotfiles.beacon.plist
     sudo mv /tmp/br.com.crespo.dotfiles.beacon.plist /Library/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist

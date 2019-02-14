@@ -17,7 +17,7 @@ start_beacon() {
 		Darwin)
 			ensure_mbeacon
 			uuid=$(system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }')
-			mbeacon --uuid $uuid
+			mbeacon -uuid $uuid
 			;;
 	esac
 }

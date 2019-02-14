@@ -3,7 +3,7 @@
 
 ensure_zsh
 
-/usr/bin/zsh <<'EOF'
+$(which zsh) <<'EOF'
 autoload -Uz compinit && compinit
 autoload -Uz colors && colors
 
@@ -42,7 +42,8 @@ check() {
     done
 }
 
-install() {
+install_dotfiles() {
+    source $DOTFILES_DIR/apps
     for file in ${linkedfiles[@]}; do
         ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
     done
@@ -71,17 +72,18 @@ install_daemon() {
 
 main() {
     check
-    if [[ "$1" == "y" ]]; then
+    if [ "$DOTFILES_UNATTENDED" = "YES" ]; then
         backup
-        install
+        install_dotfiles
     else
-        read "REPLY?Make a backup of your files and install to $DOTFILES_DIR? (y/n) ";
+        echo "Make a backup of your files and install to $DOTFILES_DIR? (y/n)"
+        read REPLY
         echo "";
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
+        if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
             backup
-            install
+            install_dotfiles
         fi;
     fi;
 }
-main $1
+main
 EOF

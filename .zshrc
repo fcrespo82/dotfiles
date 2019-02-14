@@ -3,6 +3,7 @@ source $HOME/.dotfiles_dir
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 source $DOTFILES_DIR/functions
+source $DOTFILES_DIR/utils
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"

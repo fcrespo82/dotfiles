@@ -18,7 +18,7 @@ ensure_zsh() {
 		echo "Installing zsh"
 		case $(uname -s) in
 			Linux)
-				apt-get update && apt-get install -y zsh
+				sudo apt-get update && sudo apt-get install -y zsh
 				;;
 			Darwin)
 				ensure_homebrew

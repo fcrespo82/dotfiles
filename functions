@@ -112,3 +112,4 @@ ssh-renegade() {
     else
         ssh fernando@192.168.1.11 -J fernando@nas.crespo.com.br:3456
     fi 
+}

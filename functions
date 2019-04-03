@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 pgrep() {
-    command pgrep -fla $@ | grep -E "^[0-9]+"
+    command pgrep -fla $@ | grep --color -E "^[0-9]+"
 }
 
 nas() {
@@ -82,4 +82,28 @@ java-asdf-link() {
 
 rename-from-exif() {
     exiftool '-filename<DateTimeOriginal' -d %Y-%m-%d-%H-%M-%S%%-c.%%le $1
+}
+
+ssh-nas() {
+    if [ $(ping -c 1 -t 1 192.168.1.2 > /dev/null) ]; then
+        ssh -p 3456 fernando@192.168.1.2
+    else
+        ssh -p 3456 fernando@nas.crespo.com.br
+    fi 
+}
+
+ssh-pi() {
+    if [ $(ping -c 1 -t 1 192.168.1.3 > /dev/null) ]; then
+        ssh pi@192.168.1.3
+    else
+        ssh pi@192.168.1.3 -J fernando@nas.crespo.com.br:3456
+    fi 
+}
+
+ssh-renegade() {
+    if [ $(ping -c 1 -t 1 192.168.1.11 > /dev/null) ]; then
+        ssh fernando@192.168.1.11
+    else
+        ssh fernando@192.168.1.11 -J fernando@nas.crespo.com.br:3456
+    fi 
 }

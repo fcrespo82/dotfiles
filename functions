@@ -84,6 +84,12 @@ rename-from-exif() {
     exiftool '-filename<DateTimeOriginal' -d %Y-%m-%d-%H-%M-%S%%-c.%%le $1
 }
 
+rename-multiple-from-exif() {
+    for file in $@; do
+        rename-from-exif $file
+    done
+}
+
 ssh-nas() {
     if [ $(ping -c 1 -t 1 192.168.1.2 > /dev/null) ]; then
         ssh -p 3456 fernando@192.168.1.2
@@ -106,4 +112,3 @@ ssh-renegade() {
     else
         ssh fernando@192.168.1.11 -J fernando@nas.crespo.com.br:3456
     fi 
-}

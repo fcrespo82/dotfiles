@@ -21,7 +21,7 @@ else
 fi
 
 printf "${BLUE}%s${NORMAL}\n" "Updating Dotfiles"
-cd "$ZSH"
+cd "$DOTFILES_DIR"
 if git pull --rebase --stat origin master
 then
   printf '%s' "$GREEN"

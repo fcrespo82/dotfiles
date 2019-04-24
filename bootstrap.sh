@@ -3,7 +3,7 @@
 
 ensure_zsh
 
-$(which zsh) <<'EOF'
+$(which zsh) << EOF
 autoload -Uz compinit && compinit
 autoload -Uz colors && colors
 
@@ -53,8 +53,63 @@ install_dotfiles() {
     case $(uname -s) in
         Darwin)
             install_daemon
+            install_fonts_osx
+            ;;
+        Linux)
+            install_fonts_linux
             ;;
     esac
+}
+
+install_fonts_linux() {
+    mkdir -p ~/.local/share/fonts
+    cd ~/.local/share/fonts
+    curl -fLo "Fura Code Retina Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Retina/complete/Fura%20Code%20Retina%20Nerd%20Font%20Complete.ttf
+
+    curl -fLo i_all.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_all.sh
+    curl -fLo i_dev.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_dev.sh
+    curl -fLo i_fa.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_fa.sh
+    curl -fLo i_fae.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_fae.sh
+    curl -fLo i_iec.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_iec.sh
+    curl -fLo i_linux.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_linux.sh
+    curl -fLo i_material.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_material.sh
+    curl -fLo i_oct.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_oct.sh
+    curl -fLo i_ple.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_ple.sh
+    curl -fLo i_pom.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_pom.sh
+    curl -fLo i_seti.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_seti.sh
+	
+    cat << EOF2
+Usage:
+
+source ~/.local/share/fonts/i_{all,dev,fa,fae,iec,linux,material,oct,ple,pom,seti}.sh
+
+Use $i_<icon_name> where you want it.
+EOF2
+}
+
+install_fonts_osx() {
+    cd ~/Library/Fonts 
+    curl -fLo "Fura Code Retina Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Retina/complete/Fura%20Code%20Retina%20Nerd%20Font%20Complete.ttf
+
+    curl -fLo i_all.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_all.sh
+    curl -fLo i_dev.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_dev.sh
+    curl -fLo i_fa.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_fa.sh
+    curl -fLo i_fae.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_fae.sh
+    curl -fLo i_iec.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_iec.sh
+    curl -fLo i_linux.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_linux.sh
+    curl -fLo i_material.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_material.sh
+    curl -fLo i_oct.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_oct.sh
+    curl -fLo i_ple.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_ple.sh
+    curl -fLo i_pom.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_pom.sh
+    curl -fLo i_seti.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_seti.sh
+    
+    cat << EOF2
+Usage:
+
+source ~/Library/Fonts/i_{all,dev,fa,fae,iec,linux,material,oct,ple,pom,seti}.sh
+
+Use $i_<icon_name> where you want it.
+EOF2
 }
 
 install_daemon() {

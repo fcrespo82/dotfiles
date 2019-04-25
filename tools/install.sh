@@ -49,7 +49,7 @@ backup() {
 }
 
 install_dotfiles() {
-	source $DOTFILES_DIR/apps
+	source $DOTFILES_DIR/extras
 	for file in "${linkedfiles[@]}"; do
 		printf "${YELLOW}Linking $DOTFILES_DIR/$file to $HOME/$file${NORMAL}\n"
 		ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
@@ -111,7 +111,7 @@ install_fonts() {
 	cat <<EOF
 Usage:
 
-source fonts_path/i_{all,dev,fa,fae,iec,linux,material,oct,ple,pom,seti}.sh
+source $fonts_path/i_{all,dev,fa,fae,iec,linux,material,oct,ple,pom,seti}.sh
 
 Use $i_<icon_name> where you want it.
 EOF

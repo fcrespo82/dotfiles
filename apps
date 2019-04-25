@@ -133,14 +133,23 @@ install_oh-my-zsh() {
 
 install_oh-my-zsh
 
-if [ "$(which asdf)" = "" ]; then
-	echo "Installing asdf"
-	git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-	source $HOME/.asdf/asdf.sh
-	plugins=(java maven python ruby nodejs)
-	for plugin in $plugins; do
-		asdf plugin add $plugin
-	done
-else
-	debug "asdf already installed"
-fi
+
+#   if [ ! -n "$ZSH" ]; then
+#     ZSH=~/.oh-my-zsh
+#   fi
+
+# if [ "$(which asdf)" = "" ]; then
+# 	echo "Installing asdf"
+# 	env git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+# 	env git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git "$ZSH" || {
+#     printf "Error: git clone of oh-my-zsh repo failed\n"
+#     exit 1
+#   }
+# 	source $HOME/.asdf/asdf.sh
+# 	plugins=(java maven python ruby nodejs)
+# 	for plugin in $plugins; do
+# 		asdf plugin add $plugin
+# 	done
+# else
+# 	debug "asdf already installed"
+# fi

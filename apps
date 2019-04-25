@@ -1,31 +1,39 @@
-#!/usr/bin/env zsh
+printf "Recommended installations\n"
+printf "Homebrew\n"
+printf "/usr/bin/ruby -e \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\""
+printf "\n"
+printf "oh-my-zsh\n"
+printf "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\"\n"
+printf "\n"
+printf "asdf\n"
+printf "git clone https://github.com/asdf-vm/asdf.git ~/.asdf\n"
 
-source $DOTFILES_DIR/utils
+# source $DOTFILES_DIR/utils
 
-if [[ "$(uname -s)" = Darwin ]]; then # Only executes if macOS
-	if [ "$(which brew)" = "" ]; then 
-		echo "Installing homebrew"
-		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	else
-		debug "Homebrew already installed"
-	fi
-fi
+# if [[ "$(uname -s)" = Darwin ]]; then # Only executes if macOS
+# 	if [ "$(which brew)" = "" ]; then
+# 		echo "Installing homebrew"
+# 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# 	else
+# 		debug "Homebrew already installed"
+# 	fi
+# fi
 
-if [ ! -d "$HOME/.oh-my-zsh" ]; then 
-	echo "Installing oh-my-zsh"
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-else
-	debug "oh-my-zsh already installed"
-fi
+# if [ ! -d "$HOME/.oh-my-zsh" ]; then
+# 	echo "Installing oh-my-zsh"
+# 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# else
+# 	debug "oh-my-zsh already installed"
+# fi
 
-if [ "$(which asdf)" = "" ]; then 
-	echo "Installing asdf"
-	git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-	source $HOME/.asdf/asdf.sh
-	plugins=(java maven python ruby nodejs)
-	for plugin in $plugins; do
-		asdf plugin add $plugin
-	done
-else
-	debug "asdf already installed"
-fi
+# if [ "$(which asdf)" = "" ]; then
+# 	echo "Installing asdf"
+# 	git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+# 	source $HOME/.asdf/asdf.sh
+# 	plugins=(java maven python ruby nodejs)
+# 	for plugin in $plugins; do
+# 		asdf plugin add $plugin
+# 	done
+# else
+# 	debug "asdf already installed"
+# fi

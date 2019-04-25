@@ -11,9 +11,9 @@ start() {
 		backup
 		install_dotfiles
 	else
-		echo "Make a backup of your files and install to $DOTFILES_DIR? (y/n)"
-		read REPLY
-		echo ""
+		printf "Make a backup of your files and install to $DOTFILES_DIR? (y/n)\n"
+		read -r REPLY
+		printf "\n"
 		if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
 			backup
 			install_dotfiles
@@ -22,34 +22,36 @@ start() {
 }
 
 check() {
-	printf "${BLUE}This files marked with ${RED}*${BLUE} would be overriden. I'll make a backup first.${NORMAL}"
-	for file in ${linkedfiles[@]}; do
-		if [ -e "$HOME/$file" ]; then
-			printf ${RED}*$file${NORMAL}
+	printf "${BLUE}This files marked with ${RED}*${BLUE} would be overriden. I'll make a backup first.${NORMAL}\n"
+	for file in "${linkedfiles[@]}"; do
+		if [ -e "$HOME"/"$file" ]; then
+			printf "${RED}*$file${NORMAL}\n"
 		else
-			printf ${GREEN}$file${NORMAL}
+			printf "${GREEN}$file${NORMAL}\n"
 		fi
 	done
 }
 
 backup() {
-	local date=$(date '+%Y_%m_%d-%H_%M_%S')
-	local backup=$DOTFILES_DIR/backup/$date
-	printf "${BLUE}Backing up to $backup"
-	for file in ${linkedfiles[@]}; do
-		if [ -e "$HOME/$file" ]; then
+	local date
+	date=$(date '+%Y_%m_%d-%H_%M_%S')
+	local backup
+	backup=$DOTFILES_DIR/backup/$date
+	printf "${BLUE}Backing up to $backup\n"
+	for file in "${linkedfiles[@]}"; do
+		if [ -e "$HOME"/"$file" ]; then
 			mkdir -p $backup
-			printf "${YELLOW}Backing up $HOME/$file to $backup/$file${NORMAL}"
-			rsync -Ea "$HOME/$file" $backup/
-			rm -rf $HOME/$file
+			printf "${YELLOW}Backing up $HOME/$file to $backup/$file${NORMAL}\n"
+			rsync -Ea "$HOME"/"$file" $backup/
+			rm -rf "$HOME"/"$file"
 		fi
 	done
 }
 
 install_dotfiles() {
 	source $DOTFILES_DIR/apps
-	for file in ${linkedfiles[@]}; do
-		printf "${YELLOW}Linking $DOTFILES_DIR/$file to $HOME/$file${NORMAL}"
+	for file in "${linkedfiles[@]}"; do
+		printf "${YELLOW}Linking $DOTFILES_DIR/$file to $HOME/$file${NORMAL}\n"
 		ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
 	done
 	echo export DOTFILES_DIR=$DOTFILES_DIR >$HOME/.dotfiles_dir
@@ -64,7 +66,7 @@ install_dotfiles() {
 }
 
 install_daemon() {
-	echo "${YELLOW}You will need sudo password to install Launch Daemons"
+	printf "${YELLOW}You will need sudo password to install Launch Daemons\n"
 	set -x
 	launchctl stop br.com.crespo.dotfiles.beacon
 	launchctl unload -w /Library/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist
@@ -114,7 +116,7 @@ EOF
 main() {
 	# Use colors, but only if connected to a terminal, and that terminal
 	# supports them.
-	if which tput >/dev/null 2>&1; then
+	if command -v which tput >/dev/null 2>&1; then
 		ncolors=$(tput colors)
 	fi
 	if [ -t 1 ] && [ -n "$ncolors" ] && [ "$ncolors" -ge 8 ]; then
@@ -142,7 +144,7 @@ main() {
 		exit
 	fi
 
-	if [ ! -n "$DOTFILES_DIR" ]; then
+	if [ -z "$DOTFILES_DIR" ]; then
 		DOTFILES_DIR=~/.dotfiles
 	fi
 

@@ -76,7 +76,6 @@ plugins=(
   extract
   colorize
   catimg
-  emoji
 )
 
 source $ZSH/oh-my-zsh.sh

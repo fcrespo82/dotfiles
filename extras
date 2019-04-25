@@ -145,24 +145,18 @@ install_themes() {
 install_themes
 
 install_asdf() {
-	#   if [ ! -n "$ZSH" ]; then
-	#     ZSH=~/.oh-my-zsh
-	#   fi
+	if [ ! -n "$ASDF_DIR" ]; then
+		ASDF_DIR=~/.asdf
+	fi
 
-	# if [ "$(which asdf)" = "" ]; then
-	# 	printf "${BLUE}Installing asdf${NORMAL}\n"
-	# 	env git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-	# 	env git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git "$ZSH" || {
-	#     printf "Error: git clone of oh-my-zsh repo failed\n"
-	#     exit 1
-	#   }
-	# 	source $HOME/.asdf/asdf.sh
-	# 	plugins=(java maven python ruby nodejs)
-	# 	for plugin in $plugins; do
-	# 		asdf plugin add $plugin
-	# 	done
-	# else
-	# 	debug "asdf already installed"
-	# fi
+	if [ "$(which asdf)" = "" ]; then
+		printf "${BLUE}Installing asdf${NORMAL}\n"
+		env git clone --depth=1 https://github.com/asdf-vm/asdf.git "$ASDF_DIR" || {
+			printf "Error: git clone of asdf repo failed\n"
+			exit 1
+		}
+	else
+		debug "asdf already installed"
+	fi
 }
 install_asdf

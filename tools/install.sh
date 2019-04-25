@@ -7,7 +7,7 @@ linkedfiles=(
 
 start() {
 	check
-	if [ -z ${DOTFILES_UNATTENDED+x} ]; then # Check if var is not set as said in http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
+	if [ ${DOTFILES_UNATTENDED+x} ]; then # Check if var is not set as said in http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 		backup
 		install_dotfiles
 	else
@@ -37,12 +37,12 @@ backup() {
 	date=$(date '+%Y_%m_%d-%H_%M_%S')
 	local backup
 	backup=$DOTFILES_DIR/backup/$date
-	printf "${BLUE}Backing up to $backup\n"
+	# printf "${BLUE}Backing up to $backup${NORMAL}\n"
 	for file in "${linkedfiles[@]}"; do
 		if [ -e "$HOME"/"$file" ]; then
 			mkdir -p $backup
 			printf "${YELLOW}Backing up $HOME/$file to $backup/$file${NORMAL}\n"
-			rsync -Ea "$HOME"/"$file" $backup/
+			rsync -Ea "$HOME"/"$file" "$backup"/
 			rm -rf "$HOME"/"$file"
 		fi
 	done
@@ -66,7 +66,8 @@ install_dotfiles() {
 }
 
 install_daemon() {
-	printf "${YELLOW}You will need sudo password to install Launch Daemons\n"
+	printf "${BLUE}Installing Nerd-Fonts${NORMAL}\n"
+	printf "${YELLOW}You will need sudo password to install Launch Daemons${NORMAL}\n"
 	set -x
 	launchctl stop br.com.crespo.dotfiles.beacon
 	launchctl unload -w /Library/LaunchDaemons/br.com.crespo.dotfiles.beacon.plist
@@ -79,6 +80,7 @@ install_daemon() {
 }
 
 install_fonts() {
+	printf "${BLUE}Installing Nerd-Fonts${NORMAL}\n"
 	case $(uname -s) in
 	Darwin)
 		local fonts_path=~/Library/Fonts
@@ -90,19 +92,21 @@ install_fonts() {
 	
 	mkdir -p $fonts_path
 	cd $fonts_path
-	curl -fLo "Fura Code Retina Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Retina/complete/Fura%20Code%20Retina%20Nerd%20Font%20Complete.ttf
+	printf "${YELLOW}Fura Code Retina Nerd Font Complete${NORMAL}\n"
+	curl -sSL -o "Fura Code Retina Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Retina/complete/Fura%20Code%20Retina%20Nerd%20Font%20Complete.ttf
 
-	curl -fLo i_all.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_all.sh
-	curl -fLo i_dev.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_dev.sh
-	curl -fLo i_fa.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_fa.sh
-	curl -fLo i_fae.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_fae.sh
-	curl -fLo i_iec.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_iec.sh
-	curl -fLo i_linux.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_linux.sh
-	curl -fLo i_material.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_material.sh
-	curl -fLo i_oct.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_oct.sh
-	curl -fLo i_ple.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_ple.sh
-	curl -fLo i_pom.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_pom.sh
-	curl -fLo i_seti.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_seti.sh
+	printf "${YELLOW}Nerd Font Shell Helpers${NORMAL}\n"
+	curl -sSL -o i_all.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_all.sh
+	curl -sSL -o i_dev.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_dev.sh
+	curl -sSL -o i_fa.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_fa.sh
+	curl -sSL -o i_fae.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_fae.sh
+	curl -sSL -o i_iec.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_iec.sh
+	curl -sSL -o i_linux.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_linux.sh
+	curl -sSL -o i_material.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_material.sh
+	curl -sSL -o i_oct.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_oct.sh
+	curl -sSL -o i_ple.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_ple.sh
+	curl -sSL -o i_pom.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_pom.sh
+	curl -sSL -o i_seti.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_seti.sh
 
 	cat <<EOF
 Usage:
@@ -174,7 +178,7 @@ main() {
 			exit 1
 		fi
 	fi
-	env git clone --depth=1 https://github.com/fcrespo82/dotfiles.git "$DOTFILES_DIR" || {
+	env git clone -b new-installer --single-branch --depth=1 https://github.com/fcrespo82/dotfiles.git "$DOTFILES_DIR" || {
 		printf "Error: git clone of Dotfiles repo failed\n"
 		exit 1
 	}

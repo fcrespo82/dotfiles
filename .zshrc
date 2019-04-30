@@ -11,7 +11,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="mortalscumbag"
+ZSH_THEME="birame/birame"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -155,10 +155,6 @@ alias tar-gzip='tar -vczf' # Create gzip files
 
 alias pkill='pkill -f'
 
-alias ssh-nas='ssh -p 3456 fernando@nas.crespo.com.br'
-alias ssh-pi='ssh pi@192.168.1.3 -J fernando@nas.crespo.com.br:3456'
-alias ssh-renegade='ssh pi@192.168.1.11 -J fernando@nas.crespo.com.br:3456'
-
 if [ -f $HOME/.asdf/asdf.sh ]; then
     source $HOME/.asdf/asdf.sh
     source $HOME/.asdf/completions/asdf.bash
@@ -190,6 +186,8 @@ fi
 if [ -d /usr/local/bin ]; then
     export PATH="/usr/local/bin:$PATH"
 fi
-
+if [ -d /usr/local/sbin ]; then
+    export PATH="/usr/local/sbin:$PATH"
+fi
 
 source $DOTFILES_DIR/env

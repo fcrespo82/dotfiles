@@ -7,8 +7,7 @@ debug() {
 }
 
 dotfiles-update() {
-    (cd $DOTFILES_DIR && git pull)
-	source $DOTFILES_DIR/.zshrc
+	env DOTFILES_DIR=$DOTFILES_DIR sh $DOTFILES_DIR/tools/upgrade.sh
 }
 
 alias update-dotfiles=dotfiles-update

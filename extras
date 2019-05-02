@@ -147,14 +147,15 @@ install_asdf() {
 		ASDF_DIR=~/.asdf
 	fi
 
-	if [ "$(which asdf)" = "" ]; then
+	if [ ! -d "$ASDF_DIR" ]; then
 		printf "${BLUE}Installing asdf${NORMAL}\n"
 		env git clone --depth=1 https://github.com/asdf-vm/asdf.git "$ASDF_DIR" || {
 			printf "Error: git clone of asdf repo failed\n"
 			exit 1
 		}
 	else
-		debug "asdf already installed"
+		printf "${BLUE}Skipping asdf instalation.${NORMAL}\n"
 	fi
 }
+
 install_asdf

@@ -31,11 +31,10 @@ backup() {
 	local date
 	date=$(date '+%Y_%m_%d-%H_%M_%S')
 	local backup
-	backup=$DOTFILES_DIR/backup/$date
-	# printf "${BLUE}Backing up to $backup${NORMAL}\n"
+	backup="$DOTFILES_DIR"/backup/"$date"
 	for file in $linkedfiles; do
 		if [ -e "$HOME"/"$file" ]; then
-			mkdir -p $backup
+			mkdir -p "$backup"
 			printf "${YELLOW}Backing up $HOME/$file to $backup/$file${NORMAL}\n"
 			cp -rL "$HOME"/"$file" "$backup"/
 			rm -rf "$HOME"/"$file"
@@ -50,8 +49,6 @@ install_dotfiles() {
 		ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
 	done
 	echo export DOTFILES_DIR=$DOTFILES_DIR >$HOME/.dotfiles_dir
-	# echo "Sourcing..."
-	# . $DOTFILES_DIR/.zshrc
 	case $(uname -s) in
 	Darwin)
 		install_daemon
@@ -78,10 +75,10 @@ install_fonts() {
 	printf "${BLUE}Installing Nerd-Fonts${NORMAL}\n"
 	case $(uname -s) in
 	Darwin)
-		local fonts_path=~/Library/Fonts
+		local fonts_path="$HOME"/Library/Fonts
 		;;
 	Linux)
-		local fonts_path=~/.local/share/fonts
+		local fonts_path="$HOME"/.local/share/fonts
 		;;
 	esac
 	

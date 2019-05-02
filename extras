@@ -14,7 +14,7 @@ install_homebrew() {
 
 install_homebrew
 
-install_oh-my-zsh() {
+install_oh_my_zsh() {
 	# Use colors, but only if connected to a terminal, and that terminal
 	# supports them.
 	if which tput >/dev/null 2>&1; then
@@ -125,7 +125,7 @@ install_oh-my-zsh() {
 	printf "${NORMAL}"
 }
 
-install_oh-my-zsh
+install_oh_my_zsh
 
 install_themes() {
 	if [ ! -n "$ZSH" ]; then

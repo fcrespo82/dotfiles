@@ -51,7 +51,7 @@ install_oh_my_zsh() {
 
 	if [ -d "$ZSH" ]; then
 		printf "${YELLOW}You already have Oh My Zsh installed.${NORMAL}\n"
-		printf "${BLUE}Skipping installation.${NORMAL}\n"
+		printf "${BLUE}Skipping Oh My Zsh installation.${NORMAL}\n"
 		return
 	fi
 

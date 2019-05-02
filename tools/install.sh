@@ -5,7 +5,7 @@ start() {
 	check
 	if [ ${DOTFILES_UNATTENDED+x} ]; then # Check if var is not set as said in http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 		backup
-		# install_dotfiles
+		install_dotfiles
 	else
 		printf "Make a backup of your files and install to $DOTFILES_DIR? (y/n)\n"
 		read -r REPLY

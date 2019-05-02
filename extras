@@ -2,12 +2,12 @@
 
 . $DOTFILES_DIR/utils
 install_homebrew() {
-	if [ "$(uname -s)" == Darwin ]; then # Only executes if macOS
-		if [ "$(which brew)" = "" ]; then
+	if [ "Darwin" = "$(uname -s)" ]; then # Only executes if macOS
+		if [ ! -z "$(which brew)" ]; then
 			echo "Installing homebrew"
 			/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 		else
-			debug "Homebrew already installed"
+			printf "Homebrew already installed\n"
 		fi
 	fi
 }

@@ -14,7 +14,7 @@ nas() {
 
 psc() {
     cmd='ps axo %cpu,pid,ppid,user,command'
-    if [ "$1" == "" ]; then
+    if [ "$1" = "" ]; then
         echo $cmd
         $cmd;
     else
@@ -24,7 +24,7 @@ psc() {
 }
 
 count() {
-    if [ $1 == "" ]; then
+    if [ $1 = "" ]; then
         ls -1 | wc -l | sed "s/ //g"
     else
         while getopts ":a" arg; do

@@ -1,8 +1,9 @@
+#!/usr/bin/env sh
 linkedfiles='.gitconfig .vim .vimrc .zshrc'
 
 start() {
 	check
-	if [ ${DOTFILES_UNATTENDED+x} ]; then # Check if var is not set as said in http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
+	if [ -z "${DOTFILES_UNATTENDED+x}" ]; then # Check if var is not set as said in https://stackoverflow.com/a/13864829
 		backup
 		install_dotfiles
 	else

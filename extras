@@ -2,7 +2,7 @@
 
 . $DOTFILES_DIR/utils
 install_homebrew() {
-	if [[ "$(uname -s)" == Darwin ]]; then # Only executes if macOS
+	if [ "$(uname -s)" == Darwin ]; then # Only executes if macOS
 		if [ "$(which brew)" = "" ]; then
 			echo "Installing homebrew"
 			/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -51,8 +51,8 @@ install_oh_my_zsh() {
 
 	if [ -d "$ZSH" ]; then
 		printf "${YELLOW}You already have Oh My Zsh installed.${NORMAL}\n"
-		printf "You'll need to remove $ZSH if you want to re-install.\n"
-		exit
+		printf "${BLUE}Skipping installation.${NORMAL}\n"
+		return
 	fi
 
 	# Prevent the cloned repository from having insecure permissions. Failing to do

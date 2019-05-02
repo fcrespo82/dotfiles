@@ -128,10 +128,16 @@ install_oh_my_zsh() {
 install_oh_my_zsh
 
 install_themes() {
+	printf "${YELLOW}Installing themes.${NORMAL}\n"
 	if [ ! -n "$ZSH" ]; then
 		ZSH=~/.oh-my-zsh
 	fi
-	env git clone --depth=1 https://github.com/fcrespo82/birame.git "$ZSH"/custom/themes/birame
+
+	if [ ! -d "$ZSH"/custom/themes/birame ]; then
+		env git clone --depth=1 https://github.com/fcrespo82/birame.git "$ZSH"/custom/themes/birame
+	else
+		printf "${BLUE}Skipping birame theme instalation.${NORMAL}\n"
+	fi
 }
 
 install_themes

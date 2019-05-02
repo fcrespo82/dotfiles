@@ -29,9 +29,9 @@ check() {
 
 backup() {
 	date=$(date '+%Y_%m_%d-%H_%M_%S')
-	backup="$DOTFILES_DIR"/backup/"$date"
+	backup="$DOTFILES_DIR/backup/$date"
 	for file in $linkedfiles; do
-		if [ -e "$HOME"/"$file" ]; then
+		if [ -e "$HOME/$file" ]; then
 			mkdir -p "$backup"
 			printf "${YELLOW}Backing up $HOME/$file to $backup/$file${NORMAL}\n"
 			cp -rL "$HOME/$file" "$backup"/
@@ -47,7 +47,7 @@ install_dotfiles() {
 		ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
 	done
 	echo export DOTFILES_DIR=$DOTFILES_DIR >$HOME/.dotfiles_dir
-	case $(uname -s) in
+	case "$(uname -s)" in
 	Darwin)
 		install_daemon
 		;;

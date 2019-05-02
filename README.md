@@ -13,11 +13,11 @@ Dotfiles is installed by running one of the following commands in your terminal.
 
 ### via curl
 
-`bash -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"`
+`sh -c "$(curl -fsSL https://raw.githubusercontent.com/fcrespo82/dotfiles/new-installer/tools/install.sh)"`
 
 ### via wget
 
-`bash -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"`
+`sh -c "$(wget https://raw.githubusercontent.com/fcrespo82/dotfiles/new-installer/tools/install.sh -O -)"`
 
 
 ### Custom install location

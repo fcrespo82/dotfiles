@@ -1,14 +1,6 @@
-# printf "${BLUE}Recommended installations${NORMAL}\n"
-# printf "Homebrew\n"
-# printf "/usr/bin/ruby -e \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"\n"
-# printf "\n"
-# printf "oh-my-zsh\n"
-# printf "sh -c \"\$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\"\n"
-# printf "\n"
-# printf "asdf\n"
-# printf "git clone https://github.com/asdf-vm/asdf.git ~/.asdf\n"
+#!/usr/bin/env sh
 
-source $DOTFILES_DIR/utils
+. $DOTFILES_DIR/utils
 install_homebrew() {
 	if [[ "$(uname -s)" == Darwin ]]; then # Only executes if macOS
 		if [ "$(which brew)" = "" ]; then

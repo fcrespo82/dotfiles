@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env sh
 
 debug() {
 	if [ ! -z "$DOTFILES_DEBUG" ]; then

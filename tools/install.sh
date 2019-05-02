@@ -1,9 +1,4 @@
-linkedfiles=(
-	.gitconfig
-	.vim
-	.vimrc
-	.zshrc
-)
+linkedfiles='.gitconfig .vim .vimrc .zshrc'
 
 start() {
 	check
@@ -23,7 +18,7 @@ start() {
 
 check() {
 	printf "${BLUE}This files marked with ${RED}*${BLUE} would be overriden. I'll make a backup first.${NORMAL}\n"
-	for file in "${linkedfiles[@]}"; do
+	for file in $linkedfiles; do
 		if [ -e "$HOME"/"$file" ]; then
 			printf "${RED}*$file${NORMAL}\n"
 		else
@@ -38,7 +33,7 @@ backup() {
 	local backup
 	backup=$DOTFILES_DIR/backup/$date
 	# printf "${BLUE}Backing up to $backup${NORMAL}\n"
-	for file in "${linkedfiles[@]}"; do
+	for file in $linkedfiles; do
 		if [ -e "$HOME"/"$file" ]; then
 			mkdir -p $backup
 			printf "${YELLOW}Backing up $HOME/$file to $backup/$file${NORMAL}\n"
@@ -49,14 +44,14 @@ backup() {
 }
 
 install_dotfiles() {
-	source $DOTFILES_DIR/extras
-	for file in "${linkedfiles[@]}"; do
+	. $DOTFILES_DIR/extras
+	for file in $linkedfiles; do
 		printf "${YELLOW}Linking $DOTFILES_DIR/$file to $HOME/$file${NORMAL}\n"
 		ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
 	done
 	echo export DOTFILES_DIR=$DOTFILES_DIR >$HOME/.dotfiles_dir
 	# echo "Sourcing..."
-	# source $DOTFILES_DIR/.zshrc
+	# . $DOTFILES_DIR/.zshrc
 	case $(uname -s) in
 	Darwin)
 		install_daemon
@@ -111,7 +106,7 @@ install_fonts() {
 	cat <<EOF
 Usage:
 
-source $fonts_path/i_{all,dev,fa,fae,iec,linux,material,oct,ple,pom,seti}.sh
+. $fonts_path/i_{all,dev,fa,fae,iec,linux,material,oct,ple,pom,seti}.sh
 
 Use $i_<icon_name> where you want it.
 EOF

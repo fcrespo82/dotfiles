@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env sh
 
 pgrep() {
     command pgrep -fla $@ | grep --color -E "^[0-9]+"

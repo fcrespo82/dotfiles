@@ -28,22 +28,20 @@ check() {
 }
 
 backup() {
-	local date
 	date=$(date '+%Y_%m_%d-%H_%M_%S')
-	local backup
 	backup="$DOTFILES_DIR"/backup/"$date"
 	for file in $linkedfiles; do
 		if [ -e "$HOME"/"$file" ]; then
 			mkdir -p "$backup"
 			printf "${YELLOW}Backing up $HOME/$file to $backup/$file${NORMAL}\n"
-			cp -rL "$HOME"/"$file" "$backup"/
-			rm -rf "$HOME"/"$file"
+			cp -rL "$HOME/$file" "$backup"/
+			rm -rf "${HOME:?}/$file"
 		fi
 	done
 }
 
 install_dotfiles() {
-	. $DOTFILES_DIR/extras
+	. "$DOTFILES_DIR/extras"
 	for file in $linkedfiles; do
 		printf "${YELLOW}Linking $DOTFILES_DIR/$file to $HOME/$file${NORMAL}\n"
 		ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
@@ -58,7 +56,7 @@ install_dotfiles() {
 }
 
 install_daemon() {
-	printf "${BLUE}Installing Nerd-Fonts${NORMAL}\n"
+	printf "${BLUE}Installing Daemon${NORMAL}\n"
 	printf "${YELLOW}You will need sudo password to install Launch Daemons${NORMAL}\n"
 	set -x
 	launchctl stop br.com.crespo.dotfiles.beacon
@@ -75,10 +73,10 @@ install_fonts() {
 	printf "${BLUE}Installing Nerd-Fonts${NORMAL}\n"
 	case $(uname -s) in
 	Darwin)
-		local fonts_path="$HOME"/Library/Fonts
+		fonts_path="$HOME"/Library/Fonts
 		;;
 	Linux)
-		local fonts_path="$HOME"/.local/share/fonts
+		fonts_path="$HOME"/.local/share/fonts
 		;;
 	esac
 	
@@ -87,7 +85,7 @@ install_fonts() {
 	printf "${YELLOW}Fura Code Retina Nerd Font Complete${NORMAL}\n"
 	curl -sSL -o "Fura Code Retina Nerd Font Complete.ttf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Retina/complete/Fura%20Code%20Retina%20Nerd%20Font%20Complete.ttf
 
-	printf "${YELLOW}Nerd Font Shell Helpers${NORMAL}\n"
+	printf "${BLUE}Installing Nerd-Font Shell Helpers${NORMAL}\n"
 	curl -sSL -o i_all.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_all.sh
 	curl -sSL -o i_dev.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_dev.sh
 	curl -sSL -o i_fa.sh https://github.com/ryanoasis/nerd-fonts/raw/master/bin/scripts/lib/i_fa.sh

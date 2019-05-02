@@ -3,9 +3,9 @@ linkedfiles='.gitconfig .vim .vimrc .zshrc'
 
 start() {
 	check
-	if [ -z "${DOTFILES_UNATTENDED+x}" ]; then # Check if var is not set as said in https://stackoverflow.com/a/13864829
+	if [ ${DOTFILES_UNATTENDED+x} ]; then # Check if var is not set as said in http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 		backup
-		install_dotfiles
+		# install_dotfiles
 	else
 		printf "Make a backup of your files and install to $DOTFILES_DIR? (y/n)\n"
 		read -r REPLY
@@ -35,7 +35,7 @@ backup() {
 		if [ -e "$HOME/$file" ]; then
 			mkdir -p "$backup"
 			printf "${YELLOW}Backing up $HOME/$file to $backup/$file${NORMAL}\n"
-			cp -rL "$HOME/$file" "$backup"/
+			cp -r "$HOME/$file" "$backup"/
 			rm -rf "${HOME:?}/$file"
 		fi
 	done

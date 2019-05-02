@@ -103,7 +103,7 @@ Usage:
 
 . $fonts_path/i_{all,dev,fa,fae,iec,linux,material,oct,ple,pom,seti}.sh
 
-Use $i_<icon_name> where you want it.
+Use \$i_<icon_name> where you want it.
 EOF
 }
 

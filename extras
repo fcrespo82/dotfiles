@@ -128,7 +128,7 @@ install_oh_my_zsh() {
 install_oh_my_zsh
 
 install_themes() {
-	printf "${YELLOW}Installing themes.${NORMAL}\n"
+	printf "${BLUE}Installing themes.${NORMAL}\n"
 	if [ ! -n "$ZSH" ]; then
 		ZSH=~/.oh-my-zsh
 	fi

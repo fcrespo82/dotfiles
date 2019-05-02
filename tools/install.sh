@@ -37,7 +37,7 @@ backup() {
 		if [ -e "$HOME"/"$file" ]; then
 			mkdir -p $backup
 			printf "${YELLOW}Backing up $HOME/$file to $backup/$file${NORMAL}\n"
-			rsync -Ea "$HOME"/"$file" "$backup"/
+			cp -rL "$HOME"/"$file" "$backup"/
 			rm -rf "$HOME"/"$file"
 		fi
 	done

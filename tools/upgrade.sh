@@ -22,7 +22,8 @@ fi
 
 printf "${BLUE}%s${NORMAL}\n" "Updating Dotfiles"
 cd "$DOTFILES_DIR"
-if git pull --rebase --stat origin master
+branch=$(git show-branch | sed "s/\[\(.*\)\].*/\1/")
+if git pull --rebase --stat origin $branch
 then
   printf '%s' "$GREEN"
   printf '%s\n' '    ____        __  _____ __         '

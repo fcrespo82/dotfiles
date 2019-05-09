@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env sh
 
 debug() {
 	if [ ! -z "$DOTFILES_DEBUG" ]; then
@@ -6,26 +6,12 @@ debug() {
 	fi
 }
 
-dotfiles-update() {
+dotfiles_update() {
 	env DOTFILES_DIR=$DOTFILES_DIR sh $DOTFILES_DIR/tools/upgrade.sh
 }
 
-alias update-dotfiles=dotfiles-update
-
-ensure_zsh() {
-	if [ -z $(command -v zsh) ]; then
-		echo "Installing zsh"
-		case $(uname -s) in
-			Linux)
-				sudo apt-get update && sudo apt-get install -y zsh
-				;;
-			Darwin)
-				ensure_homebrew
-				brew install zsh
-				;;
-		esac
-	fi
-}
+alias update-dotfiles=dotfiles_update
+alias dotfiles-update=dotfiles_update
 
 ensure_homebrew() {
 	if [ -z $(command -v brew) ]; then

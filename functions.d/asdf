@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+java-asdf-link() {
+    echo $fg_bold[yellow]To create links on $macOS_java_dir this script needs Super User powers.$reset_color
+    macOS_java_dir=/Library/Java/JavaVirtualMachines
+    asdf_java_dir=$ASDF_DIR/installs/java
+
+    if [ -d $asdf_java_dir ]; then
+        installs=( $(find $asdf_java_dir -type d -depth 1 -print) )
+        for install in ${installs[*]}; do
+            found=$(find $install -name Home -print)
+            if [ ! -z $found ]; then
+                destination=$(dirname $(dirname $found))
+                source=${destination##*/}
+                sudo ln -sf "$destination" "$macOS_java_dir/$source"
+            fi
+        done
+    fi
+}

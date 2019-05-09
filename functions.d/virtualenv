@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 _virtualenvs()
 {
     local cur prev opts

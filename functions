@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 for f in $(ls ./functions.d); do
-    . "./functions.d/$f"
+    . "$DOTFILES_DIR/functions.d/$f"
 done
 
 pgrep() {

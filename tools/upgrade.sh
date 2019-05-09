@@ -22,7 +22,7 @@ fi
 
 printf "${BLUE}%s${NORMAL}\n" "Updating Dotfiles"
 cd "$DOTFILES_DIR"
-branch=$(git show-branch | sed "s/\[\(.*\)\].*/\1/")
+branch=$(git rev-parse --abbrev-ref HEAD)
 if git pull --rebase --stat origin $branch
 then
   printf '%s' "$GREEN"

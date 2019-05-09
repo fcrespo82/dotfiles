@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-for f in $(ls ./functions.d); do
+for f in $(ls "$DOTFILES_DIR/functions.d"); do
     . "$DOTFILES_DIR/functions.d/$f"
 done
 

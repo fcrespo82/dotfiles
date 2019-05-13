@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+autoload bashcompinit
+bashcompinit
+
 _virtualenvs()
 {
     local cur prev opts

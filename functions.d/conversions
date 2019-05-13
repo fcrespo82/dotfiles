@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+to_mp4() {
+    FFMPEG=`which ffmpeg`
+    file=$1
+    $FFMPEG -i "$file" "${file%.*}.mp4"
+}
+
+to_mp3() {
+    FFMPEG=`which ffmpeg`
+    file=$1
+    $FFMPEG -i "$file" "${file%.*}.mp3"
+}
+
+rename-from-exif() {
+    exiftool '-filename<DateTimeOriginal' -d %Y-%m-%d-%H-%M-%S%%-c.%%le $1
+}
+
+rename-multiple-from-exif() {
+    for file in $@; do
+        rename-from-exif $file
+    done
+}

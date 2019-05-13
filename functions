@@ -8,7 +8,6 @@ pgrep() {
     command pgrep -fla $@ | grep --color -E "^[0-9]+"
 }
 
-
 psc() {
     cmd='ps axo %cpu,pid,ppid,user,command'
     if [ "$1" = "" ]; then
@@ -32,30 +31,4 @@ count() {
             shift $((OPTIND-1))
         done
     fi
-}
-
-to_mp4() {
-    FFMPEG=`which ffmpeg`
-    file=$1
-    $FFMPEG -i "$file" "${file%.*}.mp4"
-}
-
-to_mp3() {
-    FFMPEG=`which ffmpeg`
-    file=$1
-    $FFMPEG -i "$file" "${file%.*}.mp3"
-}
-
-git-status-recursive() {
-    find . -name .git -execdir bash -c 'echo -en "\033[1;31m"repo: "\033[1;34m"; basename "`git rev-parse --show-toplevel`"; git status -s' \; 
-}
-
-rename-from-exif() {
-    exiftool '-filename<DateTimeOriginal' -d %Y-%m-%d-%H-%M-%S%%-c.%%le $1
-}
-
-rename-multiple-from-exif() {
-    for file in $@; do
-        rename-from-exif $file
-    done
 }

@@ -127,11 +127,11 @@ alias grep='grep --color'
 case $(uname -s) in
     Linux)
         LS_COLOR_FLAG="--color"
-	LS_CUSTOM_FLAGS="-Fh"
+        LS_CUSTOM_FLAGS="-Fh"
         ;;
     Darwin)
         LS_COLOR_FLAG="-G"
-	LS_CUSTOM_FLAGS="-FhN"
+        LS_CUSTOM_FLAGS="-FhN"
         ;;
 esac
 
@@ -144,7 +144,7 @@ alias ll='ls -l' # all files, in long format
 alias lla='ll -A' # all files inc dotfiles, in long format
 alias lld='ll | grep "/$"' # only directories
 alias lls='echo "Symbolic Links:"; lla | cut -d":"  -f 2 | cut -c 4- | grep "\->"'
-alias today='cal | egrep -C 4 "\b$(date +%-d)\b" --color'
+alias today='cal -h | egrep -C 4 "\b$(date +%-d)\b" --color'
 
 alias untar='tar -vxf' # Extract files
 alias untar-bz2='tar -vxjf' # Extract bz2 files

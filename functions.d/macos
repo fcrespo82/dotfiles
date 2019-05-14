@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if [ "Darwin" = "$(uname -s)" ]; then # Only executes if macOS
+	function disable_ethernet() {
+		networksetup -setnetworkserviceenabled Ethernet off
+	}
+
+	function enable_ethernet() {
+		networksetup -setnetworkserviceenabled Ethernet off
+	}
+fi

@@ -28,3 +28,5 @@
     tool = vscode-difftool
 [mergetool "vscode-difftool"]
     cmd = code --wait --diff $LOCAL $REMOTE
+[alias]
+    tree = log --graph --decorate --pretty=oneline --abbrev-commit --all

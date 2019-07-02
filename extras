@@ -142,6 +142,21 @@ install_themes() {
 
 install_themes
 
+install_plugins() {
+	printf "${BLUE}Installing oh-my-zsh plugins.${NORMAL}\n"
+	if [ ! -n "$ZSH" ]; then
+		ZSH=~/.oh-my-zsh
+	fi
+
+	if [ ! -d "$ZSH"/custom/plugins/fast-syntax-highlighting ]; then
+		env git clone --depth=1 https://github.com/zdharma/fast-syntax-highlighting.git "$ZSH"/custom/plugins/fast-syntax-highlighting
+	else
+		printf "${BLUE}Skipping fast-syntax-highlighting plugin instalation.${NORMAL}\n"
+	fi
+}
+
+install_plugins
+
 install_asdf() {
 	if [ ! -n "$ASDF_DIR" ]; then
 		ASDF_DIR=~/.asdf

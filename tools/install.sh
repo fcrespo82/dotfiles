@@ -169,7 +169,7 @@ main() {
 			exit 1
 		fi
 	fi
-	env git clone -b new-installer --single-branch --depth=1 https://github.com/fcrespo82/dotfiles.git "$DOTFILES_DIR" || {
+	env git clone -b master --single-branch --depth=1 https://github.com/fcrespo82/dotfiles.git "$DOTFILES_DIR" || {
 		printf "Error: git clone of Dotfiles repo failed\n"
 		exit 1
 	}

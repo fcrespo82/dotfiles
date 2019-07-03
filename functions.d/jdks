@@ -6,8 +6,7 @@ alias jdks="/usr/libexec/java_home -V"
 # jdk version switching - e.g. `jdk 6` will switch to version 1.6
 function jdk() {
   if [ $# -eq 0 ]; then
-    echo "Unsetting JAVA_HOME"
-    unset JAVA_HOME
+    java -version
   else
     echo "Switching java version $1";
 

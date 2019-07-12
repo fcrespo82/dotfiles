@@ -174,3 +174,22 @@ install_asdf() {
 }
 
 install_asdf
+
+
+install_vim_plugins() {
+	if [ ! -n "$VIM_DIR" ]; then
+		VIM_DIR=~/.vim
+	fi
+
+	if [ ! -d "$VIM_DIR" ]; then
+		printf "${BLUE}Installing vim plugins${NORMAL}\n"
+		env "$VIM_DIR"/install.sh || {
+			printf "Error: installing vim plugins failed\n"
+			exit 1
+		}
+	else
+		printf "${BLUE}Skipping vim plugins instalation.${NORMAL}\n"
+	fi
+}
+
+install_vim_plugins

@@ -7,3 +7,4 @@ current_home
 __pycache__
 tmp
 .dotfiles_dir
+.vim/pack/dist

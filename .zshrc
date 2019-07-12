@@ -77,6 +77,7 @@ plugins=(
   colorize
   catimg
   fast-syntax-highlighting
+  osx
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -191,3 +192,6 @@ if [ -d /usr/local/sbin ]; then
 fi
 
 source $DOTFILES_DIR/env
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+

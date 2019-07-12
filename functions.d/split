@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+split_in_files() {
+	split -d -n $1 $2 $2.
+}
+
+split_in_bytes() {
+	split -d -b $1 $2 $2.
+}
+
+split_in_lines() {
+	split -d -l $1 $2 $2.
+}

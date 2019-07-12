@@ -33,25 +33,16 @@ function package () {
     git clone -q "$repo_url"
   fi
 }
-# (
-# set_group ruby
-# package https://github.com/tpope/vim-rails.git &
-# package https://github.com/tpope/vim-rake.git &
-# package https://github.com/tpope/vim-bundler.git &
-# package https://github.com/tpope/vim-endwise.git &
-# wait
-# ) &
-# (
-# set_group syntax
-# package https://github.com/kchmck/vim-coffee-script.git &
-# package https://github.com/tpope/vim-markdown.git &
-# package https://github.com/ap/vim-css-color.git &
-# wait
-# ) &
+(
+set_group default
+package https://github.com/vim-airline/vim-airline.git &
+wait
+) &
 (
 set_group colorschemes
 package https://github.com/sjl/badwolf.git &
 package https://github.com/altercation/vim-colors-solarized.git &
+package https://github.com/crusoexia/vim-monokai.git &
 wait
 ) &
 wait

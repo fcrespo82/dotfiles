@@ -42,11 +42,11 @@ backup() {
 }
 
 install_dotfiles() {
-	. "$DOTFILES_DIR/extras"
 	for file in $linkedfiles; do
 		printf "${YELLOW}Linking $DOTFILES_DIR/$file to $HOME/$file${NORMAL}\n"
 		ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
 	done
+	. "$DOTFILES_DIR/extras"
 	echo export DOTFILES_DIR=$DOTFILES_DIR >$HOME/.dotfiles_dir
 	case "$(uname -s)" in
 	Darwin)

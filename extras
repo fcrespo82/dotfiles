@@ -183,7 +183,7 @@ install_vim_plugins() {
 
 	if [ ! -d "$VIM_DIR" ]; then
 		printf "${BLUE}Installing vim plugins${NORMAL}\n"
-		env "$VIM_DIR"/install.sh || {
+		env "$VIM_DIR"/pack/install.sh || {
 			printf "Error: installing vim plugins failed\n"
 			exit 1
 		}

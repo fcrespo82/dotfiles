@@ -78,6 +78,7 @@ plugins=(
   catimg
   fast-syntax-highlighting
   osx
+  swiftpm
 )
 
 source $ZSH/oh-my-zsh.sh

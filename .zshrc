@@ -134,7 +134,7 @@ case $(uname -s) in
         ;;
     Darwin)
         LS_COLOR_FLAG="-G"
-        LS_CUSTOM_FLAGS="-FhN"
+        LS_CUSTOM_FLAGS="-Fh"
         ;;
 esac
 

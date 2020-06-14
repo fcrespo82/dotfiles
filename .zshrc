@@ -199,4 +199,8 @@ source $DOTFILES_DIR/env
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-jdk 11
+case $(uname -s) in
+    Darwin)
+        jdk 11
+        ;;
+esac

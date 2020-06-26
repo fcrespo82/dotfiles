@@ -195,6 +195,12 @@ if [ -d $HOME/bin ]; then
     export PATH="$HOME/bin:$PATH"
 fi
 
+case $(uname -s) in
+    Darwin)
+        export PATH="$DOTFILES_DIR/macOS/bin:$PATH"
+        ;;
+esac
+
 source $DOTFILES_DIR/env
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

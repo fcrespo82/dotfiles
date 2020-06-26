@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+sudo defaults read bluetoothaudiod
+# Teste com esses primero sudo defaults read bluetoothaudiod
+
+sudo defaults write bluetoothaudiod "Apple Bitpool Max" 39
+sudo defaults write bluetoothaudiod "Disable AAC codec" 1
+sudo defaults write bluetoothaudiod "Disable AptX codec" 1
+# sudo defaults write bluetoothaudiod "Apple Bitpool Min" 2
+# sudo defaults write bluetoothaudiod "Apple Initial Bitpool" 20
+
+
+# https://btcodecs.valdikss.org.ru
+# Connection:
+#   78:4f:43:78:2e:61 () → b0:91:22:bc:5d:4e (JBL Everest Elite 150NC)
+
+# Supported codecs:
+#   Audio SBC (48000 | Mono JointStereo | block: 4 8 12 16 | subbands: 8 | allocation: Loudness | bitpool: 2..40)
+#   Audio non-A2DP (aptX - 48000, Stereo)
+
+# Used for audio:
+#   Audio SBC (48000 | JointStereo | block: 16 | subbands: 8 | allocation: Loudness | bitpool: 2..40)
+
+
+# Latest SBC Bitpool value: 40
+
+# Fixes problem described at http://apple.stackexchange.com/questions/118783/bluetooth-peripherals-randomly-disconnecting-under-mavericks
+# kextunload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
+# kextload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport

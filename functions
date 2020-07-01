@@ -4,7 +4,7 @@ for f in $(ls "$DOTFILES_DIR/functions.d"); do
     . "$DOTFILES_DIR/functions.d/$f"
 done
 
-pgrep() {
+pgrep_full() {
     command pgrep -fla $@ | grep --color -E "^[0-9]+"
 }
 

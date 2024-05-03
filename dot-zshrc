@@ -1,0 +1,54 @@
+export POWERLEVEL9K_INSTANT_PROMPT=quiet
+# Enable Powerlevel10k instant prompt. Should stay close to the top of $HOME/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+
+[[ ! -z ${DEBUG+x} ]] && echo "Starting personal zsh config"
+
+# Lines configured by zsh-newuser-install
+HISTFILE=$HOME/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+# End of lines configured by zsh-newuser-install
+
+# The following lines were added by compinstall
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' menu select=1
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle :compinstall filename "${ZDOTDIR:-$HOME}/.zshrc"
+fpath=(${HOME}/.zsh/completions $fpath)
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+
+source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.asdf/asdf.sh
+# append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
+source ${ZDOTDIR:-$HOME}/expo.zsh
+
+# To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
+[[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
+
+# initialise completions with ZSH's compinit
+autoload -Uz compinit && compinit
+
+# Bun completions
+[ -s "/home/fernando/.bun/_bun" ] && source "/home/fernando/.bun/_bun"
+
+# Helpers
+
+source ./.config/1password/integration.zsh
+source ./.config/wsl/integration.zsh
+source ./.config/expo/integration.zsh
+
+source ./.config/zsh/bindings.zsh
+source ./.config/zsh/aliases.zsh
+source ./.config/zsh/functions.zsh

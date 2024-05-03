@@ -1,0 +1,4 @@
+[core]
+    sshCommand = ssh.exe
+[gpg]
+    program = gpg.exe

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "dot-gitconfig": "properties",
+        "dot-zshenv": "shellscript",
+        "dot-zshrc": "shellscript"
+    }
+}

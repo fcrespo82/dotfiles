@@ -1,0 +1,25 @@
+[init]
+    defaultBranch = main
+
+[include]
+    path = ./.config/git/wsl.gitconfig
+
+[includeIf "gitdir:~/developer/personal"]
+	path = ./.config/git/personal.gitconfig
+
+[includeIf "gitdir:~/developer/alesp"]
+	path = ./.config/git/alesp.gitconfig
+
+[color]
+    # Use colors in Git commands that are capable of colored output when outputting to the terminal
+    ui = auto
+[help]
+	autocorrect = 1
+[merge]
+    tool = vscode-difftool
+[mergetool "vscode-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+[alias]
+    tree = log --graph --decorate --pretty=oneline --abbrev-commit --all
+[status]
+	submoduleSummary = true

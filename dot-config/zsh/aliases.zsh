@@ -21,12 +21,15 @@ if type nvim > /dev/null; then
 fi
 
 alias yt-dlp-mp4="yt-dlp -S res,ext:mp4:m4a --recode mp4"
-alias restartexplorer="taskkill.exe /f /im explorer.exe; explorer.exe &"
+
 alias debug="exec env DEBUG=1 zsh"
 
 # Windows aliases
-alias explorer="explorer.exe"
-alias winget="winget.exe"
-alias wsl="wsl.exe"
-alias taskkill="taskkill.exe"
-alias nslookup="nslookup.exe"
+if [[ ! -z ${IS_WSL+x} ]]; then
+  alias restartexplorer="taskkill.exe /f /im explorer.exe; explorer.exe &"
+  alias explorer="explorer.exe"
+  alias winget="winget.exe"
+  alias wsl="wsl.exe"
+  alias taskkill="taskkill.exe"
+  alias nslookup="nslookup.exe"
+fi

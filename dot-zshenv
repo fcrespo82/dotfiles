@@ -1,18 +1,34 @@
 [[ ! -z ${DEBUG+x} ]] && echo "Exporting custom variables"
 # Personal
-export HOME_WIN=/mnt/c/Users/Fernando
+
+## Check if in wsl
+if [[ $(echo $(uname -r) | tr '[:upper:]' '[:lower:]') =~ microsoft$ ]]; then
+    # echo "Inside WSL"
+    export IS_WSL=1
+    export HOME_WIN=/mnt/c/Users/Fernando
+    
+    source ${ZDOTDIR:-$HOME}/wsl/integration.zsh
+    source ${ZDOTDIR:-$HOME}/wsl/expo/integration.zsh
+
+fi
+
 export PATH=$HOME/.local/bin:$PATH
 
 # NVIM uses XDG_CONFIG_HOME to load config
-export XDG_CONFIG_HOME=$HOME
+if [[ -z ${XDG_CONFIG_HOME+x} ]]; then
+    [[ ! -z ${DEBUG+x} ]] && echo "Setting XDG_CONFIG_HOME to $HOME"
+    export XDG_CONFIG_HOME=$HOME
+fi
 
 # Cargo
 export PATH=$PATH:$HOME/.cargo/bin
 
 # Bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+# Check if Bun is installed
+if command -v bun >/dev/null 2>&1; then
+    echo "Bun is installed"
+    export BUN_INSTALL="$HOME/.bun"
+    export PATH="$BUN_INSTALL/bin:$PATH"
+fi
 
-source ${ZDOTDIR:-$HOME}/expo.zsh
-
-export REACT_EDITOR=code
+export VISUAL_EDITOR=code

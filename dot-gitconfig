@@ -1,17 +1,17 @@
 [init]
     defaultBranch = main
 
-[include]
-    path = ./.config/git/wsl.gitconfig
+# Só descomentar essas linhas no WSL
+#[include]
+#    path = ~/.config/git/wsl.gitconfig
 
-[includeIf "gitdir:~/developer/personal"]
-	path = ./.config/git/personal.gitconfig
+[includeIf "gitdir:~/developer/personal/"]
+	path = ~/.config/git/personal.gitconfig
 
-[includeIf "gitdir:~/developer/alesp"]
-	path = ./.config/git/alesp.gitconfig
+[includeIf "gitdir:~/developer/alesp/"]
+	path = ~/.config/git/alesp.gitconfig
 
 [color]
-    # Use colors in Git commands that are capable of colored output when outputting to the terminal
     ui = auto
 [help]
 	autocorrect = 1

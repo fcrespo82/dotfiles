@@ -5,7 +5,7 @@ export POWERLEVEL9K_INSTANT_PROMPT=quiet
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+source $HOME/powerlevel10k/powerlevel10k.zsh-theme
 
 [[ ! -z ${DEBUG+x} ]] && echo "Starting personal zsh config"
 
@@ -28,11 +28,10 @@ compinit
 # End of lines added by compinstall
 
 
-source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.asdf/asdf.sh
 # append completions to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
-source ${ZDOTDIR:-$HOME}/expo.zsh
 
 # To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
 [[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
@@ -45,9 +44,11 @@ autoload -Uz compinit && compinit
 
 # Helpers
 
-source ./.config/1password/integration.zsh
-source ./.config/wsl/integration.zsh
-source ./.config/expo/integration.zsh
+if [[ ! -z ${IS_WSL+x} ]]; then
+  source ./.config/wsl/1Password/integration.zsh
+  source ./.config/wsl/integration.zsh
+  source ./.config/wsl/expo/integration.zsh
+fi
 
 source ./.config/zsh/bindings.zsh
 source ./.config/zsh/aliases.zsh

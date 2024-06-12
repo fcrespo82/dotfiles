@@ -14,12 +14,6 @@ fi
 
 export PATH=$HOME/.local/bin:$PATH
 
-# NVIM uses XDG_CONFIG_HOME to load config
-if [[ -z ${XDG_CONFIG_HOME+x} ]]; then
-    [[ ! -z ${DEBUG+x} ]] && echo "Setting XDG_CONFIG_HOME to $HOME"
-    export XDG_CONFIG_HOME=$HOME
-fi
-
 # Cargo
 export PATH=$PATH:$HOME/.cargo/bin
 

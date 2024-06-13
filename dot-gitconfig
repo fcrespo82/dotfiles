@@ -20,7 +20,11 @@
 [mergetool "vscode-difftool"]
     cmd = code --wait --diff $LOCAL $REMOTE
 [alias]
-    tree = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    sw = switch
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	logs = log --show-signature
 [status]
 	submoduleSummary = true
 [commit]

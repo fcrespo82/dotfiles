@@ -7,7 +7,7 @@ sudo pacman -Sy --needed git base-devel coreutils tk less
 if command -v bun >/dev/null 2>&1; then
     # Test if is installed before cloning
     git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si
-    yay -Sy --noconfirm bat eza stow zsh-autosuggestions
+    yay -Sy --noconfirm bat eza stow zsh-autosuggestions 1password
 fi
 
 if [ ! -d "$HOME/powerlevel10k" ]; then

@@ -1,4 +1,5 @@
-[alesp]
+[user]
     name = Fernando Crespo
     email = fxcrespo@al.sp.gov.br
-    signingkey = B8E78590663179CF
+    # signingkey = B8E78590663179CF # GPG key for signing commits
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIImgwHGkj9tOjluZffnq//roy+MZHwctiREowGuO3SOJ

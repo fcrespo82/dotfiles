@@ -1,4 +1,5 @@
 [user]
     name = Fernando Crespo
     email = fernando82@gmail.com
-    signingkey = 748B3289089B053
+    # signingkey = 748B3289089B053 # Old GPG key ID
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIImgwHGkj9tOjluZffnq//roy+MZHwctiREowGuO3SOJ

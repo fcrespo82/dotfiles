@@ -1,7 +1,7 @@
 [init]
     defaultBranch = main
 
-# Só descomentar essas linhas no WSL
+# Uncomment only on WSL
 #[include]
 #    path = ~/.config/git/wsl.gitconfig
 
@@ -23,3 +23,10 @@
     tree = log --graph --decorate --pretty=oneline --abbrev-commit --all
 [status]
 	submoduleSummary = true
+[commit]
+    gpgsign = true
+[gpg]
+    format = ssh
+[gpg "ssh"]
+    program = "/opt/1Password/op-ssh-sign"
+    allowedSignersFile = ~/.config/git/allowed_signers

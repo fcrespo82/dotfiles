@@ -4,10 +4,15 @@
 # Install dependencies first?
 sudo pacman -Sy --needed git base-devel coreutils tk less
 
-if command -v bun >/dev/null 2>&1; then
+if command -v yay >/dev/null 2>&1; then
     # Test if is installed before cloning
     git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si
-    yay -Sy --noconfirm bat eza stow zsh-autosuggestions 1password
+    yay -Sy --noconfirm bat eza stow zsh-autosuggestions
+fi
+
+if [[ ! $(echo $(uname -r) | tr '[:upper:]' '[:lower:]') =~ microsoft ]]; then
+    # Não é WSL
+    yay -Sy --noconfirm 1password
 fi
 
 if [ ! -d "$HOME/powerlevel10k" ]; then

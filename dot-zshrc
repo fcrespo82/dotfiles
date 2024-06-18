@@ -45,11 +45,11 @@ autoload -Uz compinit && compinit
 # Helpers
 
 if [[ ! -z ${IS_WSL+x} ]]; then
-  source ./.config/wsl/1Password/integration.zsh
-  source ./.config/wsl/integration.zsh
-  source ./.config/wsl/expo/integration.zsh
+  source $HOME/.config/wsl/1Password/integration.zsh
+  source $HOME/.config/wsl/integration.zsh
+  source $HOME/.config/wsl/expo/integration.zsh
 fi
 
-source ./.config/zsh/bindings.zsh
-source ./.config/zsh/aliases.zsh
-source ./.config/zsh/functions.zsh
+source $HOME/.config/zsh/bindings.zsh
+source $HOME/.config/zsh/aliases.zsh
+source $HOME/.config/zsh/functions.zsh

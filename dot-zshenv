@@ -2,13 +2,13 @@
 # Personal
 
 ## Check if in wsl
-if [[ $(echo $(uname -r) | tr '[:upper:]' '[:lower:]') =~ microsoft$ ]]; then
+if [[ $(echo $(uname -r) | tr '[:upper:]' '[:lower:]') =~ microsoft ]]; then
     # echo "Inside WSL"
     export IS_WSL=1
     export HOME_WIN=/mnt/c/Users/Fernando
     
-    source ${ZDOTDIR:-$HOME}/wsl/integration.zsh
-    source ${ZDOTDIR:-$HOME}/wsl/expo/integration.zsh
+    source ${ZDOTDIR:-$HOME}/.config/wsl/integration.zsh
+    source ${ZDOTDIR:-$HOME}/.config/wsl/expo/integration.zsh
 
 fi
 

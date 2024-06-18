@@ -8,11 +8,11 @@
 # }
 # alias reset1p="reset-1password-integration"
 
-CORE_SSH_COMMAND=`git config --global core.sshCommand`
+# CORE_SSH_COMMAND=`git config --global core.sshCommand`
 
-if [ -z "$CORE_SSH_COMMAND" ]; then
-    git config --global core.sshCommand ssh.exe
-fi
+# if [ -z "$CORE_SSH_COMMAND" ]; then
+#     git config --global core.sshCommand ssh.exe
+# fi
 
 alias ssh='ssh.exe'
 alias ssh-add='ssh-add.exe'

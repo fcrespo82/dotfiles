@@ -33,3 +33,7 @@ if [[ ! -z ${IS_WSL+x} ]]; then
   alias taskkill="taskkill.exe"
   alias nslookup="nslookup.exe"
 fi
+
+# yay fzf aliases
+alias yays="yay -Slq | fzf --multi --preview 'yay -Si {1}' | xargs -ro yay -S"
+alias yayrm="yay -Qq | fzf --multi --preview 'yay -Qi {1}' | xargs -ro yay -Rns"

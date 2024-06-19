@@ -9,12 +9,6 @@ source $HOME/powerlevel10k/powerlevel10k.zsh-theme
 
 [[ ! -z ${DEBUG+x} ]] && echo "Starting personal zsh config"
 
-# Lines configured by zsh-newuser-install
-HISTFILE=$HOME/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-# End of lines configured by zsh-newuser-install
-
 # The following lines were added by compinstall
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
@@ -38,6 +32,14 @@ fpath=(${ASDF_DIR}/completions $fpath)
 
 # initialise completions with ZSH's compinit
 autoload -Uz compinit && compinit
+
+# FZF
+source <(fzf --zsh)
+HISTFILE=$HOME/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+setopt histignorealldups
 
 # Bun completions
 [ -s "/home/fernando/.bun/_bun" ] && source "/home/fernando/.bun/_bun"

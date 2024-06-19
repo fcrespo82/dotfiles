@@ -8,6 +8,9 @@
 [includeIf "gitdir:~/developer/personal/"]
 	path = ~/.config/git/personal.gitconfig
 
+[includeIf "gitdir:~/dotfiles/"]
+	path = ~/.config/git/personal.gitconfig
+
 [includeIf "gitdir:~/developer/alesp/"]
 	path = ~/.config/git/alesp.gitconfig
 

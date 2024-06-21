@@ -1,19 +1,5 @@
 [init]
     defaultBranch = main
-
-# Uncomment only on WSL
-#[include]
-#    path = ~/.config/git/wsl.gitconfig
-
-[includeIf "gitdir:~/developer/personal/"]
-	path = ~/.config/git/personal.gitconfig
-
-[includeIf "gitdir:~/dotfiles/"]
-	path = ~/.config/git/personal.gitconfig
-
-[includeIf "gitdir:~/developer/alesp/"]
-	path = ~/.config/git/alesp.gitconfig
-
 [color]
     ui = auto
 [help]
@@ -37,3 +23,16 @@
 [gpg "ssh"]
     program = "/opt/1Password/op-ssh-sign"
     allowedSignersFile = ~/.config/git/allowed_signers
+
+# Uncomment only on WSL
+[include]
+   path = ~/.config/git/wsl.gitconfig
+
+[includeIf "gitdir:~/developer/personal/"]
+	path = ~/.config/git/personal.gitconfig
+
+[includeIf "gitdir:~/developer/alesp/"]
+	path = ~/.config/git/alesp.gitconfig
+
+[includeIf "gitdir:~/dotfiles/"]
+	path = ~/.config/git/personal-gpg.gitconfig

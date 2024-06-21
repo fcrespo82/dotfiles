@@ -2,3 +2,5 @@
     sshCommand = ssh.exe
 [gpg]
     program = gpg.exe
+[gpg "ssh"]
+  program = "/mnt/c/Users/ferna/AppData/Local/1Password/app/8/op-ssh-sign-wsl"

@@ -2,9 +2,9 @@
 
 
 # Install dependencies first?
-sudo pacman -Sy --needed git base-devel coreutils tk less
+sudo pacman -Sy --needed git base-devel coreutils tk less ca-certificates fzf wget unzip
 
-if command -v yay >/dev/null 2>&1; then
+if ! command -v yay >/dev/null 2>&1; then
     # Test if is installed before cloning
     git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si
     yay -Sy --noconfirm bat eza stow zsh-autosuggestions

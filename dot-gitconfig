@@ -25,8 +25,8 @@
     allowedSignersFile = ~/.config/git/allowed_signers
 
 # Uncomment only on WSL
-[include]
-   path = ~/.config/git/wsl.gitconfig
+# [include]
+#    path = ~/.config/git/wsl.gitconfig
 
 [includeIf "gitdir:~/developer/personal/"]
 	path = ~/.config/git/personal.gitconfig

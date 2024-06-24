@@ -20,7 +20,6 @@ export PATH=$PATH:$HOME/.cargo/bin
 # Bun
 # Check if Bun is installed
 if command -v bun >/dev/null 2>&1; then
-    echo "Bun is installed"
     export BUN_INSTALL="$HOME/.bun"
     export PATH="$BUN_INSTALL/bin:$PATH"
 fi

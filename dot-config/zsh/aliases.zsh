@@ -35,5 +35,12 @@ if [[ ! -z ${IS_WSL+x} ]]; then
 fi
 
 # yay fzf aliases
-alias yays="yay -Slq | fzf --multi --preview 'yay -Si {1}' | xargs -ro yay -S"
+# alias yays="yay -Slq | fzf --multi --preview 'yay -Si {1}' | xargs -ro yay -S"
+yays() {
+  if [[ -z $1 ]]; then
+    yay -Slq | fzf --multi --preview-window up:50% --preview 'yay -Si {1}' | xargs -ro yay -S
+  else
+    yay -Slq | fzf --multi --preview-window up:50% --preview 'yay -Si {1}' -q $1 | xargs -ro yay -S
+  fi
+}
 alias yayrm="yay -Qq | fzf --multi --preview 'yay -Qi {1}' | xargs -ro yay -Rns"

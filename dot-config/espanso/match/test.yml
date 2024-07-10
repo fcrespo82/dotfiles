@@ -1,0 +1,18 @@
+matches:
+  - regex: "(code|cd) (all|py) (all|pr)" # Code Category - Python Subcategory - Print
+    replace: "print(\"Hello World\")"
+
+  - regex: "(code|cd) (all|py) (all|fn)" # Code Category - Python Subcategory - Function
+    replace: "def myPythonFunction():"
+
+  - regex: "(code|cd) (all|js) (all|fn)" # Code Category - Javascript Subcategory - Function
+    replace: "function main(){}"
+
+  - regex: "(contact|ct) (all|n) (all|jj)" # Contact Category - Name Subcategory - John Jacobs
+    replace: "John Jacobs"
+  
+  - regex: "(contact|ct) (all|n) (all|js)" # Contact Category - Name Subcategory - John Stuart
+    replace: "John Stuart"
+  
+  - regex: "(contact|ct) (all|e) (all|jj)" # Contact Category - Email Subcategory - John Jacobs
+    replace: "john.jacobs@example.com"

@@ -1,0 +1,12 @@
+
+matches:
+  - trigger: ";fxfc"
+    replace: "Fernando Xavier de Freitas Crespo"
+  - trigger: ";fc"
+    replace: "Fernando Crespo"
+  - trigger: ";;"
+    replace: "fernando82@gmail.com"
+  - trigger: ";cpf"
+    replace: "29489968803"
+  - trigger: ";fcpf"
+    replace: "294.899.688-03"

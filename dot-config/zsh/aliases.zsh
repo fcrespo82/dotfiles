@@ -44,3 +44,5 @@ yays() {
   fi
 }
 alias yayrm="yay -Qq | fzf --multi --preview 'yay -Qi {1}' | xargs -ro yay -Rns"
+
+alias rm="trash -v"

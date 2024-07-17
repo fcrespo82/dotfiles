@@ -45,4 +45,6 @@ yays() {
 }
 alias yayrm="yay -Qq | fzf --multi --preview 'yay -Qi {1}' | xargs -ro yay -Rns"
 
-alias rm="trash -v"
+alias rm="echo 'Use trash' or, if you really want rm use rrm"
+alias trash="trash -v"
+alias rrm="command rm"

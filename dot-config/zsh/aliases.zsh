@@ -35,7 +35,6 @@ if [[ ! -z ${IS_WSL+x} ]]; then
 fi
 
 # yay fzf aliases
-# alias yays="yay -Slq | fzf --multi --preview 'yay -Si {1}' | xargs -ro yay -S"
 yays() {
   if [[ -z $1 ]]; then
     yay -Slq | fzf --multi --preview-window up:70% --preview 'yay -Si {1}' | xargs -ro yay -S

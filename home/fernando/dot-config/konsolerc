@@ -1,0 +1,14 @@
+[Desktop Entry]
+DefaultProfile=Dracula.profile
+
+[General]
+ConfigVersion=1
+
+[MainWindow]
+ToolBarsMovable=Disabled
+
+[TabBar]
+CloseTabOnMiddleMouseButton=true
+
+[UiSettings]
+ColorScheme=

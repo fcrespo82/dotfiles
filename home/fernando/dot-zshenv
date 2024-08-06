@@ -26,3 +26,7 @@ fi
 
 export VISUAL="code -w"
 export EDITOR=vim
+
+if command -v 1password >/dev/null 2>&1; then
+    export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
+fi

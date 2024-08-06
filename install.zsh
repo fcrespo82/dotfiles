@@ -23,6 +23,8 @@ SYSTEM_PACKAGES=(
     linux
     linux-firmware
     linux-headers
+    man-db
+    man-pages
     nano
     network-manager-applet
     networkmanager
@@ -59,7 +61,7 @@ USER_PACKAGES=(
     trash-cli
     visual-studio-code-bin
     zsh-autosuggestions
-    zsh-theme-powerlevel10k
+    konsole-dracula-git
 )
 
 PACMAN_FLAGS=(
@@ -69,13 +71,14 @@ PACMAN_FLAGS=(
 )
 
 # Install dependencies first?
-sudo pacman -Sy $PACMAN_FLAGS $SYSTEM_PACKAGES
+sudo pacman -Sy ${PACMAN_FLAGS[@]} ${SYSTEM_PACKAGES[@]}
 
 
 if ! command -v yay >/dev/null 2>&1; then
     # Test if is installed before cloning
     git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin && cd /tmp/yay-bin && makepkg -si
-    yay -Sy $PACMAN_FLAGS $USER_PACKAGES
+else
+    yay -Sy ${PACMAN_FLAGS[@]} ${USER_PACKAGES[@]}
 fi
 
 
@@ -88,10 +91,15 @@ fi
 
 
 find home -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf '%f\n' \
-| fzf  --multi --preview-window up:80% --preview 'stow -vv -n --dotfiles --dir=home --target=$HOME {}'
-#  | xargs -ro stow -v -n --dotfiles --dir=home --target=$HOME
+| fzf  --multi --preview-window up:80% --preview 'stow -n -vv --dotfiles --dir=home --target=$HOME {}' \
+| xargs -ro stow -vv --dotfiles --dir=home --target=$HOME
 
 
 find hosts -mindepth 2 -maxdepth 2 -type d -not -name '.*' -printf '%f\n' \
-| fzf  --multi --preview-window up:80% --preview 'stow -vv -n --dir=hosts/personal --target=/ {}'
-#  | xargs -ro stow -v -n --dir=hosts/personal --target=/
+| fzf  --multi --preview-window up:80% --preview 'stow -n -vv --dir=hosts/personal --target=/ {}' \
+| xargs -ro sudo stow -vv --dir=hosts/personal --target=/
+
+sudo systemd-hwdb update
+sudo udevadm trigger
+
+exec zsh

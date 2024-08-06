@@ -1,0 +1,2 @@
+systemctl enable --now bluetooth.service # Enable and start
+

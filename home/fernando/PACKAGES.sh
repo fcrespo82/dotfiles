@@ -4,9 +4,11 @@ export USER_PACKAGES=(
     bat
     chromedriver
     docker
+    espanso-wayland
     eza
     google-chrome
     stow
+    todoist-appimage
     trash-cli
     visual-studio-code-bin
     zsh-autosuggestions

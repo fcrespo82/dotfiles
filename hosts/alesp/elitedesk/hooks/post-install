@@ -1,0 +1,3 @@
+systemctl enable --now bluetooth.service # Enable and start
+
+# systemctl --user restart pipewire.service wireplumber.service

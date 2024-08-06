@@ -1,7 +1,7 @@
 DRY_RUN=${DRY_RUN:-true}
 
 export USER=$(find home -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | fzf)
-host=$(find hosts -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | fzf)
+export HOST=$(find hosts -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | fzf)
 
 PACMAN_FLAGS=(
     --needed
@@ -9,15 +9,15 @@ PACMAN_FLAGS=(
     --noconfirm
 )
 
-source home/$USER/PACKAGES.sh
-source hosts/$host/PACKAGES.sh
+[ -s home/$USER/PACKAGES.sh ] && source home/$USER/PACKAGES.sh
+[ -s hosts/$HOST/PACKAGES.sh ] && source hosts/$HOST/PACKAGES.sh
 
 if [ "$DRY_RUN" = true ]; then
     echo "================================================================================"
     echo "=                                   DRY RUN                                    ="
     echo "================================================================================"
     echo
-    echo "Installing on $USER@$host"
+    echo "Installing on $USER@$HOST"
     echo
     echo "User packages: ${USER_PACKAGES[@]}"
     echo
@@ -25,29 +25,70 @@ if [ "$DRY_RUN" = true ]; then
     echo
 fi
 
+PRE_REQUISITES=(
+    base-devel
+    ca-certificates
+    coreutils
+    fzf
+    git
+    gum
+    less
+    tk
+    unzip
+    wget
+)
+
+run_command() {
+    MESSAGE="$1"
+    shift
+    COMMAND="$@"
+    gum spin --show-output --spinner line --title "$MESSAGE" -- $COMMAND && normal "$MESSAGE - $(success done)" || normal "$MESSAGE - $(error error)";
+}
+
+error() {
+    gum style --foreground 1 "$1"
+}
+success() {
+    gum style --foreground 2 "$1"
+}
+warn() {
+    gum style --foreground 3 "$1"
+}
+info() {
+    gum style --foreground 4 "$1"
+}
+normal() {
+    gum style --foreground 255 "$1"
+}
+
+
+if [ "$DRY_RUN" = false ]; then
+    sudo pacman -Sy ${PACMAN_FLAGS[@]} ${PRE_REQUISITES[@]}
+fi
+
 if [ "$DRY_RUN" = false ]; then
     sh home/$USER/hooks/pre-install
+    sh hosts/$HOST/hooks/pre-install
 else
     echo sh home/$USER/hooks/pre-install
-    echo
+    echo sh hosts/$HOST/hooks/pre-install
 fi
 
 if [ "$DRY_RUN" = false ]; then
     sudo pacman -Sy ${PACMAN_FLAGS[@]} ${SYSTEM_PACKAGES[@]}
 else
     echo sudo pacman -Sy ${PACMAN_FLAGS[@]} ${SYSTEM_PACKAGES[@]}
-    echo
 fi
 
 if [ "$DRY_RUN" = false ]; then
     if ! command -v yay >/dev/null 2>&1; then
         git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin && cd /tmp/yay-bin && makepkg -si
+        yay -Sy ${PACMAN_FLAGS[@]} ${USER_PACKAGES[@]}
     else
         yay -Sy ${PACMAN_FLAGS[@]} ${USER_PACKAGES[@]}
     fi
 else
     echo yay -Sy ${PACMAN_FLAGS[@]} ${USER_PACKAGES[@]}
-    echo
 fi
 
 if [ "$DRY_RUN" = false ]; then
@@ -56,7 +97,6 @@ if [ "$DRY_RUN" = false ]; then
     fi
 else
     echo git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.config/zsh/themes/powerlevel10k
-    echo
 fi
 
 # if [ ! -d "$HOME/.asdf" ]; then
@@ -68,7 +108,6 @@ if [ "$DRY_RUN" = false ]; then
     stow -vv --dotfiles --dir=home --target=$HOME $USER
 else
     echo stow -vv --dotfiles --dir=home --target=$HOME $USER
-    echo
 fi
 
 # find hosts -mindepth 2 -maxdepth 2 -type d -not -name '.*' -printf '%f\n' \
@@ -78,11 +117,12 @@ fi
 
 if [ "$DRY_RUN" = false ]; then
     sh home/$USER/hooks/post-install
+    sh hosts/$HOST/hooks/post-install
 else
     echo sh home/$USER/hooks/post-install
-    echo
+    echo sh hosts/$HOST/hooks/post-install
 fi
 
-if [ "$DRY_RUN" = false ]; then
-    exec zsh
-fi
+# if [ "$DRY_RUN" = false ]; then
+#     exec zsh
+# fi

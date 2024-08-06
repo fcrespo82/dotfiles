@@ -1,2 +1,4 @@
 sudo systemd-hwdb update
 sudo udevadm trigger
+
+sudo usermod -a -G docker $USER

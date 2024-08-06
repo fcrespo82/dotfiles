@@ -3,6 +3,7 @@ export USER_PACKAGES=(
     apple-fonts
     bat
     chromedriver
+    docker
     eza
     google-chrome
     stow

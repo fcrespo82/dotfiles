@@ -1,6 +1,6 @@
 DRY_RUN=${DRY_RUN:-true}
 
-user=$(find home -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | fzf)
+export USER=$(find home -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | fzf)
 host=$(find hosts -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | fzf)
 
 PACMAN_FLAGS=(
@@ -9,7 +9,7 @@ PACMAN_FLAGS=(
     --noconfirm
 )
 
-source home/$user/PACKAGES.sh
+source home/$USER/PACKAGES.sh
 source hosts/$host/PACKAGES.sh
 
 if [ "$DRY_RUN" = true ]; then
@@ -17,7 +17,7 @@ if [ "$DRY_RUN" = true ]; then
     echo "=                                   DRY RUN                                    ="
     echo "================================================================================"
     echo
-    echo "Installing on $user@$host"
+    echo "Installing on $USER@$host"
     echo
     echo "User packages: ${USER_PACKAGES[@]}"
     echo
@@ -26,9 +26,9 @@ if [ "$DRY_RUN" = true ]; then
 fi
 
 if [ "$DRY_RUN" = false ]; then
-    sh home/$user/hooks/pre-install
+    sh home/$USER/hooks/pre-install
 else
-    echo sh home/$user/hooks/pre-install
+    echo sh home/$USER/hooks/pre-install
     echo
 fi
 
@@ -65,9 +65,9 @@ fi
 
 
 if [ "$DRY_RUN" = false ]; then
-    stow -vv --dotfiles --dir=home --target=$HOME $user
+    stow -vv --dotfiles --dir=home --target=$HOME $USER
 else
-    echo stow -vv --dotfiles --dir=home --target=$HOME $user
+    echo stow -vv --dotfiles --dir=home --target=$HOME $USER
     echo
 fi
 
@@ -77,9 +77,9 @@ fi
 
 
 if [ "$DRY_RUN" = false ]; then
-    sh home/$user/hooks/post-install
+    sh home/$USER/hooks/post-install
 else
-    echo sh home/$user/hooks/post-install
+    echo sh home/$USER/hooks/post-install
     echo
 fi
 

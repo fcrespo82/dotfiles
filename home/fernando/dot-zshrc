@@ -16,8 +16,14 @@ compinit
 # End of lines added by compinstall
 
 
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/.asdf/asdf.sh
+if [ -e /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+if [ -e $HOME/.asdf/asdf.sh ]; then
+  source $HOME/.asdf/asdf.sh
+fi
+
 # append completions to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
 
@@ -28,7 +34,10 @@ fpath=(${ASDF_DIR}/completions $fpath)
 autoload -Uz compinit && compinit
 
 # FZF
-source <(fzf --zsh)
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
+
 HISTFILE=$HOME/.histfile
 HISTSIZE=10000
 SAVEHIST=10000

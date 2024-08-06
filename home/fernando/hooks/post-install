@@ -1,0 +1,2 @@
+sudo systemd-hwdb update
+sudo udevadm trigger

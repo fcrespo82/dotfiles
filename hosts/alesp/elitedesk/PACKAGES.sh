@@ -16,6 +16,7 @@ export SYSTEM_PACKAGES=(
     kate
     konsole
     less
+    lib32-nvidia-utils
     libpulse
     linux
     linux-firmware

@@ -1,11 +1,5 @@
-export POWERLEVEL9K_INSTANT_PROMPT=quiet
-# Enable Powerlevel10k instant prompt. Should stay close to the top of $HOME/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-source $HOME/powerlevel10k/powerlevel10k.zsh-theme
+
+source $HOME/.config/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme
 
 [[ ! -z ${DEBUG+x} ]] && echo "Starting personal zsh config"
 
@@ -46,11 +40,11 @@ setopt histignorealldups
 
 # Helpers
 
-if [[ ! -z ${IS_WSL+x} ]]; then
-  source $HOME/.config/wsl/1Password/integration.zsh
-  source $HOME/.config/wsl/integration.zsh
-  source $HOME/.config/wsl/expo/integration.zsh
-fi
+# if [[ ! -z ${IS_WSL+x} ]]; then
+#   source $HOME/.config/wsl/1Password/integration.zsh
+#   source $HOME/.config/wsl/integration.zsh
+#   source $HOME/.config/wsl/expo/integration.zsh
+# fi
 
 source $HOME/.config/zsh/bindings.zsh
 source $HOME/.config/zsh/aliases.zsh

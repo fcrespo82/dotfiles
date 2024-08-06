@@ -1,25 +1,97 @@
 
 
+SYSTEM_PACKAGES=(
+    ark
+    base
+    base-devel
+    btrfs-progs
+    dkms
+    dolphin
+    efibootmgr
+    egl-wayland
+    fzf
+    git
+    gst-plugin-pipewire
+    htop
+    intel-ucode
+    iwd
+    kate
+    konsole
+    less
+    lib32-nvidia-utils
+    libpulse
+    linux
+    linux-firmware
+    linux-headers
+    nano
+    network-manager-applet
+    networkmanager
+    nvidia-dkms
+    pipewire
+    pipewire-alsa
+    pipewire-jack
+    pipewire-pulse
+    plasma-meta
+    plasma-workspace
+    plymouth
+    smartmontools
+    sof-firmware
+    stow
+    vim
+    wget
+    wireless_tools
+    wireplumber
+    xdg-utils
+    xorg-xeyes
+    xorg-xinit
+    zram-generator
+    zsh
+)
+
+USER_PACKAGES=(
+    1password
+    apple-fonts
+    bat
+    chromedriver
+    eza
+    google-chrome
+    stow
+    trash-cli
+    visual-studio-code-bin
+    zsh-autosuggestions
+    zsh-theme-powerlevel10k
+)
+
+PACMAN_FLAGS=(
+    --needed
+    --asexplicit
+    --noconfirm
+)
 
 # Install dependencies first?
-sudo pacman -Sy --needed git base-devel coreutils tk less ca-certificates fzf wget unzip
+sudo pacman -Sy $PACMAN_FLAGS $SYSTEM_PACKAGES
+
 
 if ! command -v yay >/dev/null 2>&1; then
     # Test if is installed before cloning
-    git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si
-    yay -Sy --noconfirm bat eza stow zsh-autosuggestions trash-cli
+    git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin && cd /tmp/yay-bin && makepkg -si
+    yay -Sy $PACMAN_FLAGS $USER_PACKAGES
 fi
 
-if [[ ! $(echo $(uname -r) | tr '[:upper:]' '[:lower:]') =~ microsoft ]]; then
-    # Não é WSL
-    yay -Sy --noconfirm 1password
-fi
 
-if [ ! -d "$HOME/powerlevel10k" ]; then
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerlevel10k
+if [ ! -d "$HOME/.config/zsh/themes/powerlevel10k" ]; then
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.config/zsh/themes/powerlevel10k
 fi
-if [ ! -d "$HOME/.asdf" ]; then
-    git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.14.0
-fi
+# if [ ! -d "$HOME/.asdf" ]; then
+#     git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.14.0
+# fi
 
-stow --dotfiles .
+
+find home -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf '%f\n' \
+| fzf  --multi --preview-window up:80% --preview 'stow -vv -n --dotfiles --dir=home --target=$HOME {}'
+#  | xargs -ro stow -v -n --dotfiles --dir=home --target=$HOME
+
+
+find hosts -mindepth 2 -maxdepth 2 -type d -not -name '.*' -printf '%f\n' \
+| fzf  --multi --preview-window up:80% --preview 'stow -vv -n --dir=hosts/personal --target=/ {}'
+#  | xargs -ro stow -v -n --dir=hosts/personal --target=/

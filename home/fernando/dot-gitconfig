@@ -33,6 +33,3 @@
 
 [includeIf "gitdir:~/developer/alesp/"]
 	path = ~/.config/git/alesp.gitconfig
-
-[includeIf "gitdir:~/dotfiles/"]
-	path = ~/.config/git/personal-gpg.gitconfig

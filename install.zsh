@@ -1,7 +1,7 @@
 DRY_RUN=${DRY_RUN:-true}
 
-export USER=$(find home -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | fzf)
-export HOST=$(find hosts -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | fzf)
+export INSTALLATION_USER=$(find home -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | fzf)
+export INSTALLATION_HOST=$(find hosts -mindepth 2 -maxdepth 2 -type d -printf '%P\n' | fzf)
 
 PACMAN_FLAGS=(
     --needed
@@ -9,15 +9,15 @@ PACMAN_FLAGS=(
     --noconfirm
 )
 
-[ -s home/$USER/PACKAGES.sh ] && source home/$USER/PACKAGES.sh
-[ -s hosts/$HOST/PACKAGES.sh ] && source hosts/$HOST/PACKAGES.sh
+[ -s home/$INSTALLATION_USER/PACKAGES.sh ] && source home/$INSTALLATION_USER/PACKAGES.sh
+[ -s hosts/$INSTALLATION_HOST/PACKAGES.sh ] && source hosts/$INSTALLATION_HOST/PACKAGES.sh
 
 if [ "$DRY_RUN" = true ]; then
     echo "================================================================================"
     echo "=                                   DRY RUN                                    ="
     echo "================================================================================"
     echo
-    echo "Installing on $USER@$HOST"
+    echo "Installing on $INSTALLATION_USER@$INSTALLATION_HOST"
     echo
     echo "User packages: ${USER_PACKAGES[@]}"
     echo
@@ -67,11 +67,11 @@ if [ "$DRY_RUN" = false ]; then
 fi
 
 if [ "$DRY_RUN" = false ]; then
-    sh home/$USER/hooks/pre-install
-    sh hosts/$HOST/hooks/pre-install
+    sh home/$INSTALLATION_USER/hooks/pre-install
+    sh hosts/$INSTALLATION_HOST/hooks/pre-install
 else
-    echo sh home/$USER/hooks/pre-install
-    echo sh hosts/$HOST/hooks/pre-install
+    echo sh home/$INSTALLATION_USER/hooks/pre-install
+    echo sh hosts/$INSTALLATION_HOST/hooks/pre-install
 fi
 
 if [ "$DRY_RUN" = false ]; then
@@ -99,28 +99,35 @@ else
     echo git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.config/zsh/themes/powerlevel10k
 fi
 
+# This should be on user level
 # if [ ! -d "$HOME/.asdf" ]; then
 #     git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.14.0
 # fi
 
-
 if [ "$DRY_RUN" = false ]; then
-    stow -vv --dotfiles --dir=home --target=$HOME $USER
+    stow --no-folding -vv --dotfiles --dir=home --target=$HOME $INSTALLATION_USER
 else
-    echo stow -vv --dotfiles --dir=home --target=$HOME $USER
+    echo stow --no-folding -vv --dotfiles --dir=home --target=$HOME $INSTALLATION_USER
 fi
 
-# find hosts -mindepth 2 -maxdepth 2 -type d -not -name '.*' -printf '%f\n' \
-# | fzf --preview-window up:80% --preview 'stow -n -vv --dir=hosts/personal --target=/ {}' \
-# | xargs -ro sudo stow -vv --dir=hosts/personal --target=/
+# Find a better way
+
+# parts=(${(@ps./.)INSTALLATION_HOST})
+# STOW_DIR=hosts/${parts[1]}
+# STOW_PATH=${parts[2]}
+# if [ "$DRY_RUN" = false ]; then
+#     stow --no-folding -vv --dir=$STOW_DIR --target=/ $STOW_PATH
+# else
+#     echo stow --no-folding -vv --dir=$STOW_DIR --target=/ $STOW_PATH
+# fi
 
 
 if [ "$DRY_RUN" = false ]; then
-    sh home/$USER/hooks/post-install
-    sh hosts/$HOST/hooks/post-install
+    sh home/$INSTALLATION_USER/hooks/post-install
+    sh hosts/$INSTALLATION_HOST/hooks/post-install
 else
-    echo sh home/$USER/hooks/post-install
-    echo sh hosts/$HOST/hooks/post-install
+    echo sh home/$INSTALLATION_USER/hooks/post-install
+    echo sh hosts/$INSTALLATION_HOST/hooks/post-install
 fi
 
 # if [ "$DRY_RUN" = false ]; then

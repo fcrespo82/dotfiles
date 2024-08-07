@@ -1,0 +1,87 @@
+#! /usr/bin/env zsh
+
+host-info() {
+    log-normal "HOST: $INSTALLATION_HOST"
+}
+
+HOST_PACKAGES=(
+    ark
+    base
+    base-devel
+    btrfs-progs
+    dkms
+    dolphin
+    dosfstools
+    efibootmgr
+    egl-wayland
+    fzf
+    git
+    gst-plugin-pipewire
+    htop
+    intel-ucode
+    iwd
+    kate
+    konsole
+    less
+    libpulse
+    linux
+    linux-firmware
+    linux-headers
+    man-db
+    man-pages
+    nano
+    network-manager-applet
+    networkmanager
+    nvidia-dkms
+    nvidia-utils
+    nvidia-prime
+    partitionmanager
+    pipewire
+    pipewire-alsa
+    pipewire-jack
+    pipewire-pulse
+    plasma-meta
+    plasma-workspace
+    plymouth
+    smartmontools
+    sof-firmware
+    spectacle
+    stow
+    vim
+    wget
+    wireless_tools
+    wireplumber
+    xdg-utils
+    xorg-xeyes
+    xorg-xinit
+    zram-generator
+    zsh
+)
+
+host-pre-install() {
+    log-info "HOST($INSTALLATION_HOST) - Executing pre-install hook"
+}
+
+host-install() {
+    log-info "HOST($INSTALLATION_HOST) - Executing install hook"
+
+    if [ "$DRY_RUN" = false ]; then
+        sudo pacman -Sy ${PACMAN_FLAGS[@]} ${HOST_PACKAGES[@]}
+    fi
+
+    # Find a better way
+
+
+    # parts=(${(@ps./.)INSTALLATION_HOST})
+    # STOW_DIR=hosts/${parts[1]}
+    # STOW_PATH=${parts[2]}
+    # if [ "$DRY_RUN" = false ]; then
+    #     stow --no-folding -vv --dir=$STOW_DIR --target=/ $STOW_PATH
+    # else
+    #     echo stow --no-folding -vv --dir=$STOW_DIR --target=/ $STOW_PATH
+    # fi
+}
+
+host-post-install() {
+    log-info "HOST($INSTALLATION_HOST) - Executing post-install hook"
+}

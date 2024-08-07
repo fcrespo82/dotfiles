@@ -1,0 +1,74 @@
+#! /usr/bin/env zsh
+
+user-info() {
+    log-normal "USER: $INSTALLATION_USER"
+}
+
+USER_PACKAGES=(
+    1password
+    apple-fonts
+    bat
+    chromedriver
+    docker
+    espanso-wayland
+    eza
+    freecad-weekly-appimage
+    google-chrome
+    steam
+    stow
+    todoist-appimage
+    trash-cli
+    ttf-liberation
+    visual-studio-code-bin
+    zsh-autosuggestions
+    konsole-dracula-git
+)
+
+user-pre-install() {
+    log-info "USER($INSTALLATION_USER) - Executing pre-install hook"
+    if [ "$DRY_RUN" = false ]; then
+        if ! command -v yay >/dev/null 2>&1; then
+            git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin && cd /tmp/yay-bin && makepkg -si
+        fi
+    fi
+
+    # This should be on user level
+    # if [ ! -d "$HOME/.asdf" ]; then
+    #     git clone https://github.com/asdf-vm/asdf.git $HOME/.asdf --branch v0.14.0
+    # fi
+}
+
+user-install() {
+    log-info "USER($INSTALLATION_USER) - Executing install hook"
+
+    if [ "$DRY_RUN" = false ]; then
+        log-info "Installing packages"
+        yay -Sy ${PACMAN_FLAGS[@]} ${USER_PACKAGES[@]}
+
+        if [ ! -d "$HOME/.config/zsh/themes/powerlevel10k" ]; then
+            log-info "Cloning powerleve10k"
+            git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.config/zsh/themes/powerlevel10k
+        fi
+
+        log-info "Stowing dotfiles"
+        stow ${STOW_FLAGS[@]} --dotfiles --dir=home --target=$HOME $INSTALLATION_USER
+    fi
+}
+
+user-post-install() {
+    log-info "USER($INSTALLATION_USER) - Executing post-install hook"
+    
+    if [ "$DRY_RUN" = false ]; then
+
+        # Hardware related
+        sudo systemd-hwdb update
+        sudo udevadm trigger
+
+        # Docker
+        sudo usermod -a -G docker $USER
+
+        # Restart sound system
+        systemctl --user restart pipewire.service wireplumber.service
+
+    fi
+}

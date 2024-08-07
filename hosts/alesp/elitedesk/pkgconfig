@@ -1,10 +1,19 @@
-export SYSTEM_PACKAGES=(
+#! /usr/bin/env zsh
+
+host-info() {
+    echo "Host package installation"
+    echo ${HOST_PACKAGES[@]}
+
+}
+
+HOST_PACKAGES=(
     ark
     base
     base-devel
     btrfs-progs
     dkms
     dolphin
+    dosfstools
     efibootmgr
     egl-wayland
     fzf
@@ -27,6 +36,7 @@ export SYSTEM_PACKAGES=(
     network-manager-applet
     networkmanager
     nvidia-dkms
+    partitionmanager
     pipewire
     pipewire-alsa
     pipewire-jack
@@ -48,3 +58,15 @@ export SYSTEM_PACKAGES=(
     zram-generator
     zsh
 )
+
+host-pre-install() {
+    log-info "HOST($INSTALATION_HOST) - Executing pre-install hook"
+}
+
+host-install() {
+    sudo pacman -Sy ${PACMAN_FLAGS[@]} ${HOST_PACKAGES[@]}
+}
+
+host-post-install() {
+    log-info "HOST($INSTALATION_HOST) - Executing pos-install hook"
+}

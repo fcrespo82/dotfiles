@@ -23,9 +23,9 @@ IntensityEffect=0
 [Colors:Button]
 BackgroundAlternate=163,212,250
 BackgroundNormal=252,252,252
-DecorationFocus=61,174,233
-DecorationHover=61,174,233
-ForegroundActive=61,174,233
+DecorationFocus=57,153,230
+DecorationHover=57,153,230
+ForegroundActive=57,153,230
 ForegroundInactive=112,125,138
 ForegroundLink=41,128,185
 ForegroundNegative=218,68,83
@@ -37,9 +37,9 @@ ForegroundVisited=155,89,182
 [Colors:Complementary]
 BackgroundAlternate=27,30,32
 BackgroundNormal=42,46,50
-DecorationFocus=61,174,233
-DecorationHover=61,174,233
-ForegroundActive=61,174,233
+DecorationFocus=57,153,230
+DecorationHover=57,153,230
+ForegroundActive=57,153,230
 ForegroundInactive=161,169,177
 ForegroundLink=29,153,243
 ForegroundNegative=218,68,83
@@ -50,10 +50,10 @@ ForegroundVisited=155,89,182
 
 [Colors:Header]
 BackgroundAlternate=239,240,241
-BackgroundNormal=222,224,226
-DecorationFocus=61,174,233
-DecorationHover=61,174,233
-ForegroundActive=61,174,233
+BackgroundNormal=237,238,239
+DecorationFocus=57,153,230
+DecorationHover=57,153,230
+ForegroundActive=57,153,230
 ForegroundInactive=112,125,138
 ForegroundLink=41,128,185
 ForegroundNegative=218,68,83
@@ -65,9 +65,9 @@ ForegroundVisited=155,89,182
 [Colors:Header][Inactive]
 BackgroundAlternate=227,229,231
 BackgroundNormal=239,240,241
-DecorationFocus=61,174,233
-DecorationHover=61,174,233
-ForegroundActive=61,174,233
+DecorationFocus=57,153,230
+DecorationHover=57,153,230
+ForegroundActive=57,153,230
 ForegroundInactive=112,125,138
 ForegroundLink=41,128,185
 ForegroundNegative=218,68,83
@@ -78,9 +78,9 @@ ForegroundVisited=155,89,182
 
 [Colors:Selection]
 BackgroundAlternate=163,212,250
-BackgroundNormal=61,174,233
-DecorationFocus=61,174,233
-DecorationHover=61,174,233
+BackgroundNormal=57,153,230
+DecorationFocus=57,153,230
+DecorationHover=57,153,230
 ForegroundActive=255,255,255
 ForegroundInactive=112,125,138
 ForegroundLink=253,188,75
@@ -93,9 +93,9 @@ ForegroundVisited=155,89,182
 [Colors:Tooltip]
 BackgroundAlternate=239,240,241
 BackgroundNormal=247,247,247
-DecorationFocus=61,174,233
-DecorationHover=61,174,233
-ForegroundActive=61,174,233
+DecorationFocus=57,153,230
+DecorationHover=57,153,230
+ForegroundActive=57,153,230
 ForegroundInactive=112,125,138
 ForegroundLink=41,128,185
 ForegroundNegative=218,68,83
@@ -107,9 +107,9 @@ ForegroundVisited=155,89,182
 [Colors:View]
 BackgroundAlternate=247,247,247
 BackgroundNormal=255,255,255
-DecorationFocus=61,174,233
-DecorationHover=61,174,233
-ForegroundActive=61,174,233
+DecorationFocus=57,153,230
+DecorationHover=57,153,230
+ForegroundActive=57,153,230
 ForegroundInactive=112,125,138
 ForegroundLink=41,128,185
 ForegroundNegative=218,68,83
@@ -120,10 +120,10 @@ ForegroundVisited=155,89,182
 
 [Colors:Window]
 BackgroundAlternate=227,229,231
-BackgroundNormal=239,240,241
-DecorationFocus=61,174,233
-DecorationHover=61,174,233
-ForegroundActive=61,174,233
+BackgroundNormal=240,240,240
+DecorationFocus=57,153,230
+DecorationHover=57,153,230
+ForegroundActive=57,153,230
 ForegroundInactive=112,125,138
 ForegroundLink=41,128,185
 ForegroundNegative=218,68,83
@@ -131,6 +131,10 @@ ForegroundNeutral=246,116,0
 ForegroundNormal=35,38,41
 ForegroundPositive=39,174,96
 ForegroundVisited=155,89,182
+
+[DirSelect Dialog]
+DirSelectDialog Size=826,582
+History Items[$e]=file:$HOME/SteamGames
 
 [General]
 BrowserApplication=google-chrome.desktop
@@ -141,6 +145,12 @@ font=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 menuFont=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 smallestReadableFont=SF Pro Display,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 toolBarFont=SF Pro Display,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+
+[Icons]
+Theme=breeze
+
+[KDE]
+LookAndFeelPackage=org.kde.klassylighttraditional.desktop
 
 [WM]
 activeBackground=227,229,231

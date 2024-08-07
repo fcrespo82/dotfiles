@@ -1,14 +1,1 @@
-\.git
-\.gitignore
-\.gitmodules
-
-^/README.*
-^/LICENSE.*
-^/COPYING
-
-install.zsh
-
-\.vscode
-\/root
-PACKAGES.sh
-hooks
+../../../.stow-local-ignore

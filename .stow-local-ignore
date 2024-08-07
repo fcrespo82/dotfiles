@@ -6,9 +6,9 @@
 ^/LICENSE.*
 ^/COPYING
 
-install.zsh
-
 \.vscode
-\/root
+
+install.zsh
+pkgconfig
 PACKAGES.sh
 hooks

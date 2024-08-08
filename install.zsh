@@ -1,6 +1,6 @@
 #! /usr/bin/env zsh
 
-DRY_RUN=$(gum choose true false)
+DRY_RUN=$(gum choose --header "Dry run?" true false)
 
 PACMAN_FLAGS=(
     --needed

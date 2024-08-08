@@ -14,6 +14,7 @@ USER_PACKAGES=(
     eza
     freecad-weekly-appimage
     google-chrome
+    networkmanager-openconnect
     steam
     stow
     todoist-appimage
@@ -22,6 +23,10 @@ USER_PACKAGES=(
     visual-studio-code-bin
     zsh-autosuggestions
     konsole-dracula-git
+    krdc
+    blender
+    epson-inkjet-printer-escpr
+    epsonscan2
 )
 
 user-pre-install() {
@@ -66,6 +71,7 @@ user-post-install() {
 
         # Docker
         sudo usermod -a -G docker $USER
+        sudo systemctl enable --now docker.socket
 
         # Restart sound system
         systemctl --user restart pipewire.service wireplumber.service

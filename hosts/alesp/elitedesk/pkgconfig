@@ -11,6 +11,7 @@ HOST_PACKAGES=(
     base
     base-devel
     btrfs-progs
+    cups
     dkms
     dolphin
     dosfstools
@@ -24,6 +25,7 @@ HOST_PACKAGES=(
     iwd
     kate
     konsole
+    krdp
     less
     lib32-nvidia-utils
     libpulse
@@ -64,9 +66,21 @@ host-pre-install() {
 }
 
 host-install() {
-    sudo pacman -Sy ${PACMAN_FLAGS[@]} ${HOST_PACKAGES[@]}
+    log-info "HOST($INSTALLATION_HOST) - Executing install hook"
+
+    if [ "$DRY_RUN" = false ]; then
+        sudo pacman -Sy ${PACMAN_FLAGS[@]} ${HOST_PACKAGES[@]}
+    fi
+
+    # Files in root should be installed for security reasons
+    find hosts/$INSTALLATION_HOST -mindepth 2 -type f -printf "%P\n" \
+    | xargs -I{} sudo install -C -D -m544 -oroot hosts/$INSTALLATION_HOST/{} /{}
 }
 
 host-post-install() {
     log-info "HOST($INSTALATION_HOST) - Executing pos-install hook"
+
+    sudo systemctl enable --now bluetooth.service 
+    sudo systemctl enable --now cups.socket
+    sudo systemctl enable --now avahi-daemon.socket
 }

@@ -9,6 +9,7 @@ HOST_PACKAGES=(
     base
     base-devel
     btrfs-progs
+    cups
     dkms
     dolphin
     dosfstools
@@ -22,6 +23,7 @@ HOST_PACKAGES=(
     iwd
     kate
     konsole
+    krdp
     less
     libpulse
     linux
@@ -47,6 +49,7 @@ HOST_PACKAGES=(
     sof-firmware
     spectacle
     stow
+    system-config-printer
     vim
     wget
     wireless_tools
@@ -69,19 +72,19 @@ host-install() {
         sudo pacman -Sy ${PACMAN_FLAGS[@]} ${HOST_PACKAGES[@]}
     fi
 
-    # Find a better way
-
-
-    # parts=(${(@ps./.)INSTALLATION_HOST})
-    # STOW_DIR=hosts/${parts[1]}
-    # STOW_PATH=${parts[2]}
-    # if [ "$DRY_RUN" = false ]; then
-    #     stow --no-folding -vv --dir=$STOW_DIR --target=/ $STOW_PATH
-    # else
-    #     echo stow --no-folding -vv --dir=$STOW_DIR --target=/ $STOW_PATH
-    # fi
+    # Files in root should be installed for security reasons
+    find hosts/$INSTALLATION_HOST -mindepth 2 -type f -printf "%P\n" \
+    | xargs -I{} sudo install -C -D -m544 -oroot hosts/$INSTALLATION_HOST/{} /{}
 }
 
 host-post-install() {
     log-info "HOST($INSTALLATION_HOST) - Executing post-install hook"
+
+    sudo systemctl enable --now bluetooth.service 
+    sudo systemctl enable --now cups.socket
+    sudo systemctl enable --now avahi-daemon.socket
+
+    sudo systemd-hwdb update
+    sudo udevadm trigger
+
 }

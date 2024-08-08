@@ -1,0 +1,10 @@
+[913bc2f7-13b8-4220-b9a5-e2365d09c2db]
+Description=Configurações de janela para Espanso Sync Tool
+skiptaskbar=true
+skiptaskbarrule=2
+title=Espanso Sync Tool
+titlematch=1
+
+[General]
+count=1
+rules=913bc2f7-13b8-4220-b9a5-e2365d09c2db

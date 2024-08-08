@@ -4,6 +4,8 @@ matches:
     replace: "Fernando Xavier de Freitas Crespo"
   - trigger: ";fc"
     replace: "Fernando Crespo"
+  - trigger: ";nasc"
+    replace: "14/12/1982"
   - trigger: ";;"
     replace: "fernando82@gmail.com"
   - trigger: ";cpf"
